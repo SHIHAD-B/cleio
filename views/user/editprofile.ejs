@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/editprofile.css">
+    <title>Document</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+
+    <title>Home</title>
+</head>
+
+<body>
+
+    <%- include('../partials/user/nav_w_search') %>
+        <div class="main">
+            <div class="userdetails">
+                <div class="head">
+                    <span>PROFILE</span>
+                </div>
+
+                <form id="profileForm" enctype="multipart/form-data" method="POST" action="/editDetails"
+                    onsubmit="validateForm(event)">
+                    <div class="first">
+                        <div class="left">
+                            <div class="profile-picture" onclick="triggerFileInput()">
+                                <input type="file" name="profile" id="profilePicture" accept="image/*"
+                                    style="display: none;" onchange="displaySelectedImage()">
+                                <label for="profilePicture">
+                                    <img src="<%=user.Profile%>" alt="Profile Picture" id="previewImage"
+                                        style="width:100%; height: 100%;">
+                                </label>
+                                <button id="deleteButton" style="display: none;"
+                                    onclick="deleteSelectedImage()">Delete</button>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="name">
+                                <div class="firstname">
+                                    <label for="firstname">First name</label>
+                                    <input type="text" name="firstname" value="<%=user.Firstname%>" id="firstname">
+                                    <div id="firstNameError" style="color: red;"></div>
+                                </div>
+                                <div class="secondname">
+                                    <label for="secondname">Second name</label>
+                                    <input type="text" name="secondname" value="<%=user.Secondname%>" id="secondname">
+                                    <div id="secondNameError" style="color: red;"></div>
+                                </div>
+                            </div>
+                            <div class="emailandmobile">
+                                <div class="email">
+                                    <label for="email">Email</label>
+                                    <input type="text" name="email" value="<%=user.Email%>" id="email" readonly>
+                                    <div id="emailError" style="color: red;"></div>
+                                </div>
+                                <div class="phone">
+                                    <label for="phone">Phone number</label>
+                                    <input type="text" name="phone" value="<%=user.Mobile%>" id="phone">
+                                    <div id="phonenumberError" style="color: red;"></div>
+                                </div>
+                            </div>
+
+                            <div class="saveandcancel">
+                                <button onclick="save(event)" type="submit">Save</button>
+                                <button>Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="passwordchange">
+                <div class="passhead">
+                    <span>CHANGE PASSWORD</span>
+                </div>
+
+                <div class="changepass">
+                    <label class="passlab" for="currentpassword">Current Password</label>
+                    <input type="password" class="pass" name="currentpassword" id="currentpassword">
+                    <div id="CurrentError" style="color: red; margin-left: 20px;"></div>
+                    <label class="passlab" for="newpassword">New Password</label>
+                    <input type="text" class="pass" name="newpassword" id="newpassword">
+                    <div id="newError" style="color: red; margin-left: 20px;"></div>
+                    <label class="passlab" for="confirmtpassword">Confirm Password</label>
+                    <input type="text" class="pass" name="confirmpassword" id="confirmpassword">
+                    <div id="confirmError" style="color: red; margin-left: 20px;"></div>
+                    <button class="button" onclick="changepassword()">save</button>
+                </div>
+
+            </div>
+            <div id="snackbar">Password changed successfully..</div>
+        </div>
+
+        <script>
+            const profile = '<%=profile%>'
+            console.log(profile);
+            if (profile == 'true') {
+                myFunctions();
+
+            }
+            function myFunctions() {
+                var x = document.getElementById("snackbar");
+                x.textContent = "profile updated.."
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
+            }
+
+            function displaySelectedImage() {
+                const previewImage = document.getElementById('previewImage');
+                const deleteButton = document.getElementById('deleteButton');
+                const fileInput = document.getElementById('profilePicture');
+                const selectedImage = fileInput.files[0];
+                localStorage.setItem("image", selectedImage)
+                if (selectedImage) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewImage.src = e.target.result; localStorage.setItem("image", e.target.result);
+                        deleteButton.style.display = 'inline-block';
+                    };
+
+                    reader.readAsDataURL(selectedImage);
+                }
+            }
+
+            function deleteSelectedImage() {
+                const previewImage = document.getElementById('previewImage');
+                const deleteButton = document.getElementById('deleteButton');
+                const fileInput = document.getElementById('profilePicture');
+
+                previewImage.src = "/user/images/add-photo.png";
+                deleteButton.style.display = 'none';
+                fileInput.value = '';
+            }
+
+            function isEmpty(value) {
+                const trimmedValue = value.trim();
+                return trimmedValue === "";
+            }
+
+            function validatePassword(password) {
+                const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%^&*])[A-Za-z\d!@#\$%^&*]{8,}$/;
+                return strongPasswordPattern.test(password);
+            }
+
+            function validatePhone(phonenumber) {
+                const phoneRegex = /^\d{10}$/;
+                return phoneRegex.test(phonenumber);
+            }
+            function validateForm(event) {
+                event.preventDefault();
+
+                const firstname = document.getElementById('firstname');
+                const firstnameValue = firstname.value;
+                const firstnameError = document.getElementById('firstNameError');
+
+                const secondname = document.getElementById('secondname');
+                const secondnameValue = secondname.value;
+                const secondnameError = document.getElementById('secondNameError');
+
+                const phone = document.getElementById('phone');
+                const phoneValue = phone.value;
+                const phoneError = document.getElementById('phonenumberError');
+
+                firstnameError.textContent = "";
+                secondnameError.textContent = "";
+                phoneError.textContent = "";
+
+                if (isEmpty(firstnameValue)) {
+                    firstnameError.textContent = "First name can't be empty";
+                    return;
+                }
+                if (isEmpty(secondnameValue)) {
+                    secondnameError.textContent = "Second name can't be empty";
+                    return;
+                }
+                if (isEmpty(phoneValue)) {
+                    phoneError.textContent = "Number can't be empty";
+                    return;
+                }
+                if (!validatePhone(phoneValue)) {
+                    phoneError.textContent = "Enter a 10-digit phone number";
+                    return;
+                }
+
+
+                event.target.submit();
+            }
+
+            function changepassword() {
+                const currentpassword = document.getElementById("currentpassword");
+                const currentpasswordValue = currentpassword.value;
+                const currentPasswordError = document.getElementById('CurrentError');
+
+                const newPassword = document.getElementById("newpassword");
+                const newPasswordValue = newPassword.value;
+                const newPasswordError = document.getElementById('newError');
+
+                const confirmpassword = document.getElementById("confirmpassword");
+                const confirmpasswordValue = confirmpassword.value;
+                const confirmError = document.getElementById('confirmError');
+
+                currentPasswordError.textContent = "";
+                newPasswordError.textContent = "";
+                confirmError.textContent = "";
+
+                if (isEmpty(currentpasswordValue)) {
+                    currentPasswordError.textContent = "current password can't be empty";
+                    event.preventDefault();
+                    return;
+                }
+                if (isEmpty(newPasswordValue)) {
+                    newPasswordError.textContent = "new password can't be empty";
+                    event.preventDefault();
+                    return;
+                }
+                if (isEmpty(confirmpasswordValue)) {
+                    confirmError.textContent = "confirm password can't be empty";
+                    event.preventDefault();
+                    return;
+                }
+
+                if (!validatePassword(newPasswordValue)) {
+                    newError.textContent =
+                        "password is too weak"
+                    event.preventDefault();
+                    return;
+                }
+                if (newPasswordValue !== confirmpasswordValue) {
+                    confirmError.textContent = "new password and confirm password are not same";
+                    event.preventDefault();
+                    return;
+                }
+
+
+                const data = {
+                    currentpassword: currentpasswordValue,
+                    newpassword: newPasswordValue,
+                    confirmpassword: confirmpasswordValue
+                };
+
+
+                fetch('/changePassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json();
+                        }
+                        return { success: true };
+                    })
+                    .then(data => {
+                        if (data.error) {
+                            currentPasswordError.textContent = data.error;
+                        }
+                        else if (data.error1) {
+                            newPasswordError.textContent = data.error1;
+                        } else {
+
+                            currentpassword.value = "";
+                            newPassword.value = "";
+                            confirmpassword.value = "";
+                            (function () {
+                                function myFunction() {
+                                    var x = document.getElementById("snackbar");
+                                    x.className = "show";
+                                    setTimeout(function () {
+                                        x.className = x.className.replace("show", "");
+                                    }, 3000);
+                                }
+
+                                myFunction();
+                            })();
+
+
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            }
+        </script>
+
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

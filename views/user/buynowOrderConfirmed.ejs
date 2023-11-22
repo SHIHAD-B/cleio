@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/buynowOrderConfirmed.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include('../partials/user/coupon') %>
+        <%- include('../partials/user/nav_w_search') %>
+            <div class="main">
+                <div class="order-box">
+                    <div class="image"><img src="/user/images/order_confirmed.webp" alt=""
+                            style="width: 350px;height: 350px;"></div>
+                    <div id="order-message" class="msg">Processing....</div>
+                    <div class="order-details">
+                        <span class="font1" id="orderdetails"></span>
+                        <span class="font2" id="orderid"></span>
+                        <span class="font2" id="ordertotal"></span>
+                        <span class="font1" id="delivery"></span>
+                        <span class="font2" id="expectdate"></span>
+                    </div>
+                    <div class="buttons">
+                        <button onclick="orders()">Orders</button>
+                        <button onclick="home()">Home</button>
+                    </div>
+                </div>
+            </div>
+</body>
+<script>
+    function home() {
+        window.location.href = '/'
+    }
+    function orders() {
+        window.location.href = '/order'
+    }
+    const order_message = document.querySelector('#order-message');
+    const order_details = document.querySelector('#orderdetails');
+    const order_id = document.querySelector('#orderid');
+    const order_total = document.querySelector('#ordertotal');
+    const order_date = document.querySelector('#expectdate');
+    const order_delivery = document.querySelector('#delivery');
+
+    function order() {
+        setTimeout(() => {
+            order_message.innerHTML = "Order Confirmed";
+            order_id.innerHTML = "Order iD:<%=orderId%>";
+            order_delivery.innerHTML = "Expected Delivery On";
+            order_total.innerHTML = "Order Total:₹<%=total%>";
+            order_date.innerHTML = `${new Date().getDate() + 7}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`;
+            order_details.innerHTML = "Order Details";
+        }, 2000);
+    }
+
+    order();
+</script>
+
+
+</html>

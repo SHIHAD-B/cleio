@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/admin/css/ordermanagement.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+
+    <title>order-management</title>
+</head>
+
+<body>
+
+    <div class="whole">
+        <div class="menu">
+            <div class="logo"><img class="log" src="/user/images/logo_black.png" alt=""></div>
+            <div class="menu_items">
+                <div class="items"><img src="/admin/images/admin online.png" alt=""><span class="tag">Profile</span>
+                </div>
+                <div class="items"><img src="/admin/images/dashboard.png" alt=""><span class="tag">Dashboard</span>
+                </div>
+                <a href="/admin/product">
+                    <div class="items"><img src="/admin/images/product.png" alt=""><span class="tag">Products</span>
+                    </div>
+                </a>
+                <a href="/admin/category">
+                    <div class="items"><img src="/admin/images/category.png" alt=""><span class="tag">Category</span>
+                    </div>
+                </a>
+                <a href="/admin/order">
+                    <div class="items"><img src="/admin/images/orders.png" alt=""><span class="tag">Orders</span>
+                    </div>
+                </a>
+                <div class="items"><img src="/admin/images/coupons.png" alt=""><span class="tag">Coupons</span>
+                </div>
+                <div class="items"><img src="/admin/images/banner.png" alt=""><span class="tag">Banner</span>
+                </div>
+                <div class="items"><img src="/admin/images/transactions.png" alt=""><span
+                        class="tag">Transactions</span>
+                </div>
+                <div class="items"><img src="/admin/images/manageadmin.png" alt=""><span class="tag">Admin</span>
+                </div>
+                <a href="/admin">
+                    <div class="items"><img src="/admin/images/users.png" alt=""><span class="tag">User</span>
+                    </div>
+                </a>
+                <div class="items"><img src="/admin/images/settings.png" alt=""><span class="tag">Settings</span>
+                </div>
+                <a href="/logout">
+                    <div class="items"><img src="/admin/images/logout.png" alt=""><span class="tag">Logout</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="main">
+            <div class="main col-12">
+                <%- include('../partials/admin/user_management_navbar') %>
+                    <div class="whole col-12">
+                        <div class="mt-5 col-12">
+                            <div class="row">
+                                <div class="col-md-10 table-container">
+                                    <h1 class="text-primary use">Order Details</h1>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>#Order Id</th>
+                                                <th>#User Id</th>
+                                                <th>Status</th>
+                                                <th>Payment Method</th>
+                                                <th>Date</th>
+                                                <th></th>
+                                                <th>Details</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (data) { %>
+                                                <% data.forEach((value, index)=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= index + 1 %>
+                                                        </td>
+                                                        <td><%- value._id %></td>
+                                                        <td><%- value.User_id %></td>
+                                                        <td><%- value.Order_status %></td>
+                                                        <td><%- value.Payment_method %></td>
+                                                        <td><%- new Date(value.Order_date).toLocaleDateString('en-GB', {
+                                                                day: '2-digit' , month: '2-digit' , year: 'numeric' })
+                                                                %></td>
+                                                        <td>
+                                                            <div class="modal fade" id="editModal<%= value._id %>"
+                                                                tabindex="-1" role="dialog"
+                                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <form id="editUserForm"
+                                                                    action="/admin/edituser/<%-value._id%>"
+                                                                    method="POST">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">Edit user
+                                                                                </h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span
+                                                                                        aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <label for="firstname">First
+                                                                                    Name:</label>
+                                                                                <input type="text" id="firstname"
+                                                                                    name="firstname"
+                                                                                    value="<%-value.Firstname%>"><br>
+                                                                                <div class="error" id="firstname-error">
+                                                                                </div>
+                                                                                <label for="secondname">Second
+                                                                                    Name:</label>
+                                                                                <input type="text" id="secondname"
+                                                                                    name="secondname"
+                                                                                    value="<%-value.Secondname%>"><br>
+                                                                                <div class="error"
+                                                                                    id="secondname-error">
+                                                                                </div>
+                                                                                <label for="email">Email:</label>
+                                                                                <input type="text" id="email"
+                                                                                    name="email"
+                                                                                    value="<%-value.Email%>"><br>
+                                                                                <div class="error" id="email-error">
+                                                                                </div>
+                                                                                <label for="password">Password:</label>
+                                                                                <input type="text" id="password"
+                                                                                    name="password"><br>
+                                                                                <div class="error" id="password-error">
+                                                                                </div>
+                                                                                <label for="status">Status:</label>
+                                                                                <select id="status" name="status">
+                                                                                    <option value="active">Active
+                                                                                    </option>
+                                                                                    <option value="blocked">Blocked
+                                                                                    </option>
+                                                                                </select><br>
+                                                                                <label for="role">Role:</label>
+                                                                                <select id="role" name="role">
+                                                                                    <option value="user">User
+                                                                                    </option>
+                                                                                </select><br>
+                                                                                <label for="mobile">Mobile:</label>
+                                                                                <input type="text" id="phonenumber"
+                                                                                    name="mobile"
+                                                                                    value="<%-value.Mobile%>"><br>
+                                                                                <div class="error" id="phone-error">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class=" btn-secondary"
+                                                                                    data-dismiss="modal">Close</button>
+                                                                                <button type="submit"
+                                                                                    class="btn-success">Save</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+
+
+
+
+
+                                                        </td>
+                                                        <td>
+
+                                                            <a href="/admin/order_details?orderid=<%=value._id%>">
+                                                                <span>View Details</span>
+                                                            </a>
+
+                                                        </td>
+
+                                                        <td>
+                                                        </td>
+
+
+
+                                                    </tr>
+                                                    <% }) %>
+                                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+
+            <script>
+                function validateEmail(email) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+/;
+                    return emailRegex.test(email);
+                }
+
+                function isEmpty(value) {
+                    const trimmedValue = value.trim();
+                    return trimmedValue === "";
+                }
+
+                function validatePhone(phonenumber) {
+                    const phoneRegex = /^\d{10}$/;
+                    return phoneRegex.test(phonenumber);
+                }
+
+                function validatePassword(password) {
+                    // Define the strong password pattern
+                    const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%^&*])[A-Za-z\d!@#\$%^&*]{8,}$/;
+
+                    // Test the password against the pattern
+                    return strongPasswordPattern.test(password);
+                }
+
+                document.querySelector("#editUserForm").addEventListener("submit", function (event) {
+                    const emailInput = document.querySelector("#email");
+                    const emailValue = emailInput.value;
+                    const emailError = document.querySelector("#email-error");
+
+                    const firstNameInput = document.querySelector("#firstname");
+                    const firstNameValue = firstNameInput.value;
+                    const firstNameError = document.querySelector("#firstname-error");
+
+                    const lastNameInput = document.querySelector("#secondname");
+                    const lastNameValue = lastNameInput.value;
+                    const lastNameError = document.querySelector("#secondname-error");
+
+                    const phoneInput = document.querySelector("#phonenumber");
+                    const phoneValue = phoneInput.value;
+                    const phoneError = document.querySelector("#phone-error");
+
+                    const passwordInput = document.querySelector("#password");
+                    const passwordValue = passwordInput.value;
+                    const passwordError = document.querySelector("#password-error");
+
+
+                    // Clear any previous error messages
+                    emailError.textContent = "";
+                    firstNameError.textContent = "";
+                    lastNameError.textContent = "";
+                    phoneError.textContent = "";
+                    passwordError.textContent = "";
+
+
+                    if (isEmpty(emailValue)) {
+                        emailError.textContent = "Email can't be empty";
+                        event.preventDefault();
+                    }
+                    if (!validateEmail(emailValue)) {
+                        emailError.textContent = "Invalid email format. Please try again.";
+                        event.preventDefault();
+                    }
+
+                    if (isEmpty(firstNameValue)) {
+                        firstNameError.textContent = "First name can't be empty.";
+                        event.preventDefault();
+                    }
+
+                    if (isEmpty(lastNameValue)) {
+                        lastNameError.textContent = "Last name can't be empty.";
+                        event.preventDefault();
+                    }
+
+                    if (isEmpty(phoneValue)) {
+                        phoneError.textContent = "Phone number can't be empty.";
+                        event.preventDefault();
+                    } else if (!validatePhone(phoneValue)) {
+                        phoneError.textContent = "Invalid phone number. Please enter a 10-digit number.";
+                        event.preventDefault();
+                    }
+
+                    if (!validatePassword(passwordValue) && passwordValue.length > 0) {
+                        passwordError.textContent =
+                            "password is too weak"
+                        event.preventDefault();
+                    }
+
+
+                });
+            </script>
+            <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+                id="bootstrap-css">
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,317 @@
+@font-face {
+    font-family: 'outfit';
+    src: url('/user/font/Outfit-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'outfit_regular';
+    src: url('/user/font/Outfit-Regular.ttf');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white !important;
+}
+
+/* navbar */
+.hamburger-menu {
+    position: inherit;
+}
+
+#menu__toggle {
+    display: none;
+    opacity: 0;
+}
+
+#menu__toggle:checked+.menu__btn>span {
+    transform: rotate(45deg);
+}
+
+#menu__toggle:checked+.menu__btn>span::before {
+    top: 0;
+    transform: rotate(0deg);
+}
+
+#menu__toggle:checked+.menu__btn>span::after {
+    top: 0;
+    transform: rotate(90deg);
+}
+
+#menu__toggle:checked~.menu__box {
+    right: 0 !important;
+}
+
+.menu__btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.menu__btn>span,
+.menu__btn>span::before,
+.menu__btn>span::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    transition-duration: .25s;
+}
+
+.menu__btn>span::before {
+    content: '';
+    top: -8px;
+}
+
+.menu__btn>span::after {
+    content: '';
+    top: 8px;
+}
+
+.menu__box {
+    display: block;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: -100%;
+    width: 210px;
+    height: auto;
+    padding-bottom: 48px;
+    padding-top: 48px;
+    border-radius: 10px;
+    margin: 0;
+    list-style: none;
+    background-color: rgba(32, 32, 32, 0.386);
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+    transition-duration: .25s;
+}
+
+.menu__item {
+    display: block;
+    width: 100%;
+    padding: 12px 24px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition-duration: .25s;
+}
+
+
+.img-thumbnail {
+    background-color: rgb(32, 32, 32) !important;
+}
+
+.menu__item:hover {
+    background-color: rgba(255, 255, 255, 0.245);
+
+}
+
+.navbar {
+    background-color: rgba(32, 32, 32, 0.189) !important;
+
+}
+
+.navbar-custom {
+    z-index: 1000 !important;
+}
+
+
+
+/* main page */
+.main {
+    width: 100%;
+    height: 100vh;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+/* first div */
+.userdetails {
+
+    width: 50%;
+    margin-top: 60px;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+.head {
+
+    width: 100%;
+    height: 50px;
+    background-color: white;
+    border: 1px solid rgba(128, 128, 128, 0.332);
+    border-radius: 10px 10px 0px 0px;
+    display: flex;
+    align-items: center;
+}
+
+
+.first {
+    width: 100%;
+    height: 60vh;
+    border-left: 1px solid rgba(128, 128, 128, 0.332);
+    border-right: 1px solid rgba(128, 128, 128, 0.332);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.332);
+    border-radius: 0px 0px 10px 10px;
+    display: flex;
+    background-color: white;
+}
+
+.left {
+    width: 30%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.circle {
+    margin-top: 10px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+
+    background-color: white;
+}
+
+
+.right {
+    width: 70%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+.name {
+    width: 100%;
+    height: 60px;
+    justify-content: space-around;
+    display: flex;
+
+}
+
+.firstname {
+    width: 47%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+span {
+    margin-left: 10px;
+    font-family: 'outfit_regular';
+    font-size: 20px;
+}
+
+.secondname {
+    width: 47%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.emailandmobile {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 60px;
+
+
+}
+
+.email {
+    width: 47%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.phone {
+    width: 47%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.countrystatepin {
+    width: 100%;
+    height: 50px;
+
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.country {
+    width: 30%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.state {
+    width: 30%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.pincode {
+    width: 30%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.saveandcancel {
+    width: 100%;
+    height: 50px;
+
+    display: flex;
+    gap: 30px;
+    justify-content: start;
+    align-items: center;
+}
+
+label {
+    color: black;
+    width: 100%;
+    font-family: 'outfit_regular';
+}
+
+input {
+    height: 25px;
+    border-radius: 3px;
+    border: 1px solid grey !important;
+}
+
+button {
+    width: 100px;
+    height: 35px;
+    background-color: #408E5F;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    outline: none !important;
+}

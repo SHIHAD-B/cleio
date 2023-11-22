@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Responsive Background Image</title>
+    <link rel="stylesheet" href="/user/css/product_details.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+
+</head>
+
+<body>
+    <%- include('../partials/user/coupon') %>
+        <%- include('../partials/user/nav_w_search') %>
+            <div class="main">
+                <div class="whole">
+                    <% if (data) { %>
+                        <% data.forEach((value,index)=> { %>
+                            <div class="left">
+                                <!-- <div class="circle"></div> -->
+                                <div class="sideimage ">
+                                    <div class="img">
+                                        <a href="/productdetail/sideimage1/<%=value._id%>">
+                                            <img src="http://localhost:4000/<%= value.Image[0].Main%>"
+                                                class="sideimgfix" alt="child" id="Image0<%= index %>">
+                                        </a>
+                                    </div>
+
+                                    <div class="img">
+                                        <a href="/productdetail/sideimage2/<%=value._id%>">
+                                            <img src="http://localhost:4000/<%= value.Image[0].Child_one%>"
+                                                class="sideimgfix" alt="fr" id="Image1<%= index %>">
+                                        </a>
+                                    </div>
+                                    <div class="img">
+                                        <a href="/productdetail/sideimage3/<%=value._id%>">
+                                            <img src="http://localhost:4000/<%= value.Image[0].Child_two%>"
+                                                class="sideimgfix" alt="g" id="Image2<%= index %>">
+                                        </a>
+                                    </div>
+                                    <a href="/productdetail/sideimage4/<%=value._id%>">
+                                        <div class="img">
+                                            <img src="http://localhost:4000/<%= value.Image[0].Child_three%>"
+                                                class="sideimgfix" alt="" id="Image3<%= index %>">
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="mainimage">
+                                <div class="imgdetail" id="img-container"><img
+                                        src="http://localhost:4000/<%= mainimage %>" class="imgfix " alt=""
+                                        id="mainImage<%= index %>">
+                                </div>
+                            </div>
+                </div>
+                <div class="right">
+
+
+                    <div class="details">
+                        <div class="indetails">
+
+                            <span class="brand">
+                                Brand: <%= value.Specification[0].brand %>
+                            </span>
+                            <span class="productname">
+                                <%= value.Name%>
+                            </span>
+                            <div class="sizeandcolor">
+                                <label for="size" class="brand">Size:</label>
+                                <select name="size" id="size" data-productid="<%= value._id %>">
+                                    <% value.variant.forEach((variant)=> { %>
+                                        <% if (variant.quantity> 0) { %>
+                                            <option value="<%= variant.size %>">
+                                                <%= variant.size %>
+                                            </option>
+                                            <% } %>
+                                                <% }); %>
+                                </select>
+                                <label for="color" class="brand">Color:</label>
+                                <select name="color" id="color" data-productid="<%= value._id %>">
+                                    <% value.Specification.forEach((spec)=> { %>
+                                        <% if (spec.color) { %>
+                                            <option value="<%= spec.color %>">
+                                                <%= spec.color %>
+                                            </option>
+                                            <% } %>
+                                                <% }); %>
+                                </select>
+
+                            </div>
+                            <span class="price">₹<%= value.Price%></span>
+                            <span class="previousprice"><strike>₹7000</strike></span>
+                            <span class="productdetails">Product details:</span>
+                            <div class="productspec">
+                                <div class="field">
+                                    <li type="none" class="brand">Material Type</li>
+                                    <li type="none" class="brand">Closure Type</li>
+                                    <li type="none" class="brand">Heel Type</li>
+                                    <li type="none" class="brand">Water Resistance</li>
+                                    <li type="none" class="brand">Sole Material</li>
+                                    <li type="none" class="brand">Style</li>
+                                    <li type="none" class="brand">Country of Origin</li>
+
+                                </div>
+                                <div class="desc">
+                                    <li type="none" class="brand">
+                                        <%= value.Product_details.Material_type%>
+                                    </li>
+                                    <li type="none" class="brand">
+                                        <%=value.Product_details.Closure_type %>
+                                    </li>
+                                    <li type="none" class="brand">
+                                        <%=value.Product_details.Heel_type%>
+                                    </li>
+                                    <li type="none" class="brand">
+                                        <%=value.Product_details.Water_resistance %>
+                                    </li>
+                                    <li type="none" class="brand">
+                                        <%=value.Product_details.Sole_material%>
+                                    </li>
+                                    <li type="none" class="brand">
+                                        <%=value.Product_details.Style %>
+                                    </li>
+                                    <li type="none" class="brand">
+                                        <%=value.Product_details.Country_of_origin %>
+                                    </li>
+                                </div>
+                            </div>
+                            <span class="productdetails">Product description:</span>
+                            <div class="productdesc">
+                                <p class="pdesc">
+                                    <%= value.Description %>
+                                </p>
+                            </div>
+
+                            <div class="addtocartandbuynow">
+                                <% if (value.variant.some(variant=> variant.quantity > 0)) { %>
+                                    <button onclick="addToCart('<%= value._id %>')" class="addtocart">
+                                        <img id="animation" src="/user/images/Animation - 1699442209402.gif" alt=""
+                                            style="width: 40px; height: 40px; display: none;">
+                                        <span class="brand" id="addtocart">Add to
+                                            cart</span></button>
+                                    <div class="buynow">
+                                        <button onclick="buynow('<%= value._id %>')" class="buynow"><span
+                                                class="brand">Buy
+                                                now</span></button>
+                                    </div>
+                                    <% } else { %>
+                                        <p class="out-of-stock-message"
+                                            style="color: red;border: 1px solid red; text-align: center;">Currently
+                                            out of stock</p>
+                                        <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+                    <% } %>
+            </div>
+            </div>
+            <script>
+
+                var options = {
+                    width: 510,
+                    height: 480,
+                    zoomWidth: 510,
+
+                    offset: { vertical: 0, horizontal: 50 }
+                };
+                new ImageZoom(document.getElementById("img-container"), options);
+            </script>
+            <script>
+                function buynow(itemid) {
+                    const sizeElement = document.getElementById('size');
+                    const colorElement = document.getElementById('color');
+                    const selectedSize = sizeElement.value;
+                    const selectedColor = colorElement.value;
+                    const url = '/cart/buynowCheckout?pdid=' + itemid + '&size=' + selectedSize + '&color=' + selectedColor;
+
+                    window.location.href = url;
+                }
+                function addToCart(itemId) {
+                    const sizeElement = document.getElementById('size');
+                    const colorElement = document.getElementById('color');
+                    const selectedSize = sizeElement.value;
+                    const selectedColor = colorElement.value;
+                    const url = '/add_to_cart';
+
+
+                    const data = {
+                        key: itemId,
+                        size: selectedSize,
+                        color: selectedColor
+
+
+                    };
+
+                    const headers = {
+                        'Content-Type': 'application/json',
+                    };
+
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(data),
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                const addtocart = document.getElementById('addtocart')
+                                const animation = document.getElementById('animation')
+                                setTimeout(() => {
+                                    addtocart.textContent = "Add to cart"
+                                    animation.style.display = "none"
+                                }, 2000)
+
+                                animation.style.display = "block"
+                                addtocart.textContent = "added "
+                                console.log('Item added to the cart.');
+                            } else {
+
+                                console.error('Error adding item to the cart.');
+                            }
+                        })
+                        .catch(error => {
+
+                            console.error('Network error:', error);
+                        });
+                }
+            </script>
+
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+</body>
+
+</html>

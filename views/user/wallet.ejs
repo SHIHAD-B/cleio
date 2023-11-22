@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/wallet.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include('../partials/user/coupon') %>
+        <!-- Modal -->
+        <div class="modal fade" id="addmoney" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add Money to Wallet</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form id="addMoneyForm">
+                            <div class="form-group">
+                                <label for="amount">Amount:</label>
+                                <input type="number" class="form-control" id="amount" name="amount"
+                                    placeholder="Enter amount" required>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="addMoney()" data-dismiss="modal">Add
+                            Money</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('../partials/user/nav_w_search') %>
+            <div class="main">
+                <div class="head">
+                    <div class="walletimage">
+                        <img src="/user/images/wallet_img.png" alt="" style="width:80px;height: 80px;">
+                    </div>
+                    <div class="amount">
+                        <span class="font1">Wallet Balance</span>
+                        <span class="font2">₹<%= wallet ? wallet.Account_balance : 0 %></span>
+
+                    </div>
+                    <div class="addmoney">
+                        <button class="addbutton" data-toggle="modal" data-target="#addmoney">Add Money</button>
+                    </div>
+                </div>
+                <div class="history">
+                    <div class="histhead">
+                        <span class="font3" style="margin-left: 10px;">TRANSACTION DETAILS</span>
+                    </div>
+                    <div class="heading">
+                        <span class="font3">TRANSACTION ID</span>
+                        <span class="font3">DESCRIPTION</span>
+                        <span class="font3">DATE</span>
+                        <span class="font3">TYPE</span>
+                        <span class="font3">AMOUNT</span>
+                    </div>
+                    <div class="transactions">
+                        <%if(wallet){ %>
+                            <%wallet.Transactions.reverse().forEach((value)=>{%>
+
+                                <!-- one transaction -->
+                                <div class="transDetails">
+                                    <div class="transationId">
+                                        <span class="font4">
+                                            <%=value._id%>
+                                        </span>
+                                    </div>
+                                    <div class="description">
+                                        <span class="font4">
+                                            <%=value.Description%>
+                                        </span>
+                                    </div>
+                                    <div class="date">
+                                        <span class="font4">
+                                            <%= value.Date.toLocaleDateString('en-US', { day: 'numeric' , month: 'short'
+                                                , year: 'numeric' }) %>
+
+                                        </span>
+                                    </div>
+                                    <div class="type">
+                                        <span class="font4">
+                                            <%=value.Transaction_type%>
+                                        </span>
+                                    </div>
+                                    <div class="amount1">
+                                        <span class="font4">₹ <%=value.Amount%></span>
+                                    </div>
+                                </div>
+                                <!--  -->
+                                <%})%>
+                                    <% }%>
+
+                    </div>
+                </div>
+            </div>
+            <%- include('../partials/user/footer') %>
+                <script>
+                    function addMoney() {
+                        const amount = document.getElementById('amount').value;
+
+                        console.log('Adding money:', amount);
+
+                        fetch('/razorpay/wallet', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ amount: parseFloat(amount) }),
+                        })
+                            .then(response => response.json())
+                            .then(order => {
+
+
+                                const options = {
+                                    key: 'rzp_test_UYs0J9wWlBNkXT',
+                                    amount: order.amount,
+                                    currency: order.currency,
+                                    order_id: order.id,
+                                    name: 'CLEIO',
+                                    description: 'Add money to wallet',
+                                    handler: function (response) {
+                                        console.log('Payment successful:', response);
+
+                                        fetch('/addMoneyToWallet', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({ amount: parseFloat(amount) }),
+                                        })
+                                            .then(response => {
+                                                console.log('Raw response:', response);
+                                                return response.json();
+                                            })
+                                            .then(data => {
+                                                console.log('Wallet updated successfully:', data);
+                                                window.location.reload();
+                                            })
+                                            .catch(error => {
+                                                console.error('Error updating wallet:', error);
+                                            })
+                                            .finally(() => {
+                                                window.location.reload();
+                                            });;
+                                    },
+                                };
+
+                                const rzp = new Razorpay(options);
+                                rzp.open();
+                            })
+                            .catch(error => {
+                                console.error('Error creating Razorpay order:', error);
+                            })
+
+
+
+                    }
+
+                </script>
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

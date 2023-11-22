@@ -1,0 +1,140 @@
+@font-face {
+    font-family: 'outfit';
+    src: url('/user/font/Outfit-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'outfit_regular';
+    src: url('/user/font/Outfit-Regular.ttf');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
+}
+
+
+.shopbutton {
+    width: 80%;
+    height: 50%;
+    border-radius: 30px;
+    background-color: #408e5f;
+    border: none;
+    cursor: pointer;
+}
+
+.btn {
+    background-color: #408e5f;
+    font-family: 'outfit_regular';
+    z-index: 1;
+}
+
+.bottom-image {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+}
+
+.bannertag {
+    width: 800px;
+    height: 850px;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tag {
+    font-family: 'outfit';
+    color: #408e5f;
+
+    font-size: 15vh;
+    display: block;
+    position: absolute;
+}
+
+.subtag {
+    font-family: 'outfit';
+    color: white;
+    font-size: 8vh;
+    display: block;
+    position: absolute;
+    margin-top: 15%;
+    margin-right: 20%;
+}
+
+.stepinside {
+    width: 200px;
+    height: 100px;
+
+    position: absolute;
+    right: 30%;
+    bottom: 2%;
+
+    z-index: 1;
+}
+
+.attrtag {
+    font-family: 'outfit_regular';
+    color: white;
+    font-size: 150%;
+}
+
+.img-fluid {
+    position: relative;
+    z-index: 2;
+}
+
+@media (max-width: 1024px) {
+    .bannertag {
+        width: 650px;
+        height: 700px;
+        margin-right: -10%;
+    }
+
+    .tag {
+        font-size: 14vh;
+    }
+}
+
+@media (max-width: 992px) {
+    .bannertag {
+        width: 600px;
+        height: 650px;
+        margin-top: 400px;
+    }
+
+    .tag {
+        font-size: 12vh;
+
+    }
+
+    .subtag {
+        font-size: 4vh;
+        margin-top: 30%;
+    }
+}
+
+
+@media (max-width: 576px) {
+    .bannertag {
+        width: 400px;
+        height: 450px;
+        margin-top: 250px;
+    }
+
+
+    .tag {
+        font-size: 8vh;
+    }
+
+    .subtag {
+        font-size: 4vh;
+    }
+}

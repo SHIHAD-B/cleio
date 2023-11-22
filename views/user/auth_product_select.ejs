@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/auth_product_select.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'>
+
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/css/tether.min.css'>
+
+
+
+
+
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include('../partials/user/coupon') %>
+        <nav class="navbar navbar-expand-lg  navbar-custom position-sticky top-0 left-0 ">
+            <a class="navbar-brand"></a>
+            <div class=" hamburger-menu">
+                <input id="menu__toggle" type="checkbox" />
+                <label class="menu__btn" for="menu__toggle" style="z-index: 99;">
+                    <span></span>
+                </label>
+                <ul class="menu__box">
+                    <li><a class="menu__item text-decoration-none  text-white" href="/">
+                            Home</a></li>
+                    <li><a class="menu__item text-decoration-none  text-white" href="#">
+                            Contact</a></li>
+                    <li><a class="menu__item text-decoration-none  text-white" href="/order">
+                            My Order</a></li>
+                    <li><a class="menu__item text-decoration-none  text-white" href="/wishlist">
+                            Wishlist</a></li>
+                    <li><a class="menu__item text-decoration-none  text-white" href="/cart"> Cart</a></li>
+                    <li><a class="menu__item text-decoration-none  text-white" href="/profile">
+                            Account</a></li>
+                    <li class="menu__item text-decoration-none  text-white" data-toggle="modal" data-target="#coupon">
+                        Coupons</li>
+                    <li><a class="menu__item text-decoration-none  text-white" href="/wallet">
+                            Wallet</a></li>
+                    <li><a class="menu__item text-decoration-none  text-white" href="#">
+                            About</a></li>
+                    <li><a class="menu__item text-decoration-none  text-white" href="/logout">
+                            Logout</a></li>
+
+                </ul>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto ml-auto">
+                    <li class="nav-item">
+                        <div class="justify-content-md-center">
+                            <form class="form-inline my-2 my-lg-0 my-lg-0">
+                                <input class="form-control mr-sm-2" id="searchInput" type="text" placeholder="Search..."
+                                    aria-label="Search" style="width: 600px;">
+
+                                <button class="btn btn-success  my-sm-0" type="submit">Search</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+        <div class="main">
+            <div class="side">
+                <div class="gender">
+                    <div class="clear">
+                        <span class="lefthead">FILTER</span>
+                        <a href="">clear</a>
+                    </div>
+
+                    <div class="radio-label-pair">
+                        <input type="checkbox" name="gender" value="men" id="men">
+                        <label class="label" for="men">MEN</label>
+                    </div>
+                    <div class="radio-label-pair">
+                        <input type="checkbox" name="gender" value="women" id="women">
+                        <label class="label" for="women">WOMEN</label>
+                    </div>
+                    <div class="radio-label-pair">
+                        <input type="checkbox" name="gender" value="girls" id="girls">
+                        <label class="label" for="girls">GIRLS</label>
+                    </div>
+                    <div class="radio-label-pair">
+                        <input type="checkbox" name="gender" value="boys" id="boys">
+                        <label class="label" for="boys">BOYS</label>
+                    </div>
+                </div>
+                <div class="category">
+                    <span class="lefthead">CATEGORIES</span>
+                    <% categories.forEach(value=>{%>
+
+                        <div class="checkbox-label-pair">
+                            <input type="checkbox" name="category" value="<%=value.Category%>" id="category">
+                            <label class="label" for="casual1">
+                                <%=value.Category%>
+                            </label>
+                        </div>
+                        <% })%>
+
+                </div>
+                <div class="brand">
+                    <span class="lefthead">BRANDS</span>
+
+
+                    <% brand.forEach(value=>{%>
+
+                        <div class="checkbox-label-pair">
+                            <input type="checkbox" name="brand" value="<%=value%>" id="brand">
+                            <label class="label" for="brand">
+                                <%=value%>
+                            </label>
+                        </div>
+                        <% })%>
+
+
+                </div>
+                <div class="price">
+                    <span class="lefthead">Price</span>
+                    <div class="checkbox-label-pair">
+                        <input type="radio" name="price" value="0-500" id="price">
+                        <label class="label" for="casual1">below 500</label>
+                    </div>
+                    <div class="checkbox-label-pair">
+                        <input type="radio" name="price" value="500-1000" id="price">
+                        <label class="label" for="casual2">500-1000</label>
+                    </div>
+                    <div class="checkbox-label-pair">
+                        <input type="radio" name="price" value="1000-5000" id="price">
+                        <label class="label" for="casual3">1000-5000</label>
+                    </div>
+                    <div class="checkbox-label-pair">
+                        <input type="radio" name="price" value="5000-100000" id="price">
+                        <label class="label" for="casual3">above 5000</label>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="right">
+                <div class="no-matching-products"></div>
+                <%- include('../partials/user/productlist') %>
+            </div>
+
+        </div>
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                // Function to save filter state to local storage
+                function saveFilterState() {
+                    const genderFilters = Array.from(document.querySelectorAll('[name="gender"]:checked')).map(filter => filter.value);
+                    const categoryFilters = Array.from(document.querySelectorAll('[name="category"]:checked')).map(filter => filter.value);
+                    const brandFilters = Array.from(document.querySelectorAll('[name="brand"]:checked')).map(filter => filter.value);
+                    const priceFilter = document.querySelector('[name="price"]:checked');
+
+                    localStorage.setItem('genderFilters', JSON.stringify(genderFilters));
+                    localStorage.setItem('categoryFilters', JSON.stringify(categoryFilters));
+                    localStorage.setItem('brandFilters', JSON.stringify(brandFilters));
+                    localStorage.setItem('priceFilter', priceFilter ? priceFilter.value : '');
+                }
+                function loadFilterState() {
+                    const genderFilters = JSON.parse(localStorage.getItem('genderFilters')) || [];
+                    const categoryFilters = JSON.parse(localStorage.getItem('categoryFilters')) || [];
+                    const brandFilters = JSON.parse(localStorage.getItem('brandFilters')) || [];
+                    const priceFilter = localStorage.getItem('priceFilter') || '';
+
+                    genderFilters.forEach(value => {
+                        document.getElementById(value).checked = true;
+                    });
+
+                    categoryFilters.forEach(value => {
+                        document.getElementById(value).checked = true;
+                    });
+
+                    brandFilters.forEach(value => {
+                        document.getElementById(value).checked = true;
+                    });
+
+                    if (priceFilter) {
+                        document.querySelector(`[value="${priceFilter}"]`).checked = true;
+                    }
+                }
+                // Attach event listeners to filter elements
+                document.querySelectorAll('[name="gender"]').forEach(function (filter) {
+                    filter.addEventListener('change', function () {
+                        handleFilterChange();
+                        saveFilterState();
+                    });
+                });
+
+                document.querySelectorAll('[name="category"]').forEach(function (filter) {
+                    filter.addEventListener('change', function () {
+                        handleFilterChange();
+                        saveFilterState();
+                    });
+                });
+
+                document.querySelectorAll('[name="brand"]').forEach(function (filter) {
+                    filter.addEventListener('change', function () {
+                        handleFilterChange();
+                        saveFilterState();
+                    });
+                });
+
+                document.querySelectorAll('[name="price"]').forEach(function (filter) {
+                    filter.addEventListener('change', function () {
+                        handleFilterChange();
+                        saveFilterState();
+                    });
+                });
+
+                const searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', function () {
+                    const searchTerm = searchInput.value.trim();
+                    fetch(`/productsearch?term=${searchTerm}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            updateProductList(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching search results:', error);
+                        });
+                });
+
+                function handleFilterChange() {
+                    const genderFilters = document.querySelectorAll('[name="gender"]:checked');
+                    const categoryFilters = document.querySelectorAll('[name="category"]:checked');
+                    const brandFilters = document.querySelectorAll('[name="brand"]:checked');
+                    const priceFilter = document.querySelector('[name="price"]:checked');
+
+                    const apiUrl = '/api/products?gender=' + Array.from(genderFilters).map(filter => filter.value).join(',') +
+                        '&categories=' + Array.from(categoryFilters).map(filter => filter.value).join(',') +
+                        '&brand=' + Array.from(brandFilters).map(filter => filter.value).join(',') +
+                        '&price=' + (priceFilter ? priceFilter.value : '');
+
+                    fetch(apiUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            updateProductList(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching filtered products:', error);
+                        });
+                }
+
+                function updateProductList(products) {
+                    const productListContainer = document.querySelector('.row');
+                    const noMatchingProductsMessage = document.querySelector('.no-matching-products');
+
+                    productListContainer.innerHTML = '';
+                    console.log(products.length);
+
+                    if (products.length == undefined || products.length < 1) {
+                        noMatchingProductsMessage.innerHTML = '<h1 style="width: 100%; text-align: center; margin-top: 100px; margin-bottom: 100px;">No matching products found.</h1>';
+                        productListContainer.style.display = 'none';
+                    } else {
+                        noMatchingProductsMessage.innerHTML = '';
+                        productListContainer.style.display = 'flex';
+
+                        products.forEach(product => {
+                            const productElement = document.createElement('div');
+                            productElement.className = 'col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3';
+
+                            productElement.innerHTML = `
+                    <div id="product-${product.id}" class="single-product">
+                        <div class="part-1">
+                            <a href="/productdetail/${product._id}">
+                                <img src="${product.Image[0].Main}" alt="${product.Name}" style="width: 100%; height: 100%;">
+                            </a>
+                            <span class="new">new</span>
+                            <ul>
+                                <li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+                                <li><a href="#"><i class="fas fa-heart"></i></a></li>
+                                <li><a href="/productdetail/${product._id}"><i class="fas fa-expand"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="part-2">
+                            <h3 class="product-title">${product.Name}</h3>
+                            <h4 class="product-old-price">₹12999.99</h4>
+                            <h4 class="product-price">₹${product.Price}</h4>
+                        </div>
+                    </div>
+                `;
+
+                            productListContainer.appendChild(productElement);
+                        });
+                    }
+                }
+            });
+
+            $(document).ready(function () {
+                var trigger = $('.hamburger'),
+                    overlay = $('.overlay'),
+                    isClosed = false;
+
+                trigger.click(function () {
+                    hamburger_cross();
+                });
+
+                function hamburger_cross() {
+                    if (isClosed == true) {
+                        overlay.hide();
+                        trigger.removeClass('is-open');
+                        trigger.addClass('is-closed');
+                        isClosed = false;
+                    } else {
+                        overlay.show();
+                        trigger.removeClass('is-closed');
+                        trigger.addClass('is-open');
+                        isClosed = true;
+                    }
+                }
+
+                $('[data-toggle="offcanvas"]').click(function () {
+                    $('#wrapper').toggleClass('toggled');
+                });
+            });
+            loadFilterState();
+        </script>
+
+
+
+        <script>$(document).ready(function () {
+                var trigger = $('.hamburger'),
+                    overlay = $('.overlay'),
+                    isClosed = false;
+
+                trigger.click(function () {
+                    hamburger_cross();
+                });
+
+                function hamburger_cross() {
+
+                    if (isClosed == true) {
+                        overlay.hide();
+                        trigger.removeClass('is-open');
+                        trigger.addClass('is-closed');
+                        isClosed = false;
+                    } else {
+                        overlay.show();
+                        trigger.removeClass('is-closed');
+                        trigger.addClass('is-open');
+                        isClosed = true;
+                    }
+                }
+
+                $('[data-toggle="offcanvas"]').click(function () {
+                    $('#wrapper').toggleClass('toggled');
+                });
+            });</script>
+
+        <div class="pagination">
+            <% if (currentPage> 1) { %>
+                <a href="?page=<%= currentPage - 1 %>" class="prev">&laquo; Previous</a>
+                <% } %>
+
+                    <% for (let i=1; i <=totalPages; i++) { %>
+                        <a href="?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>">
+                            <%= i %>
+                        </a>
+                        <% } %>
+
+                            <% if (currentPage < totalPages) { %>
+                                <a href="?page=<%= currentPage + 1 %>" class="next">Next &raquo;</a>
+                                <% } %>
+        </div>
+
+
+        <%- include('../partials/user/footer') %>
+            </div>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+
+</body>
+
+</html>

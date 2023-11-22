@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/profile.css">
+    <title>Document</title>
+    <link rel="icon" href="/admin/images/users.png">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <title>Home</title>
+</head>
+
+<body>
+    <%- include('../partials/user/coupon') %>
+        <%- include('../partials/user/nav_w_search') %>
+            <div class="main">
+                <div class="userdetails">
+                    <div class="head">
+                        <span>PROFILE</span>
+                    </div>
+                    <div class="first">
+                        <div class="left">
+                            <img id="profileImage" src="<%=user.Profile%>" alt=""
+                                style="width: 200px; height: 200px; border-radius: 50%;">
+                        </div>
+                        <div class="right">
+                            <div class="name">
+                                <div class="firstname">
+                                    <label for="firstname">First name</label>
+                                    <input type="text" name="firstname" value="<%=user.Firstname%>" id="firstname"
+                                        readonly>
+                                </div>
+                                <div class="secondname">
+                                    <label for="secondname">Second name</label>
+                                    <input type="text" name="secondname" value="<%=user.Secondname%>" id="secondname"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="emailandmobile">
+                                <div class="email">
+                                    <label for="email">Email</label>
+                                    <input type="text" name="email" id="email" value="<%=user.Email%>" readonly>
+                                </div>
+                                <div class="phone">
+                                    <label for="phone">Phone number</label>
+                                    <input type="text" name="phone" id="phone" value="<%=user.Mobile%>" readonly>
+                                </div>
+                            </div>
+
+                            <div class="saveandcancel">
+                                <a href="/editprofile"><button>edit</button></a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('#profileImage').on('load', function () {
+                            console.log('Image loaded successfully');
+                        }).on('error', function () {
+                            console.log('Error loading image');
+                            $(this).attr('src', '/user/images/add-photo.png');
+                            $(this).attr('alt', 'Fallback Image');
+                        });
+
+
+                    });
+                </script>
+
+
+</body>
+
+</html>

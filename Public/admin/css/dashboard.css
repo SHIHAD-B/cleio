@@ -1,0 +1,381 @@
+@font-face {
+    font-family: 'outfit';
+    src: url('/user/font/Outfit-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'outfit_regular';
+    src: url('/user/font/Outfit-Regular.ttf');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background-color: white !important;
+}
+
+
+
+.menu {
+
+    height: 100vh;
+    width: 200px;
+    border-right: 1px solid rgba(0, 0, 0, 0.499);
+    background-color: white !important;
+    z-index: 99;
+
+}
+
+
+
+
+.main {
+    width: 110%;
+    height: 100vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.menu_items {
+    width: 200px;
+    height: 75vh;
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.items {
+    display: flex;
+    align-items: center;
+    width: 150px;
+    height: 40px;
+
+    margin-top: 5px;
+
+
+}
+
+.items img {
+    width: 24px;
+    /* Adjust the image size as needed */
+    height: 24px;
+}
+
+.tag {
+    margin-left: 5px;
+    color: rgba(0, 0, 0, 0.673);
+    ;
+    /* Set text color as needed */
+}
+
+
+.hamburger-menu {
+    position: inherit;
+}
+
+#menu__toggle {
+    display: none;
+    opacity: 0;
+}
+
+#menu__toggle:checked+.menu__btn>span {
+    transform: rotate(45deg);
+}
+
+#menu__toggle:checked+.menu__btn>span::before {
+    top: 0;
+    transform: rotate(0deg);
+}
+
+#menu__toggle:checked+.menu__btn>span::after {
+    top: 0;
+    transform: rotate(90deg);
+}
+
+#menu__toggle:checked~.menu__box {
+    right: 0 !important;
+}
+
+.menu__btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.menu__btn>span,
+.menu__btn>span::before,
+.menu__btn>span::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    transition-duration: .25s;
+}
+
+.menu__btn>span::before {
+    content: '';
+    top: -8px;
+}
+
+.menu__btn>span::after {
+    content: '';
+    top: 8px;
+}
+
+.menu__box {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 85%;
+    border-radius: 15px;
+    margin: 0;
+    padding: 80px 0;
+    list-style: none;
+    background-color: rgb(32, 32, 32);
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+    transition-duration: .25s;
+}
+
+.menu__item {
+    display: block;
+    padding: 12px 24px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    transition-duration: .25s;
+}
+
+.img-thumbnail {
+    background-color: rgb(32, 32, 32) !important;
+}
+
+.menu__item:hover {
+    background-color: rgba(255, 255, 255, 0.245);
+}
+
+.navbar {
+    background-color: rgba(32, 32, 32, 0.53);
+    z-index: 99 !important;
+
+}
+
+.btn {
+
+    font-family: 'outfit_regular' !important;
+    color: white;
+    z-index: 1;
+}
+
+
+.fixed-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.whole {
+    display: flex;
+    height: 100vh;
+    /* overflow-y: hidden; */
+}
+
+.items:hover {
+    background-color: rgba(0, 0, 0, 0.16);
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.topreport {
+    width: 100%;
+    height: 250px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.reports {
+    width: 100%;
+    height: 170px;
+    background-color: rgba(128, 128, 128, 0.119);
+    display: flex;
+}
+
+.todaysales {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.sales {
+    width: 110px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.todaysorder {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.order {
+    width: 150px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.todaysreturn {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.return {
+    width: 150px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.usrescount {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.count {
+    width: 160px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.totalproducts {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.products {
+    width: 140px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.font1 {
+    font-family: 'outfit_regular';
+    font-size: 13px;
+    color: rgb(128, 128, 128);
+}
+
+.font2 {
+    font-family: 'outfit';
+    font-size: 25px;
+}
+
+.font3 {
+    font-family: 'outfit';
+    font-size: 35px;
+}
+
+/* graph */
+.graphandreport {
+    width: 100%;
+    height: 500px;
+    display: flex;
+
+}
+
+.graph {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.greports {
+    width: 40%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.graph-buttons {
+    margin-bottom: 20px;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+.btn-outline-primary {
+    color: #007bff;
+    background-color: transparent;
+    background-image: none;
+    border-color: #007bff;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.download-button {
+    margin-top: 20px;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}

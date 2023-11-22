@@ -1,0 +1,279 @@
+@font-face {
+  font-family: 'outfit';
+  src: url('/user/font/Outfit-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'outfit_regular';
+  src: url('/user/font/Outfit-Regular.ttf');
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  background-color: white !important;
+}
+
+.whole {
+  display: flex;
+  height: 100vh;
+  /* overflow-y: hidden; */
+}
+
+.main {
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+
+
+
+.menu_items {
+  width: 200px;
+  height: 75vh;
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.items {
+  display: flex;
+  align-items: center;
+  width: 150px;
+  height: 40px;
+
+  margin-top: 5px;
+
+
+}
+
+.items img {
+  width: 24px;
+  /* Adjust the image size as needed */
+  height: 24px;
+}
+
+.tag {
+  margin-left: 5px;
+  color: rgba(0, 0, 0, 0.673);
+  /* Set text color as needed */
+}
+
+
+.hamburger-menu {
+  position: inherit;
+}
+
+#menu__toggle {
+  display: none;
+  opacity: 0;
+}
+
+#menu__toggle:checked+.menu__btn>span {
+  transform: rotate(45deg);
+}
+
+#menu__toggle:checked+.menu__btn>span::before {
+  top: 0;
+  transform: rotate(0deg);
+}
+
+#menu__toggle:checked+.menu__btn>span::after {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+#menu__toggle:checked~.menu__box {
+  right: 0 !important;
+}
+
+.menu__btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.menu__btn>span,
+.menu__btn>span::before,
+.menu__btn>span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  transition-duration: .25s;
+}
+
+.menu__btn>span::before {
+  content: '';
+  top: -8px;
+}
+
+.menu__btn>span::after {
+  content: '';
+  top: 8px;
+}
+
+.menu__box {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 300px;
+  height: 85%;
+  border-radius: 15px;
+  margin: 0;
+  padding: 80px 0;
+  list-style: none;
+  background-color: rgb(32, 32, 32);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+  transition-duration: .25s;
+}
+
+.menu__item {
+  display: block;
+  padding: 12px 24px;
+  color: black;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  transition-duration: .25s;
+}
+
+.img-thumbnail {
+  background-color: rgb(32, 32, 32) !important;
+}
+
+.menu__item:hover {
+  background-color: rgba(255, 255, 255, 0.245);
+}
+
+.navbar {
+
+  z-index: 99 !important;
+
+}
+
+.btn {
+
+  font-family: 'outfit_regular' !important;
+  color: white;
+  z-index: 1;
+}
+
+
+.fixed-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.menu {
+
+  height: 100vh;
+  width: 200px;
+  border-right: 1px solid rgba(0, 0, 0, 0.499);
+  background-color: white !important;
+  z-index: 99;
+
+}
+
+.header-buttons {
+  width: 100%;
+}
+
+.btn {
+  float: right;
+  margin: 10px;
+}
+
+.use {
+  margin-top: 20px !important;
+  text-align: center;
+  font-family: 'outfit_regular';
+}
+
+td {
+  background-color: white !important;
+  color: black !important;
+  font-family: 'outfit_regular';
+}
+
+th {
+  font-family: 'outfit_regular';
+}
+
+
+.table-container {
+  max-width: 800px;
+  /* margin: 0 auto; */
+  border-radius: 30px !important;
+  margin-left: 125px
+}
+
+.table-container h1 {
+  font-size: 24px;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.table-container th,
+.table-container td {
+  padding: 12px;
+  text-align: left;
+}
+
+.table-container th {
+  background-color: #f2f2f2;
+
+}
+
+.table-container tr:nth-child(even) {
+  background-color: #f2f2f2;
+
+}
+
+.table-container .btn {
+  padding: 0px 10px;
+  font-size: 0px;
+}
+
+
+.items:hover {
+  background-color: rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.error {
+  font-family: 'outfit_regular';
+  color: red;
+  font-size: 12px;
+}

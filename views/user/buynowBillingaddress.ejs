@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='/user/css/buynowBillingaddress.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include('../partials/user/coupon') %>
+        <%- include('../partials/user/nav_w_search') %>
+            <div class="main">
+                <div class="address">
+
+
+
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add New Address</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="/address/<%=user._id%>" method="POST">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="name" class="categorytag">Name:</label>
+                                            <input type="text" name="name" class="form-control" id="name">
+                                            <div class="error" id="errorName"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="phone" class="categorytag">Phone Number:</label>
+                                            <input type="tel" name="phone" class="form-control" id="phone">
+                                            <div class="error" id="errorPhone"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pincode" class="categorytag">Pincode:</label>
+                                            <input type="text" name="pincode" class="form-control" id="pincode">
+                                            <div class="error" id="errorPincode"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="locality" class="categorytag">Locality:</label>
+                                            <input type="text" name="locality" class="form-control" id="locality">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="landmark" class="categorytag">Landmark:</label>
+                                            <input type="text" name="landmark" class="form-control" id="landmark">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="state" class="categorytag">State:</label>
+                                            <select name="state" class="form-control" id="state">
+                                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands
+                                                </option>
+                                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                <option value="Assam">Assam</option>
+                                                <option value="Bihar">Bihar</option>
+                                                <option value="Chandigarh">Chandigarh</option>
+                                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                                <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar
+                                                    Haveli and Daman and Diu</option>
+                                                <option value="Delhi">Delhi</option>
+                                                <option value="Goa">Goa</option>
+                                                <option value="Gujarat">Gujarat</option>
+                                                <option value="Haryana">Haryana</option>
+                                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                                <option value="Jharkhand">Jharkhand</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                                <option value="Kerala">Kerala</option>
+                                                <option value="Ladakh">Ladakh</option>
+                                                <option value="Lakshadweep">Lakshadweep</option>
+                                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Manipur">Manipur</option>
+                                                <option value="Meghalaya">Meghalaya</option>
+                                                <option value="Mizoram">Mizoram</option>
+                                                <option value="Nagaland">Nagaland</option>
+                                                <option value="Odisha">Odisha</option>
+                                                <option value="Puducherry">Puducherry</option>
+                                                <option value="Punjab">Punjab</option>
+                                                <option value="Rajasthan">Rajasthan</option>
+                                                <option value="Sikkim">Sikkim</option>
+                                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                                <option value="Telangana">Telangana</option>
+                                                <option value="Tripura">Tripura</option>
+                                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                <option value="Uttarakhand">Uttarakhand</option>
+                                                <option value="West Bengal">West Bengal</option>
+                                            </select>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="delivery" class="categorytag">Delivery On:</label>
+                                            <select name="delivery" class="form-control" id="delivery">
+                                                <option value="home">home</option>
+                                                <option value="work">work</option>
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="city" class="categorytag">City/District/Town:</label>
+                                            <input type="text" name="city" class="form-control" id="city">
+                                            <div class="error" id="errorCity"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="alternative_phone" class="categorytag">Alternative Phone
+                                                Number:</label>
+                                            <input type="tel" name="alternative_phone" class="form-control"
+                                                id="alternative_phone">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address" class="categorytag">Address:</label>
+                                            <textarea name="address" class="form-control" id="address"></textarea>
+                                        </div>
+                                        <div class="error" id="errorAddress"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" value="submit" class="btn btn-success">Add
+                                            Address</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="address-card addaddress" data-toggle="modal" data-target="#exampleModalCenter">
+                        <img src="/user/images/add.png" alt="">
+                        <span class="font3">Add Address</span>
+                    </div>
+
+                    <% address.forEach((value, index)=> { %>
+
+
+
+                        <div class="address-card">
+                            <input type="radio" name="billaddressSelection" style="margin-left: 20px; margin-top: 10px;"
+                                data-billaddress-id="<%= value._id %>">
+                            <span class="font1">
+                                <%=value.name%>
+                            </span>
+                            <span class="font2">Phone number:<%=value.phone_number%></span>
+                            <span class="font2">Pincode:<%=value.pincode%></span>
+                            <span class="font2">
+                                <%=value.locality%>
+                            </span>
+                            <span class="font2">
+                                <%=value.landmark%>
+                            </span>
+                            <span class="font2">
+                                <%=value. statek%>
+                            </span>
+                            <span class="font2">Delivery on:<%=value.delivery_on%></span>
+                            <span class="font2">
+                                <%=value.city%>
+                            </span>
+                            <span class="font2">Alternative Phone: <%= value.alternative_phone ? value.alternative_phone
+                                    : "nil" %></span>
+                            <span class="font2">
+                                <%=value.address%>
+                            </span>
+                            <div class="edit">
+                                <div class="modal fade" id="edit<%=value._id%>" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Add New Address</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="/editAddress/<%=value._id%>" method="POST">
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="name" class="categorytag">Name:</label>
+                                                        <input type="text" name="name" value=" <%=value.name%>"
+                                                            class="form-control" id="name">
+                                                        <div class="error" id="errorName"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="phone" class="categorytag">Phone Number:</label>
+                                                        <input type="tel" name="phone" class="form-control"
+                                                            value="<%=value.phone_number%>" id="phone">
+                                                        <div class="error" id="errorPhone"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="pincode" class="categorytag">Pincode:</label>
+                                                        <input type="text" name="pincode" class="form-control"
+                                                            value="<%=value.pincode%>" id="pincode">
+                                                        <div class="error" id="errorPincode"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="locality" class="categorytag">Locality:</label>
+                                                        <input type="text" name="locality" value=" <%=value.locality%>"
+                                                            class="form-control" id="locality">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="landmark" class="categorytag">Landmark:</label>
+                                                        <input type="text" name="landmark" value=" <%=value.landmark%>"
+                                                            class="form-control" id="landmark">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="state" class="categorytag">State:</label>
+                                                        <select name="state" class="form-control" id="state">
+                                                            <option value="Andaman and Nicobar Islands">Andaman and
+                                                                Nicobar
+                                                                Islands
+                                                            </option>
+                                                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                            <option value="Assam">Assam</option>
+                                                            <option value="Bihar">Bihar</option>
+                                                            <option value="Chandigarh">Chandigarh</option>
+                                                            <option value="Chhattisgarh">Chhattisgarh</option>
+                                                            <option value="Dadra and Nagar Haveli and Daman and Diu">
+                                                                Dadra
+                                                                and Nagar
+                                                                Haveli and Daman and Diu</option>
+                                                            <option value="Delhi">Delhi</option>
+                                                            <option value="Goa">Goa</option>
+                                                            <option value="Gujarat">Gujarat</option>
+                                                            <option value="Haryana">Haryana</option>
+                                                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                                            <option value="Jharkhand">Jharkhand</option>
+                                                            <option value="Karnataka">Karnataka</option>
+                                                            <option value="Kerala">Kerala</option>
+                                                            <option value="Ladakh">Ladakh</option>
+                                                            <option value="Lakshadweep">Lakshadweep</option>
+                                                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                            <option value="Maharashtra">Maharashtra</option>
+                                                            <option value="Manipur">Manipur</option>
+                                                            <option value="Meghalaya">Meghalaya</option>
+                                                            <option value="Mizoram">Mizoram</option>
+                                                            <option value="Nagaland">Nagaland</option>
+                                                            <option value="Odisha">Odisha</option>
+                                                            <option value="Puducherry">Puducherry</option>
+                                                            <option value="Punjab">Punjab</option>
+                                                            <option value="Rajasthan">Rajasthan</option>
+                                                            <option value="Sikkim">Sikkim</option>
+                                                            <option value="Tamil Nadu">Tamil Nadu</option>
+                                                            <option value="Telangana">Telangana</option>
+                                                            <option value="Tripura">Tripura</option>
+                                                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                            <option value="Uttarakhand">Uttarakhand</option>
+                                                            <option value="West Bengal">West Bengal</option>
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="delivery" class="categorytag">Delivery On:</label>
+                                                        <select name="delivery" class="form-control" id="delivery">
+                                                            <option value="home">home</option>
+                                                            <option value="work">work</option>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="city"
+                                                            class="categorytag">City/District/Town:</label>
+                                                        <input type="text" name="city" class="form-control"
+                                                            value=" <%=value.city%>" id="city">
+                                                        <div class="error" id="errorCity"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="alternative_phone" class="categorytag">Alternative
+                                                            Phone
+                                                            Number:</label>
+                                                        <input type="tel" name="alternative_phone"
+                                                            value="<%= value.alternative_phone%>" class="form-control"
+                                                            id="alternative_phone">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="address" class="categorytag">Address:</label>
+                                                        <textarea name="address" class="form-control"
+                                                            id="address"><%=value.address%></textarea>
+                                                    </div>
+                                                    <div class="error" id="errorAddress"></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" value="submit" class="btn btn-success">Edit
+                                                        Address</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="font4" data-toggle="modal"
+                                    data-target="#edit<%=value._id%>">edit</button>
+                                <span class="font4">|</span>
+                                <a href="/deleteAddress/<%=value._id%>"> <button class="font4">remove</button></a>
+
+                            </div>
+                        </div>
+                        <% }); %>
+                </div>
+
+                <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+                    id="bootstrap-css">
+
+
+                <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                <script>
+                    function isEmpty(value) {
+                        const trimmedValue = value.trim();
+                        return trimmedValue === "";
+                    }
+
+                    function validatePhone(phonenumber) {
+                        const phoneRegex = /^\d{10}$/;
+                        return phoneRegex.test(phonenumber);
+                    }
+
+                    document.querySelector("form").addEventListener("submit", function (event) {
+                        const nameInput = document.querySelector("#name");
+                        const nameValue = nameInput.value;
+                        const nameError = document.querySelector("#errorName");
+
+                        const phoneInput = document.querySelector("#phone");
+                        const phoneValue = phoneInput.value;
+                        const phoneError = document.querySelector("#errorPhone");
+
+                        const pinInput = document.querySelector("#pincode");
+                        const pinValue = pinInput.value;
+                        const pinError = document.querySelector("#errorPincode");
+
+                        const cityInput = document.querySelector("#city");
+                        const cityValue = pinInput.value;
+                        const cityError = document.querySelector("#errorCity");
+
+                        const addressInput = document.querySelector("#address");
+                        const addressValue = pinInput.value;
+                        const addressError = document.querySelector("#errorAddress");
+
+                        nameError.textContent = "";
+                        phoneError.textContent = "";
+                        pinError.textContent = "";
+                        cityError.textContent = "";
+                        addressError.textContent = "";
+
+                        if (isEmpty(nameValue)) {
+                            nameError.textContent = "name can't be empty";
+                            event.preventDefault();
+                        }
+
+                        if (!validatePhone(phoneValue)) {
+                            phoneError.textContent = "enter 10 digit phone number";
+                            event.preventDefault();
+                        }
+                        if (isEmpty(pinValue)) {
+                            pinError.textContent = "pincode can't be empty";
+                            event.preventDefault();
+                        }
+
+                        if (isEmpty(cityValue)) {
+                            cityError.textContent = "enter your city/district/town";
+                            event.preventDefault();
+                        }
+                        if (isEmpty(addressValue)) {
+                            addressError.textContent = "address can't be empty";
+                            event.preventDefault();
+                        }
+
+                    });
+
+                </script>
+                <script>
+                    var radioButtons = document.querySelectorAll('input[name="billaddressSelection"]');
+                    radioButtons.forEach(function (radioButton) {
+                        radioButton.addEventListener("change", function (event) {
+                            var selectedAddressId = event.target.getAttribute('data-billaddress-id');
+                            if (selectedAddressId) {
+                                let id = '<%=id%>'
+                                window.location.href = '/cart/buynowcheckout?billingid=' + selectedAddressId + '&id=' + id + '&pdid=<%=pdid%>';
+                            }
+                        });
+                    });
+                </script>
+
+
+
+                <script>
+                    var addAddressButton = document.getElementById("exampleModalCenter");
+                    var modal = document.getElementById("exampleModalCenter");
+                    addAddressButton.addEventListener("click", function () {
+                        if (modal) {
+                            modal.style.display = "block";
+                        }
+                    });
+                </script>
+
+</body>
+
+</html>

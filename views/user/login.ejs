@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include('../partials/user/toast') %>
+
+        <div class="contain">
+            <div class="image"></div>
+            <div class="element">
+                <div class="logo"></div>
+                <span id="login">login</span>
+                <form action="/login" method="POST" id="loginForm" class="needs-validation">
+
+                    <div class="form-row">
+                        <div class="lab"><label for="Email">Email</label></div>
+                        <input type="text" name="email" id="email" value="shihadb0@gmail.com" class="email">
+                        <div class="error" id="email-error"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="lab"> <label for="password">Password</label></div>
+                        <input type="password" name="password" id="password" value="Lareina@1" class="password">
+                        <div class="error" id="password-error"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <input type="submit" name="Login" class="btn btn-success submit" id="Login" value="login">
+                    </div>
+
+                    <div class="form-group bg-black ">
+                        <a href="/forgotpassword" class="New">Forgot Password?</a>
+                        <a href="/signup" class="New">New user?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ... your HTML code ... -->
+
+        <script>
+            function showToast(message) {
+                const toast = document.querySelector(".toast");
+                const progress = document.querySelector(".progress");
+
+                toast.classList.add("active");
+                progress.classList.add("active");
+
+                setTimeout(() => {
+                    toast.classList.remove("active");
+                    progress.classList.remove("active");
+                }, 5000); // Hide after 5 seconds
+
+                document.querySelector(".text-2").textContent = message;
+            }
+
+            // Function to perform email validation
+            function validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            function validemail(email) {
+                const trimmedEmail = email.trim();
+                return trimmedEmail === "";
+            }
+
+            function validpassword(password) {
+                const trimmedPassword = password.trim();
+                return trimmedPassword === "";
+            }
+            // Handle form submission
+            document.querySelector("#loginForm").addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const emailInput = document.querySelector("#email");
+                const emailValue = emailInput.value;
+                const emailError = document.querySelector("#email-error");
+
+                const passwordInput = document.querySelector("#password");
+                const passwordValue = passwordInput.value;
+                const passwordError = document.querySelector("#password-error");
+
+                //to show toast error
+                const textfield = document.querySelector('.text-1');
+
+                // Clear any previous error messages
+                emailError.textContent = "";
+                passwordError.textContent = "";
+
+                emailError.textContent = "";
+                passwordError.textContent = "";
+
+
+
+                if (!validateEmail(emailValue)) {
+                    emailError.textContent = "Invalid email format. Please try again.";
+                    event.preventDefault();
+                }
+
+                if (validemail(emailValue) && validpassword(passwordValue)) {
+                    emailError.textContent = "Email can't be empty";
+                    passwordError.textContent = "Password can't be empty";
+                    event.preventDefault(); // Prevent form submission
+                } if (validemail(emailValue)) {
+                    emailError.textContent = "Email can't be empty";
+                    event.preventDefault(); // Prevent form submission
+                }
+                if (validpassword(passwordValue)) {
+                    passwordError.textContent = "Password can't be empty";
+                    event.preventDefault(); // Prevent form submission
+
+                } else {
+                    const response = await fetch('/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email: emailValue, password: passwordValue }),
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        if (result.isAdmin) {
+                            window.location.href = '/admin';
+                        } else {
+                            window.location.href = '/home';
+                        }
+                    } else {
+                        const errorData = await response.json();
+                        textfield.innerHTML = errorData.message
+                        showToast("please try again");
+                    }
+                }
+            });
+        </script>
+
+
+
+</body>
+
+</html>

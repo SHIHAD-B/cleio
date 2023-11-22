@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/orderDetails.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="main">
+        <div class="headtotoal">
+            <div class="id">
+                <span class="font1">
+                    <%=order._id%>
+                </span>
+                <span class="font2">order place on <%- new Date(order.Order_date).toLocaleDateString('en-GB', {
+                        day: '2-digit' , month: '2-digit' , year: 'numeric' }) %></span>
+            </div>
+            <div class="status">
+                <span class="font3">ORDER STATUS</span>
+                <span class="font3">
+                    <%=order.Order_status%>
+                </span>
+            </div>
+            <div class="price">
+                <span class="font1">₹<%=product.Price*quantity%></span>
+            </div>
+        </div>
+        <%if( order.Order_status!=='delivered' && order.Order_status!=='cancelled' &&order.Order_status!=='returned'
+            ){%>
+            <div class="modal fade" id="cancel<%=order._id%>" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Confirm
+                                Order Cancel
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure to cancel Order
+                            ID: <%=order._id%>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class=" btn-secondary" data-dismiss="modal">Close</button>
+
+                            <button type="button" class="btn-danger" onclick="cancelOrder()">cancel</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="cancel" data-toggle="modal" data-target="#cancel<%=order._id%>">Cancel</button>
+
+            <% }else if( order.Order_status=='cancelled' ||order.Order_status=='returned' ){%>
+                <%} else{%>
+                    <div class="modal fade" id="return<%=order._id%>" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">
+                                        Confirm
+                                        Order Return
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure to return Order
+                                    ID: <%=order._id%>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class=" btn-secondary" data-dismiss="modal">Close</button>
+
+                                    <button type="button" class="btn-danger" onclick="returnOrder()">Return</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="return" data-toggle="modal" data-target="#return<%=order._id%>">Return</button>
+
+                    <%}%>
+                        <div class="producthead">
+                            <span class="font3">Product</span>
+                            <span class="font3">Details</span>
+                            <span class="font3">Price</span>
+                            <span class="font3">Quantity</span>
+                            <span class="font3">Sub-total</span>
+                        </div>
+                        <div class="product">
+                            <div class="productimage"><img src="<%=product.Image[0].Main%>" alt=""
+                                    style="width: 80%;height: 80%;">
+                            </div>
+                            <div class="productdetails">
+                                <span class="font2">Brand:<%=product.Name%></span>
+                                <span class="font2">Color:<%=color%></span>
+                                <spanclass="font2">Size:<%=size%></span>
+                            </div>
+                            <div class="productprice">
+                                <span class="font2">₹<%=product.Price%></span>
+                            </div>
+                            <div class="qty">
+                                <span class="font2">x<%=quantity%></span>
+                            </div>
+                            <div class="subtotal">
+                                <span class="font2">₹<%=product.Price*quantity%></span>
+                            </div>
+                        </div>
+                        <div class="productaddress">
+                            <div class="address_actions">
+                                <div class="address">
+                                    <div class="address-card">
+
+                                        <span class="font5"> Shipping Address:</span>
+                                        <span class="font6">
+                                            <%=order.Shipping_address.name%>
+                                        </span>
+                                        <span class="font6">Phone number:<%=order.Shipping_address.phone_number%></span>
+                                        <span class="font6">Pincode:<%=order.Shipping_address.pincode%></span>
+                                        <span class="font6">
+                                            <%=order.Shipping_address.locality%>
+                                        </span>
+                                        <span class="font6">
+                                            <%=order.Shipping_address.landmark%>
+                                        </span>
+                                        <span class="font6">
+                                            <%=order.Shipping_address.state%>
+                                        </span>
+                                        <span class="font6">Delivery on:<%=order.Shipping_address.delivery_on%></span>
+                                        <span class="font6">City:<%=order.Shipping_address.city%></span>
+                                        <span class="font6">Alternative Phone:
+                                            <%=order.Shipping_address.alternative_phone%>
+                                        </span>
+                                        <span class="font6">
+                                            <%=order.Shipping_address.address%>
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="address">
+                                    <div class="address-card">
+
+                                        <span class="font5">Billing Address:</span>
+                                        <span class="font6">
+                                            <%=order.Billing_address.name%>
+                                        </span>
+                                        <span class="font6">Phone number:<%=order.Billing_address.phone_number%></span>
+                                        <span class="font6">Pincode:<%=order.Billing_address.pincode%></span>
+                                        <span class="font6">
+                                            <%=order.Billing_address.locality%>
+                                        </span>
+                                        <span class="font6">
+                                            <%=order.Billing_address.landmark%>
+                                        </span>
+                                        <span class="font6">
+                                            <%=order.Billing_address.state%>
+                                        </span>
+                                        <span class="font6">Delivery on:<%=order.Billing_address.delivery_on%></span>
+                                        <span class="font6">City:<%=order.Billing_address.city%></span>
+                                        <span class="font6">Alternative Phone:
+                                            <%=order.Billing_address.alternative_phone%>
+                                        </span>
+                                        <span class="font6">
+                                            <%=order.Billing_address.address%>
+                                        </span>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+    </div>
+
+
+    <script>
+        function cancelOrder() {
+            window.location.href = '/cancelOrder/ <%=order._id%>'
+        }
+        function returnOrder() {
+            window.location.href = '/returnOrder/ <%=order._id%>'
+        }
+    </script>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

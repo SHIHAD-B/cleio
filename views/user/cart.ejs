@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/cart.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include('../partials/user/coupon') %>
+        <%- include('../partials/user/navbar') %>
+            <div class="main">
+                <div class="left">
+                    <div class="total">
+                        <span style="margin-left: 10px; margin-top: 5px;" class="font1">Price Details</span>
+                        <div class="amounts">
+                            <div class="amtname">
+                                <span class="font2">Sub-total</span>
+                                <span class="font2">shipping</span>
+                                <span class="font2">Discount</span>
+                                <span class="font2">Total</span>
+
+                            </div>
+                            <div class="amt">
+                                <span class="font2" id="prd-subtotal">₹0</span>
+                                <span class="font2">FREE</span>
+                                <span class="font2">₹0</span>
+                                <span class="font2" id="total">₹0</span>
+                            </div>
+                        </div>
+                        <button onclick="checkout()" class="proceed">PROCEED TO CHECKOUT</button>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="cart-product">
+                        <div class="headcart">
+                            <span class="font1">Shopping Cart</span>
+                        </div>
+                        <div class="headname">
+                            <span class="font2">products</span>
+                            <span></span>
+                            <span class="font2">price</span>
+                            <span class="font2">color</span>
+                            <span class="font2">size</span>
+                            <span class="font2">Quantity</span>
+                            <span class="font2">sub-total</span>
+                        </div>
+                        <div class="bodycart">
+                            <% products.forEach(function(value, index) { %>
+
+
+
+                                <div id="product<%=index%>" class="product"
+                                    data-available-quantity="<%= value.Product_id.variant[0].quantity %>">
+                                    <button class="remove"
+                                        style="cursor: pointer; outline: none; background-color: inherit; border:none;"
+                                        onclick="removeFromCart('<%=value._id%>','product<%=index%>')">
+                                        <img src="/user/images/remove.png" alt="" style="width: 20px; height: 20px;">
+                                    </button>
+
+                                    <a href="/productdetail/<%=value.id%>">
+                                        <div class="prd-image">
+                                            <img src=<%=value.Product_id.Image[0].Main %> alt=""
+                                            style="width: 70px;height: 70px;">
+                                        </div>
+                                    </a>
+                                    <div class="prd-name">
+                                        <span class="font2">
+                                            <%=value.Product_id.Name%>
+                                        </span>
+                                    </div>
+                                    <div class="prd-price">
+                                        <span class="font2" id="prd-price">
+                                            <%=value.Product_id.Price %>
+                                        </span>
+                                    </div>
+                                    <div class="color">
+                                        <span class="font2" id="prd-color">
+                                            <%= value.color %>
+                                        </span>
+                                    </div>
+                                    <div class="size">
+
+                                        <select class="font2 prd-size" id="prd-size<%= index %>"
+                                            data-product-id="<%= value._id %>">
+                                            <% let initialSelected=false; %>
+                                                <% for (const variant of value.Product_id.variant) { %>
+                                                    <% if (variant.quantity> 0) { %>
+                                                        <option value="<%= variant.size %>" <%=!initialSelected &&
+                                                            value.size===variant.size ? 'selected' : '' %>>
+                                                            <%= variant.size %>
+                                                        </option>
+                                                        <% if (!initialSelected && value.size===variant.size) {
+                                                            initialSelected=true; } %>
+                                                            <% } %>
+                                                                <% } %>
+                                                                    <% if (!initialSelected) { %>
+                                                                        <option value="<%= value.size %>" selected>
+                                                                            <%= value.size %>
+                                                                        </option>
+                                                                        <% } %>
+                                        </select>
+
+
+
+
+
+                                    </div>
+
+
+                                    <div class="prd-qty">
+                                        <div class="qty_show">
+                                            <div class="value_show" id="shoqty<%=index%>">
+                                                <%= value.Quantity %>
+                                            </div>
+                                            <div class="inc_dec">
+                                                <div class="inc" id="increment<%=index %>"
+                                                    data-product-id="<%=value._id%>">
+                                                    <img src="/user/images/up-arrow.png" alt=""
+                                                        style="width: 40%; height: 80%;">
+                                                </div>
+                                                <div class="dec" id="decrement<%=index %>"
+                                                    data-product-id="<%=value._id%>">
+                                                    <img src="/user/images/down-arrow (1).png" alt=""
+                                                        style="width: 40%; height: 80%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                                    <div class="subtotal">
+                                        <span class="font2" id="subtotal">
+                                            <%=value.Product_id.Price %>
+                                        </span>
+                                    </div>
+                                </div>
+                                <% }) %>
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div id="snackbar">Cart is empty..</div>
+
+                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+                <script>
+
+                    function incrementQuantity(index, productid) {
+                        const qty_value = document.querySelector(`#shoqty${index}`);
+                        const currentQuantity = parseInt(qty_value.textContent, 10);
+
+
+                        const availableQuantity = parseInt(document.querySelector(`#product${index}`).dataset.availableQuantity, 10);
+
+
+                        if (currentQuantity < availableQuantity) {
+                            qty_value.textContent = currentQuantity + 1;
+                            updateSubtotal(qty_value);
+                            let product = productid
+                            let qty = currentQuantity + 1;
+
+                            updateQuantity(product, qty);
+                        } else {
+                            Toastify({
+                                text: "Limit exceed",
+                                className: "info",
+                                close: true,
+                                style: {
+                                    background: "rgba(255, 0, 0, 0.586)",
+                                }
+                            }).showToast();
+                        }
+                    }
+
+                    function decrementQuantity(index, productid) {
+                        const qty_value = document.querySelector(`#shoqty${index}`);
+                        const currentQuantity = parseInt(qty_value.textContent, 10);
+                        if (currentQuantity > 1) {
+                            qty_value.textContent = currentQuantity - 1;
+                            updateSubtotal(qty_value);
+                            let product = productid
+                            let qty = currentQuantity - 1;
+                            updateQuantity(product, qty)
+                        }
+                    }
+
+
+                    function updateSubtotal(inputElement) {
+                        const parent = inputElement.parentElement.parentElement.parentElement;
+                        const sub_total = parent.querySelector('.subtotal');
+                        const prd_price = parent.querySelector('.prd-price');
+                        const value = parseInt(inputElement.textContent, 10);
+                        const price = parseFloat(prd_price.textContent.replace('₹', ''));
+                        sub_total.textContent = '₹' + (value * price);
+                        updateTotal();
+                    }
+
+
+                    function updateTotal() {
+                        const subtotals = document.querySelectorAll('.subtotal');
+                        let totalAmount = 0;
+
+                        subtotals.forEach(function (subtotal) {
+                            const value = parseFloat(subtotal.textContent.replace('₹', ''));
+                            totalAmount += value;
+                        });
+
+                        const prdSubtotal = document.getElementById('prd-subtotal');
+                        prdSubtotal.textContent = '₹' + totalAmount;
+
+                        const total = document.getElementById('total');
+                        total.textContent = '₹' + (totalAmount);
+                    }
+
+
+                    const quantityInputs = document.querySelectorAll('.value_show');
+                    quantityInputs.forEach(function (inputElement, index) {
+                        updateSubtotal(inputElement);
+
+                        inputElement.addEventListener('input', function () {
+                            updateSubtotal(inputElement);
+                        });
+
+                        const incrementButton = document.getElementById(`increment${index}`);
+                        const decrementButton = document.getElementById(`decrement${index}`);
+
+                        incrementButton.addEventListener('click', function () {
+                            const productId = incrementButton.getAttribute("data-product-id");
+                            incrementQuantity(index, productId);
+                        });
+
+                        decrementButton.addEventListener('click', function () {
+                            const productId = decrementButton.getAttribute("data-product-id");
+                            decrementQuantity(index, productId);
+                        });
+                    });
+
+
+                    function removeFromCart(productId, removeItem) {
+                        const product = document.getElementById(removeItem);
+
+                        fetch(`/cart/delete/${productId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                product.style.display = 'none';
+
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    }
+
+
+                    function updateQuantity(productId, inputElement) {
+                        let val = inputElement;
+                        fetch(`/cart/update/${productId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ quantity: val }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                updateSubtotal(inputElement);
+                                updateTotal();
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    }
+                    async function checkout() {
+                        function myFunction() {
+                            var x = document.getElementById("snackbar");
+                            x.className = "show";
+                            setTimeout(function () {
+                                x.className = x.className.replace("show", "");
+                            }, 3000);
+                        }
+
+                        const url = `/cart/checkout`;
+
+
+
+                        if ('<%=length%>' < 1) {
+
+                            myFunction();
+                            return;
+                        } else {
+                            try {
+                                const response = await fetch('/cart/reset-order-confirmed', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                });
+
+                                const data = await response.json();
+
+                                if (data.success) {
+
+                                    window.location.href = url;
+                                } else {
+
+                                    console.error('Failed to reset orderConfirmed');
+                                    myFunction();
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+
+                                myFunction();
+                            }
+
+                        }
+
+
+                    }
+
+
+
+                    // Function to update quantity and max quantity based on selected size
+                    function updateQuantityAndMax(index, productid, selectedSize) {
+                        const qty_value = document.querySelector(`#shoqty${index}`);
+                        const productSize = document.querySelector(`#prd-size${index}`);
+                        const availableQuantity = parseInt(productSize.options[productSize.selectedIndex].getAttribute("data-quantity"), 10);
+
+                        qty_value.textContent = 1; // Set quantity to zero
+                        qty_value.setAttribute("data-max-quantity", availableQuantity); // Update max quantity attribute
+
+                        updateSubtotal(qty_value);
+                        let product = productid;
+                        let qty = 0;
+
+                        updateQuantity(product, qty);
+                    }
+
+                    // Event listener for size dropdown change
+                    function onSizeChange(index, productid) {
+                        const sizeDropdown = document.querySelector(`#prd-size${index}`);
+                        const selectedSize = sizeDropdown.options[sizeDropdown.selectedIndex].value;
+                        updateQuantityAndMax(index, productid, selectedSize);
+                    }
+
+                    // Add event listeners for size dropdown change
+                    const sizeDropdowns = document.querySelectorAll('.font2.prd-size');
+                    sizeDropdowns.forEach(function (dropdown, index) {
+                        dropdown.addEventListener('change', function () {
+                            const productId = dropdown.getAttribute("data-product-id");
+                            onSizeChange(index, productId);
+                        });
+                    });
+
+                </script>
+
+
+
+
+                <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+                    id="bootstrap-css">
+                <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

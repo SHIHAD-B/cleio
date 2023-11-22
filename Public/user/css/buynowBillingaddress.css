@@ -1,0 +1,219 @@
+@font-face {
+    font-family: 'outfit';
+    src: url('/user/font/Outfit-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'outfit_regular';
+    src: url('/user/font/Outfit-Regular.ttf');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(245, 245, 247);
+
+}
+
+/* navbar */
+.hamburger-menu {
+    position: inherit;
+}
+
+#menu__toggle {
+    display: none;
+    opacity: 0;
+}
+
+#menu__toggle:checked+.menu__btn>span {
+    transform: rotate(45deg);
+}
+
+#menu__toggle:checked+.menu__btn>span::before {
+    top: 0;
+    transform: rotate(0deg);
+}
+
+#menu__toggle:checked+.menu__btn>span::after {
+    top: 0;
+    transform: rotate(90deg);
+}
+
+#menu__toggle:checked~.menu__box {
+    right: 0 !important;
+}
+
+.menu__btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.menu__btn>span,
+.menu__btn>span::before,
+.menu__btn>span::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    transition-duration: .25s;
+}
+
+.menu__btn>span::before {
+    content: '';
+    top: -8px;
+}
+
+.menu__btn>span::after {
+    content: '';
+    top: 8px;
+}
+
+.menu__box {
+    display: block;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: -100%;
+    width: 210px;
+    height: auto;
+    padding-bottom: 48px;
+    padding-top: 48px;
+    border-radius: 10px;
+    margin: 0;
+    list-style: none;
+    background-color: rgba(32, 32, 32, 0.386);
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+    transition-duration: .25s;
+}
+
+.menu__item {
+    display: block;
+    width: 100%;
+    padding: 12px 24px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition-duration: .25s;
+}
+
+
+.img-thumbnail {
+    background-color: rgb(32, 32, 32) !important;
+}
+
+.menu__item:hover {
+    background-color: rgba(255, 255, 255, 0.245);
+
+}
+
+.navbar {
+    background-color: rgba(32, 32, 32, 0.189) !important;
+
+}
+
+.navbar-custom {
+    z-index: 1000 !important;
+}
+
+.btn {
+    background-color: #408e5f !important;
+    font-family: 'outfit_regular' !important;
+    color: white;
+    z-index: 1;
+}
+
+
+.main {
+    width: 100%;
+    height: 84vh;
+    overflow-y: scroll;
+    background-color: rgb(245, 245, 247);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding-top: 50px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.address {
+    width: 60%;
+    background-color: rgb(245, 245, 247);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    padding: 10px;
+}
+
+.address .address-card {
+    width: calc(50% - 20px);
+    min-height: 250px;
+    background-color: white;
+    border-radius: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: start;
+    border: 1px solid rgba(128, 128, 128, 0.252);
+}
+
+.font1 {
+    font-family: 'outfit';
+    color: black;
+    font-size: 20px;
+    margin-left: 20px;
+}
+
+.font2 {
+    font-size: 'outfit_regular';
+    color: rgba(0, 0, 0, 0.562);
+    font-size: 15px;
+    margin-left: 20px;
+}
+
+.font3 {
+    font-family: 'outfit';
+    color: rgba(0, 0, 0, 0.519);
+    font-size: 25px;
+
+}
+
+.font4 {
+    font-family: 'outfit_regular';
+    color: rgba(100, 148, 237, 0.908);
+}
+
+.addaddress {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.edit {
+    padding-left: 20px;
+    width: 100%;
+    height: 30px;
+
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+    align-items: center;
+}
+
+.error {
+    font-family: 'outfit_regular';
+    color: red;
+}

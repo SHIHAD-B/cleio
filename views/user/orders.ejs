@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/orders.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <title>Document</title>
+</head>
+
+<body>
+
+    <%- include('../partials/user/navbar') %>
+        <div class="main">
+            <div class="orderlist">
+                <div class="head">
+                    <span class="font1">Product</span>
+                    <span class="font1">Status</span>
+                    <span class="font1">Date</span>
+                    <span class="font1">Quantity</span>
+                    <span class="font1">Action</span>
+                </div>
+                <% orders.forEach(order=> { %>
+                    <% order.Products.forEach(product=> { %>
+                        <div class="products">
+                            <div class="productname">
+                                <%= product.Product_id.Name %>
+                            </div>
+                            <div class="status">
+                                <%= order.Order_status %>
+                            </div>
+                            <div class="date"><%- new Date(order.Order_date).toLocaleDateString('en-GB', {
+                                    day: '2-digit' , month: '2-digit' , year: 'numeric' }) %></div>
+                            <div class="qty">
+                                <%= product.Quantity %>
+                            </div>
+                            <div class="action">
+                                <a
+                                    href='/orderDetails?orderid=<%= order._id %>&productid=<%= product.Product_id._id %>&color=<%=product.color%>&size=<%=product.size%>'>
+                                    View details
+                                </a>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% }) %>
+            </div>
+        </div>
+
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+            id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

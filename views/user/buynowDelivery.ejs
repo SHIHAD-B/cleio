@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/buynowDelivery.css">
+    <title>Document</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <%- include('../partials/user/coupon') %>
+        <%- include('../partials/user/nav_w_search') %>
+            <div class="main">
+                <div class="left">
+                    <div class="order-main">
+                        <span class="font1" style="margin-left: 5px;">Order Summary</span>
+                        <div class="ordersummary">
+
+                            <div class="products-summary" id="product">
+                                <div class="prd-image">
+                                    <img src=<%=products.Image[0].Main %> alt=""
+                                    style="width: 60px;height: 60px;">
+                                </div>
+                                <div class="prd-name-inc">
+                                    <span class="font3">
+                                        <%=products.Name %>
+                                    </span>
+                                    <div class="inc">
+                                        Quantity:1
+                                    </div>
+                                </div>
+
+                                <div class="prd-price-del">
+                                    <span>₹<%=products.Price %></span>
+
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                    <div class="price-summary">
+                        <div class="price-left">
+                            <span class="font2">Sub-total</span>
+                            <span class="font2">shipping</span>
+                            <span class="font2">Discount</span>
+                            <span class="font2">Total</span>
+                        </div>
+
+                        <div class="price-right">
+                            <span class="font2">₹<%=products.Price%></span>
+                            <span class="font2">FREE</span>
+                            <span class="font2">₹0</span>
+                            <span class="font2">₹<%=products.Price%></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="deliveryicon">
+                        <span class="active">Shipping</span>
+                        <img src="/user/images/line1.png" alt="">
+                        <img src="/user/images/checked.png" alt="" style="width: 18px;height: 18px;">
+                        <img src="/user/images/line1.png" alt="">
+                        <span class="active">Delivery</span>
+                        <img src="/user/images/line0.png" alt="">
+                        <img src="/user/images/unchecked.png" alt="" style="width: 18px;height: 18px;">
+                        <img src="/user/images/line0.png" alt="">
+                        <span class="non-active">Payment</span>
+                    </div>
+                    <div id="error" style="color: red;"></div>
+                    <div class="option-part">
+
+                        <div class="delivery-option">
+                            <span>Delivery Options</span>
+                        </div>
+                        <div class="op-amt">
+                            <div class="option">
+                                <label>
+                                    <input type="radio" name="delivery-option" id="extra-standard"> Standard 5-7
+                                    Business
+                                    Days
+                                </label>
+                                <label>
+                                    <input type="radio" name="delivery-option" id="standard"> 2-4 Business Days
+                                </label>
+                                <label>
+                                    <input type="radio" name="delivery-option" id="sameday"> Same day delivery
+                                </label>
+                            </div>
+                            <div class="amount">
+                                <span>Free</span>
+                                <span>₹100</span>
+                                <span>₹300</span>
+                            </div>
+                        </div>
+                        <div class="back-continue">
+                            <button class="fax"
+                                style="color: #408e5f; border: 1px solid rgba(0, 0, 0, 0.174);">Back</button>
+                            <button class="fax" style="background-color: #408e5f; color:white"
+                                onclick="continues()">Continue</button>
+
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    function continues() {
+                        const errorDiv = document.getElementById("error");
+                        const radioButtons = document.querySelectorAll("input[name='delivery-option']");
+
+                        function isRadioButtonChecked() {
+                            for (const radioButton of radioButtons) {
+                                if (radioButton.checked) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+
+                        function displayErrorMessage() {
+                            errorDiv.textContent = "Please select a delivery option.";
+                        }
+
+                        const backButton = document.querySelector(".back-continue .fax:first-child");
+                        const continueButton = document.querySelector(".back-continue .fax:last-child");
+
+                        if (!isRadioButtonChecked()) {
+                            event.preventDefault();
+                            displayErrorMessage();
+                        } else {
+                            errorDiv.textContent = "";
+                            const billingid = '<%=billingid%>'
+                            const addressid = '<%=addressid%>'
+
+                            window.location.href = '/buynowPayment?id=' + addressid + '&billingid=' + billingid;
+                        }
+
+                        backButton.addEventListener("click", function () {
+                            errorDiv.textContent = "";
+
+                        });
+                    }
+                </script>
+
+
+                </script>
+                <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+                    id="bootstrap-css">
+                <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>

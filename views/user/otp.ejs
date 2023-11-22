@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OTP Verification Form</title>
+  <link rel="stylesheet" href="/user/css/otp.css" />
+  <!-- Boxicons CSS -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <% if(error){ %>
+    <div class="toast">
+      <div class="toast-content">
+        <i class="fas fa-solid fa-check check"></i>
+        <div class="message">
+          <span class="text text-1">
+            <%= error %>
+          </span>
+          <span class="text text-2"> Please try again</span>
+        </div>
+      </div>
+      <i class="fa-solid fa-xmark close"></i>
+      <div class="progress"></div>
+    </div>
+
+    <% } %>
+
+      <div class="container">
+        <header>
+          <i class="bx bxs-check-shield"></i>
+        </header>
+        <h4>Enter OTP Code</h4>
+        <form action="/verify-otp" method="POST">
+          <div class="input-field">
+            <input type="number" name="digitone" />
+            <input type="number" name="digittwo" disabled />
+            <input type="number" name="digitthree" disabled />
+            <input type="number" name="digitfour" disabled />
+          </div>
+          <div class="otptimer">Otp Expires in:<span id="time">60</span>s</div>
+          <button id="verifyOTP" style="display: block;">Verify OTP</button>
+        </form>
+        <button id="resendOTP" onclick="resendOTP()" style="display: none;">Resend OTP</button>
+      </div>
+      <script>
+        function startTimer(duration, display) {
+          var timer = duration, seconds;
+          var resendButton = document.getElementById('resendOTP');
+          const verfiyButton = document.getElementById('verifyOTP')
+          var intervalId = setInterval(function () {
+            seconds = parseInt(timer % 60, 10);
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            display.textContent = seconds;
+
+            if (--timer < 0) {
+              clearInterval(intervalId);
+              display.textContent = '00';
+              resendButton.style.display = 'block';
+              verfiyButton.style.display = "none"
+            }
+          }, 1000);
+        }
+
+        function resendOTP() {
+          console.log('Resend button clicked');
+
+          const url = '/verify-otp';
+
+
+          fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          })
+            .then(response => {
+              if (response.ok) {
+                console.log('Resending OTP...');
+                var display = document.querySelector('#time');
+                display.textContent = '60';
+
+                document.getElementById('verifyOTP').style.display = 'block';
+                document.getElementById('resendOTP').style.display = 'none';
+
+                startTimer(60, display);
+              } else {
+                console.error('Failed to resend OTP.');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        }
+
+        window.onload = function () {
+          var sixtySeconds = 60,
+            display = document.querySelector('#time');
+
+          startTimer(sixtySeconds - 1, display);
+        };
+
+      </script>
+      <script>
+        const inputs = document.querySelectorAll("input"),
+          button = document.querySelector("button");
+
+
+        inputs.forEach((input, index1) => {
+          input.addEventListener("keyup", (e) => {
+
+            // This code gets the next sibling element of the current input element and stores it in the nextInput variable
+            // This code gets the previous sibling element of the current input element and stores it in the prevInput variable
+            const currentInput = input,
+              nextInput = input.nextElementSibling,
+              prevInput = input.previousElementSibling;
+
+
+            if (currentInput.value.length > 1) {
+              currentInput.value = "";
+              return;
+            }
+
+            if (nextInput && nextInput.hasAttribute("disabled") && currentInput.value !== "") {
+              nextInput.removeAttribute("disabled");
+              nextInput.focus();
+            }
+
+
+            if (e.key === "Backspace") {
+
+              inputs.forEach((input, index2) => {
+
+                if (index1 <= index2 && prevInput) {
+                  input.setAttribute("disabled", true);
+                  input.value = "";
+                  prevInput.focus();
+                }
+              });
+            }
+
+            if (!inputs[3].disabled && inputs[3].value !== "") {
+              button.classList.add("active");
+              return;
+            }
+            button.classList.remove("active");
+          });
+        });
+
+
+        window.addEventListener("load", () => inputs[0].focus());
+      </script>
+      <script>
+        const toast = document.querySelector(".toast");
+        const closeIcon = document.querySelector(".close");
+        const progress = document.querySelector(".progress");
+        let timer1, timer2;
+
+        function showToast(message) {
+          toast.classList.add("active");
+          progress.classList.add("active");
+
+          timer1 = setTimeout(() => {
+            toast.classList.remove("active");
+          }, 5000);
+
+          timer2 = setTimeout(() => {
+            progress.classList.remove("active");
+          }, 5300);
+
+
+          document.querySelector(".text-2").textContent = message;
+        }
+
+
+        function hideToast() {
+          toast.classList.remove("active");
+
+          setTimeout(() => {
+            progress.classList.remove("active");
+          }, 300);
+
+          clearTimeout(timer1);
+          clearTimeout(timer2);
+        }
+
+
+        showToast("Please try again");
+
+
+        setTimeout(() => {
+          hideToast();
+          toast.classList.add('disableView')
+        }, 5500);
+
+      </script>
+</body>
+
+</html>

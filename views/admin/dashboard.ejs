@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/admin/css/dashboard.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>user-management</title>
+</head>
+
+<body>
+
+    <div class="whole">
+        <div class="menu">
+            <div class="logo"><img class="log" src="/user/images/logo_black.png" alt=""></div>
+            <div class="menu_items">
+                <div class="items"><img src="/admin/images/admin online.png" alt=""><span class="tag ">Profile</span>
+                </div>
+                <div class="items"><img src="/admin/images/dashboard.png" alt=""><span class="tag ">Dashboard</span>
+                </div>
+                <a href="/admin/product">
+                    <div class="items"><img src="/admin/images/product.png" alt=""><span class="tag ">Products</span>
+                    </div>
+                </a>
+                <a href="/admin/category">
+                    <div class="items"><img src="/admin/images/category.png" alt=""><span class="tag ">Category</span>
+                    </div>
+                </a>
+                <div class="items"><img src="/admin/images/orders.png" alt=""><span class="tag ">Orders</span></div>
+                <div class="items"><img src="/admin/images/coupons.png" alt=""><span class="tag ">Coupons</span></div>
+                <div class="items"><img src="/admin/images/banner.png" alt=""><span class="tag ">Banner</span></div>
+                <div class="items"><img src="/admin/images/transactions.png" alt=""><span
+                        class="tag ">Transactions</span></div>
+                <div class="items"><img src="/admin/images/manageadmin.png" alt=""><span class="tag ">Admin</span></div>
+                <a href="/admin/user">
+                    <div class="items"><img src="/admin/images/users.png" alt=""><span class="tag ">User</span></div>
+                </a>
+                <div class="items"><img src="/admin/images/settings.png" alt=""><span class="tag ">Settings</span></div>
+                <a href="/logout">
+                    <div class="items"><img src="/admin/images/logout.png" alt=""><span class="tag ">Logout</span></div>
+                </a>
+            </div>
+        </div>
+
+
+
+        <div class="main">
+            <div class="topreport">
+                <div class="reports">
+                    <div class="todaysales">
+                        <div class="sales">
+                            <span class="font1">Todays Sales</span>
+                            <span class="font2">₹<%=priceToday%></span>
+                            <span class="font1">
+                                <%=deliveryToday%> items sold
+                            </span>
+                        </div>
+                    </div>
+                    <div class="todaysorder">
+                        <div class="order">
+                            <span class="font1">Todays Orders</span>
+                            <span class="font2">
+                                <%=ordersToday%>
+
+                            </span>
+                            <span class="font1">
+                                <%=ordersToday%> items ordered so far
+                            </span>
+                        </div>
+                    </div>
+                    <div class="todaysreturn">
+                        <div class="return">
+                            <span class="font1">Todays returns</span>
+                            <span class="font2">
+
+                                <%=totalreturnToday%>
+                            </span>
+                            <span class="font1">
+                                <%=totalreturnToday%> items returned today
+                            </span>
+                        </div>
+                    </div>
+                    <div class="usrescount">
+                        <div class="count">
+                            <span class="font1">Users Count</span>
+                            <span class="font2">
+                                <%=users%>
+                            </span>
+                            <span class="font1">Total users signedup to cleio</span>
+                        </div>
+                    </div>
+                    <div class="totalproducts">
+                        <div class="products">
+                            <span class="font1">Total Products</span>
+                            <span class="font2">
+                                <%=products%>
+                            </span>
+                            <span class="font1">
+                                <%=products%> product available
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="graphandreport">
+                <div class="graph">
+                    <span class="font3" style="margin-left: 10px;">Sales Report</span>
+                    <div class="graph-buttons" style="margin-left: 10px;">
+                        <button id="btnDaily" class="btn btn-outline-primary" onclick="loadDaily()">Daily</button>
+                        <button id="btnMonthly" class="btn btn-outline-primary" onclick="loadMonthly()">Monthly</button>
+                        <button id="btnAnnually" class="btn btn-outline-primary"
+                            onclick="loadAnnually()">Annually</button>
+                    </div>
+
+                    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+                </div>
+                <div class="greports">
+                    <div id="donutchart" style="width: 483px; height: 400px;">
+                    </div>
+                    <div class="download-button">
+                        <button id="btnDownloadReport" class="btn btn-primary">Download Overall Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            loadDaily()
+            function loadDaily() {
+                var dailyData = {
+                    day: 'Today',
+                    sales: parseInt('<%=priceToday%>'),
+                    expenses: 0.7 * parseInt('<%=priceToday%>'),
+                    profit: 0.3 * parseInt('<%=priceToday%>')
+                };
+
+                drawCharts(dailyData);
+            }
+
+            function loadMonthly() {
+                var monthlyData = {
+                    month: 'January',
+                    sales: parseInt('<%=priceMonthly%>'),
+                    expenses: 0.7 * parseInt('<%=priceMonthly%>'),
+                    profit: 0.3 * parseInt('<%=priceMonthly%>'),
+                };
+
+                drawCharts(monthlyData);
+            }
+
+            function loadAnnually() {
+                var yearlyData = {
+                    year: '2023',
+                    sales: parseInt('<%=priceYearly%>'),
+                    expenses: 0.7 * parseInt('<%=priceYearly%>'),
+                    profit: 0.3 * parseInt('<%=priceYearly%>')
+                };
+
+                drawCharts(yearlyData);
+            }
+
+            function drawCharts(data) {
+                google.charts.load("current", { packages: ["corechart"] });
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+
+                    var donutData = google.visualization.arrayToDataTable([
+                        ['Task', 'Hours per Day'],
+                        ['Profit', data.profit],
+                        ['Expenses', data.expenses]
+                    ]);
+
+                    var donutOptions = {
+                        title: 'Overall Sales',
+                        pieHole: 0.4,
+                    };
+
+                    var donutChart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                    donutChart.draw(donutData, donutOptions);
+                }
+
+                google.charts.load('current', { 'packages': ['corechart'] });
+                google.charts.setOnLoadCallback(drawVisualization);
+
+                function drawVisualization() {
+
+                    var comboData = google.visualization.arrayToDataTable([
+                        ['Day', 'Sales', 'Expenses', 'Profit'],
+                        [data.day || data.month || data.year, data.sales, data.expenses, data.profit]
+                    ]);
+
+                    var comboOptions = {
+                        title: 'Sales, Expenses, and Profit',
+                        seriesType: 'bars',
+                        series: {
+                            0: { color: '0AC1F2' },
+                            1: { color: 'F2230A' },
+                            2: { color: '21C933' }
+                        },
+                        bar: { groupWidth: '30%' }
+                    };
+
+                    var comboChart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+                    comboChart.draw(comboData, comboOptions);
+                }
+            }
+        </script>
+
+
+
+
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</body>
+
+</html>

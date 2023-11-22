@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/css/check-out.css">
+    <title>Document</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <%- include('../partials/user/coupon') %>
+        <%- include('../partials/user/nav_w_search') %>
+            <div class="main">
+                <div class="left">
+                    <div class="order-main">
+                        <span class="font1" style="margin-left: 5px;">Order Summary</span>
+                        <div class="ordersummary">
+                            <% products.forEach(function(value,index) { %>
+                                <div class="products-summary" id="product<%=index%>">
+                                    <div class="prd-image">
+                                        <img src=<%=value.Product_id.Image[0].Main %> alt=""
+                                        style="width: 60px;height: 60px;">
+                                    </div>
+                                    <div class="prd-name-inc">
+                                        <span class="font3">
+                                            <%= value.Product_id.Name %>
+                                        </span>
+                                        <div class="inc">
+                                            Quantity: <%= value.Quantity %>
+                                        </div>
+                                    </div>
+
+                                    <div class="prd-price-del">
+                                        <span>₹<%=value.Product_id.Price*value.Quantity %></span>
+
+                                    </div>
+
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <div class="price-summary">
+                        <div class="price-left">
+                            <span class="font2">Sub-total</span>
+                            <span class="font2">shipping</span>
+                            <span class="font2">Discount</span>
+                            <span class="font2">Total</span>
+                        </div>
+
+                        <div class="price-right">
+                            <span class="font2">₹<%=total%></span>
+                            <span class="font2">FREE</span>
+                            <span class="font2">₹0</span>
+                            <span class="font2">₹<%=total%></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="deliveryicon">
+                        <span class="active">Shipping</span>
+                        <img src="/user/images/line0.png" alt="">
+                        <img src="/user/images/unchecked.png" alt="" style="width: 18px;height: 18px;">
+                        <img src="/user/images/line0.png" alt="">
+                        <span class="non-active">Delivery</span>
+                        <img src="/user/images/line0.png" alt="">
+                        <img src="/user/images/unchecked.png" alt="" style="width: 18px;height: 18px;">
+                        <img src="/user/images/line0.png" alt="">
+                        <span class="non-active">Payment</span>
+                    </div>
+                    <% if(!address){%>
+                        <a href="/address"><label class="selectaddress">
+                                <img src="/user/images/add.png" alt="">
+                                <span class="font8">Select Address</span>
+                            </label></a>
+                        <%}%>
+
+                            <% if(address){%>
+
+
+                                <div class="address-part">
+                                    <div class="contact-detail">
+                                        <span style="margin-left: 10px;" class="hadd">Contact Details</span>
+                                    </div>
+                                    <div class="firstname-lastname">
+                                        <div class="firstname">
+                                            <label for="firstname" class="padd">First Name</label>
+                                            <input class="field" type="text" name="firstname" value="<%=address.name%>"
+                                                id="firstname" readonly>
+                                        </div>
+                                        <div class="lastname">
+                                            <label for="lastname" class="padd">Delivery On</label>
+                                            <input class="field" type="text" name="lastname"
+                                                value="<%=address.delivery_on%>" id="lastname" readonly>
+                                        </div>
+
+                                    </div>
+                                    <div class="email">
+                                        <label for="email" class="padd">Email</label>
+                                        <input class="full-field" type="text" name="email" value="<%=user.Email%>"
+                                            id="email" readonly>
+                                    </div>
+                                    <div class="phone-number">
+                                        <label for="phone" class="padd">Phone Number</label>
+                                        <input class="full-field" type="text" name="phone"
+                                            value="<%=address.phone_number%>" id="phone">
+                                    </div>
+
+                                    <div class="shipping-details">
+                                        <span style="margin-left: 10px;" class="hadd">Shipping Details</span>
+                                    </div>
+                                    <div class="flat-no">
+                                        <label for="flat-no" class="padd">city/district/town</label>
+                                        <input class="full-field" type="text" name="flat-no" value="<%=address.city%>"
+                                            id="flat-no" readonly>
+                                    </div>
+                                    <div class="address">
+                                        <label for="address" class="padd">Address</label>
+                                        <textarea
+                                            style="resize: none;  width:95%; height: auto;  border: 1px solid rgba(0, 0, 0, 0.174);"
+                                            name="" id="" cols="2" rows="3" readonly><%=address.address%></textarea>
+                                    </div>
+                                    <div class="city-state">
+                                        <div class="city">
+                                            <label for="locality" class="padd">Locality</label>
+                                            <input class="field" type="text" name="locality"
+                                                value="<%=address.locality%>" id="locality" readonly>
+                                        </div>
+                                        <div class="state">
+                                            <label for="state" class="padd">State</label>
+                                            <input class="field" type="text" name="state" value="<%=address.state%>"
+                                                id="state" readonly>
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="pincode-landmark">
+                                        <div class="pincode">
+                                            <label for="pincode" class="padd">Pincode</label>
+                                            <input class="field" type="text" name="pincode" value="<%=address.pincode%>"
+                                                id="pincode" readonly>
+                                        </div>
+                                        <div class="landmark">
+                                            <label for="landmark">Landmark</label>
+                                            <input class="field" type="text" name="landmark"
+                                                value="<%=address.landmark%>" id="landmark" readonly>
+                                        </div>
+                                    </div>
+                                    <%if(billingid==undefined){%>
+
+
+                                        <div class="check-billing">
+                                            <input type="checkbox" name="" id="billingCheckbox">
+                                            <label for="billingCheckbox" class="padd" id="billingCheckboxLabel">My
+                                                shipping
+                                                and
+                                                Billing address are the same</label>
+                                            <div class="error" id="checkError" style="color: red;"></div>
+                                        </div>
+                                        <div class="add_con">
+                                            <div class="select-address" id="billing">
+                                                <a href="/billingaddress?id=<%=address._id%>"> <button class="seladd"
+                                                        style="color: #408e5f;">Select biling Address</button></a>
+                                            </div>
+                                            <div class="continue" id="continue">
+                                                <button class="continue-btn" onclick="continues()">Continue</button>
+                                            </div>
+                                        </div>
+                                        <%}else{%>
+                                            <div class="contact-detail">
+                                                <span style="margin-left: 10px; margin-top: 30px;" class="hadd">
+                                                    Billing Details</span>
+                                            </div>
+                                            <div class="firstname-lastname">
+                                                <div class="firstname">
+                                                    <label for="firstname" class="padd">First Name</label>
+                                                    <input class="field" type="text" name="firstname"
+                                                        value="<%=billAddress.name%>" id="firstname" readonly>
+                                                </div>
+                                                <div class="lastname">
+                                                    <label for="lastname" class="padd">Delivery On</label>
+                                                    <input class="field" type="text" name="lastname"
+                                                        value="<%=billAddress.delivery_on%>" id="lastname" readonly>
+                                                </div>
+
+                                            </div>
+                                            <div class="email">
+                                                <label for="email" class="padd">Email</label>
+                                                <input class="full-field" type="text" name="email"
+                                                    value="<%=user.Email%>" id="email" readonly>
+                                            </div>
+                                            <div class="phone-number">
+                                                <label for="phone" class="padd">Phone Number</label>
+                                                <input class="full-field" type="text" name="phone"
+                                                    value="<%=billAddress.phone_number%>" id="phone">
+                                            </div>
+
+
+                                            <div class="flat-no">
+                                                <label for="flat-no" class="padd">city/district/town</label>
+                                                <input class="full-field" type="text" name="flat-no"
+                                                    value="<%=billAddress.city%>" id="flat-no" readonly>
+                                            </div>
+                                            <div class="address">
+                                                <label for="address" class="padd">Address</label>
+                                                <textarea
+                                                    style="resize: none;  width:95%; height: auto;  border: 1px solid rgba(0, 0, 0, 0.174);"
+                                                    name="" id="" cols="2" rows="3"
+                                                    readonly><%=billAddress.address%></textarea>
+                                            </div>
+                                            <div class="city-state">
+                                                <div class="city">
+                                                    <label for="locality" class="padd">Locality</label>
+                                                    <input class="field" type="text" name="locality"
+                                                        value="<%=billAddress.locality%>" id="locality" readonly>
+                                                </div>
+                                                <div class="state">
+                                                    <label for="state" class="padd">State</label>
+                                                    <input class="field" type="text" name="state"
+                                                        value="<%=billAddress.state%>" id="state" readonly>
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                            <div class="pincode-landmark">
+                                                <div class="pincode">
+                                                    <label for="pincode" class="padd">Pincode</label>
+                                                    <input class="field" type="text" name="pincode"
+                                                        value="<%=billAddress.pincode%>" id="pincode" readonly>
+                                                </div>
+                                                <div class="landmark">
+                                                    <label for="landmark">Landmark</label>
+                                                    <input class="field" type="text" name="landmark"
+                                                        value="<%=billAddress.landmark%>" id="landmark" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="add_con">
+
+                                                <div class="continue" id="continue" style="width: 100%;">
+                                                    <button class="continue-btn" onclick="continues()">Continue</button>
+                                                </div>
+                                            </div>
+                                </div>
+                                <%}%>
+                                    <%}%>
+                </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const billingaddress = document.getElementById('billing');
+                        const checkbox = document.getElementById('billingCheckbox');
+                        const continues = document.getElementById('continue');
+                        const checkError = document.getElementById('checkError');
+
+                        updateDisplay();
+
+                        checkbox.addEventListener('change', function () {
+                            updateDisplay();
+                            checkError.textContent = '';
+                        });
+
+                        function updateDisplay() {
+
+                            if (checkbox.checked) {
+                                billingaddress.style.display = 'none';
+                                continues.style.width = "100%";
+                            } else {
+                                billingaddress.style.display = 'block';
+                                continues.style.width = "";
+                            }
+
+                        }
+                    });
+
+                    function continues() {
+
+                        const checkbox = document.getElementById('billingCheckbox');
+                        if (checkbox) {
+                            if (!checkbox.checked) {
+                                const checkError = document.getElementById('checkError');
+                                checkError.textContent = "Please check here or select billing address";
+                                return;
+                            }
+                        }
+
+
+
+                        const billingid = '<%=billingid%>';
+                        const id = '<%=addId%>';
+
+                        if (billingid !== undefined && billingid !== null && billingid.length > 0) {
+
+                            window.location.href = '/delivery?id=' + id + '&billingid=' + billingid;
+                        } else {
+                            window.location.href = '/delivery?id=' + id + '&billingid=' + id;
+                        }
+                    }
+
+                    function removeFromCart(productId, removeItem) {
+                        const product = document.getElementById(removeItem);
+
+                        fetch(`/cart/delete/${productId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                product.style.display = 'none';
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    }
+                </script>
+
+                <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+                    id="bootstrap-css">
+                <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>

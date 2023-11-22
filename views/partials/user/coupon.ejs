@@ -1,0 +1,169 @@
+<!-- Modal -->
+<div class="modal fade" id="coupon" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Available coupons</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body"
+                style="display:flex; flex-direction: column;align-items: center; background-color: black;">
+                <%coupons.forEach((value,index)=>{%>
+
+                    <div class="cards">
+                        <div class="mains">
+                            <div class="co-img">
+                                <img style="width: 80px; height: 80px; margin-left: 20px"
+                                    src="/user/images/logo_black.png" alt="">
+                            </div>
+                            <div class="vertical"></div>
+                            <div class="content">
+                                <h2>CLEIO</h2>
+                                <h1>
+                                    <%=value.Discount_value%>% <span>Coupon</span>
+                                </h1>
+                                <p>Valid till :<%=value.Expiration_date.toLocaleDateString('en-US', { day: 'numeric' ,
+                                        month: 'short' , year: 'numeric' })%>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="copy-button">
+                            <input id="copyvalue<%=index%>" type="text" readonly value=" <%=value.Code%>" />
+                            <button onclick="copyIt('<%=index%>')" class="copybtn" id="copybtn<%=index%>">COPY</button>
+                        </div>
+                    </div>
+                    <%})%>
+
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+
+
+
+    .cards {
+        width: 400px;
+        height: 180px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+        background-color: #fff;
+        padding: 10px 10px;
+        position: relative;
+    }
+
+    .mains,
+    .copy-button {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+        align-items: center;
+    }
+
+    .cards::after {
+        position: absolute;
+        content: "";
+        height: 40px;
+        right: -20px;
+        border-radius: 40px;
+        z-index: 1;
+        top: 70px;
+        background-color: black;
+        width: 40px;
+    }
+
+    .cards::before {
+        position: absolute;
+        content: "";
+        height: 40px;
+        left: -20px;
+        border-radius: 40px;
+        z-index: 1;
+        top: 70px;
+        background-color: black;
+        width: 40px;
+    }
+
+    .co-img img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .vertical {
+        border-left: 5px dotted black;
+        height: 100px;
+        position: absolute;
+        left: 40%;
+    }
+
+    .content h1 {
+        font-size: 35px;
+        margin-left: -20px;
+        color: #565656;
+    }
+
+    .content h1 span {
+        font-size: 18px;
+    }
+
+    .content h2 {
+        font-size: 18px;
+        margin-left: -20px;
+        color: #565656;
+        text-transform: uppercase;
+    }
+
+    .content p {
+        font-size: 16px;
+        color: #696969;
+        margin-left: -20px;
+    }
+
+    .copy-button {
+        margin: -5px 0 -5px 0;
+        height: 45px;
+        border-radius: 4px;
+        padding: 0 5px;
+        border: 1px solid #e1e1e1;
+    }
+
+    .copy-button input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        font-size: 15px;
+    }
+
+    .copy-button button {
+        padding: 5px 20px;
+        background-color: #408e5f;
+        color: #fff;
+        border: 1px solid transparent;
+    }
+</style>
+<script>
+    function copyIt(index) {
+        let copyInput = document.querySelector('#copyvalue' + index);
+
+        copyInput.select();
+        document.execCommand("copy");
+
+        // Update the button text for the specific coupon
+        let copybtn = document.querySelector('#copybtn' + index);
+        copybtn.textContent = "COPIED";
+    }
+</script>
