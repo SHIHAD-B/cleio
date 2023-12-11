@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    connectTimeoutMS: 30000,
-    socketTimeoutMS: 30000,
+    connectTimeoutMS: 60000,
+    socketTimeoutMS: 60000,
 })
 
     .then(() => {
