@@ -23,7 +23,7 @@ app.set("view engine", "ejs");
 app.use(nocache());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
-app.use(express.static('public'));
+app.use(express.static('Public'));
 
 app.use(session({
     secret: uuidv4(),
