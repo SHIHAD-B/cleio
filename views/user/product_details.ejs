@@ -26,35 +26,34 @@
                                 <div class="sideimage ">
                                     <div class="img">
                                         <a href="/productdetail/sideimage1/<%=value._id%>">
-                                            <img src="http://localhost:4000/<%= value.Image[0].Main%>"
-                                                class="sideimgfix" alt="child" id="Image0<%= index %>">
+                                            <img src="<%= value.Image[0].Main%>" class="sideimgfix" alt="child"
+                                                id="Image0<%= index %>">
                                         </a>
                                     </div>
 
                                     <div class="img">
                                         <a href="/productdetail/sideimage2/<%=value._id%>">
-                                            <img src="http://localhost:4000/<%= value.Image[0].Child_one%>"
-                                                class="sideimgfix" alt="fr" id="Image1<%= index %>">
+                                            <img src="<%= value.Image[0].Child_one%>" class="sideimgfix" alt="fr"
+                                                id="Image1<%= index %>">
                                         </a>
                                     </div>
                                     <div class="img">
                                         <a href="/productdetail/sideimage3/<%=value._id%>">
-                                            <img src="http://localhost:4000/<%= value.Image[0].Child_two%>"
-                                                class="sideimgfix" alt="g" id="Image2<%= index %>">
+                                            <img src="<%= value.Image[0].Child_two%>" class="sideimgfix" alt="g"
+                                                id="Image2<%= index %>">
                                         </a>
                                     </div>
                                     <a href="/productdetail/sideimage4/<%=value._id%>">
                                         <div class="img">
-                                            <img src="http://localhost:4000/<%= value.Image[0].Child_three%>"
-                                                class="sideimgfix" alt="" id="Image3<%= index %>">
+                                            <img src="<%= value.Image[0].Child_three%>" class="sideimgfix" alt=""
+                                                id="Image3<%= index %>">
                                     </a>
                                 </div>
 
                             </div>
                             <div class="mainimage">
-                                <div class="imgdetail" id="img-container"><img
-                                        src="http://localhost:4000/<%= mainimage %>" class="imgfix " alt=""
-                                        id="mainImage<%= index %>">
+                                <div class="imgdetail" id="img-container"><img src="<%= mainimage %>" class="imgfix "
+                                        alt="" id="mainImage<%= index %>">
                                 </div>
                             </div>
                 </div>
