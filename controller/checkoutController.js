@@ -252,7 +252,7 @@ const payment = async (req, res, next) => {
         totalCost += Number(deliveryAmount);
         req.session.cart_total_amount = totalCost;
 
-        res.render('./user/Payment', { total: totalCost, user: user, products: cartItems.Items, billingid: billingid, addressid: addressid, walletBalance: formattedWalletBalance, coupons: coupons, deliveryAmount: deliveryAmount });
+        res.render('./user/payment', { total: totalCost, user: user, products: cartItems.Items, billingid: billingid, addressid: addressid, walletBalance: formattedWalletBalance, coupons: coupons, deliveryAmount: deliveryAmount });
     } catch (error) {
 
         console.error(error);
