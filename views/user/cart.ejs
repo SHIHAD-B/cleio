@@ -74,9 +74,26 @@
                                         </span>
                                     </div>
                                     <div class="prd-price">
-                                        <span class="font2" id="prd-price">
-                                            <%=value.Product_id.Price %>
-                                        </span>
+                                        <%if(value.Product_id.product_offer){%>
+                                            <span class="font2" id="prd-price">
+
+                                                <%=value.Product_id.Price-(value.Product_id.Price*value.Product_id.product_offer.Offer
+                                                    /100)%>
+                                            </span>
+
+                                            <% }else if(value.Product_id.category_offer){%>
+                                                <span class="font2" id="prd-price">
+
+                                                    <%=value.Product_id.Price-(value.Product_id.Price*value.Product_id.category_offer.Offer
+                                                        /100)%>
+                                                </span>
+
+                                                <%}else{%>
+                                                    <span class="font2" id="prd-price">
+
+                                                        <%=value.Product_id.Price%>
+                                                    </span>
+                                                    <%}%>
                                     </div>
                                     <div class="color">
                                         <span class="font2" id="prd-color">

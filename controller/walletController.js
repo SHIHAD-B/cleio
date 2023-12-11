@@ -10,40 +10,53 @@ var instance = new Razorpay({
     key_secret: process.env.rzp_key_secret,
 });
 
+function generateTransactionID() {
+    const timestamp = new Date().getTime();
+    const randomNum = Math.floor(Math.random() * 1000000);
+    const transactionID = `${timestamp}-${randomNum}`;
+    return transactionID;
+}
+
+
+
 //wallet page
-const walletPage = async (req, res) => {
+const walletPage = async (req, res, next) => {
     try {
         const coupons = await coupon.find();
         const user = await users.findOne({ Email: req.session.user });
         if (user) {
-            console.log(user._id);
-            const wallets = await wallet.findOne({ User_id: user._id })
-            console.log(wallets);
-            if (wallets) {
-                res.render('./user/wallet', { wallet: wallets, coupons: coupons })
+            const page = req.query.page || 1;
+            const itemsPerPage = 10;
 
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = page * itemsPerPage;
+
+            const wallets = await wallet.findOne({ User_id: user._id });
+            if (wallets) {
+                const paginatedTransactions = wallets.Transactions.reverse().slice(startIndex, endIndex);
+
+                res.render('./user/wallet', { wallet: wallets, coupons: coupons, transactions: paginatedTransactions, currentPage: page });
             } else {
-                res.render('./user/wallet', { wallet: false, coupons: coupons })
+                res.render('./user/wallet', { wallet: false, coupons: coupons });
             }
         } else {
-            res.redirect('/')
+            res.redirect('/');
         }
-
-
     } catch (error) {
         console.log(error);
+        return next(error)
     }
-}
+};
 
 //add money to wallet
-const addMoneyToWallet = async (req, res) => {
+const addMoneyToWallet = async (req, res, next) => {
 
     try {
         const user = await users.findOne({ Email: req.session.user });
         if (user) {
             const existingWallet = await wallet.findOne({ User_id: user._id });
             if (existingWallet) {
-
+                console.log(generateTransactionID());
                 await wallet.updateOne(
                     { User_id: user._id },
                     {
@@ -53,6 +66,7 @@ const addMoneyToWallet = async (req, res) => {
                                 Amount: req.body.amount,
                                 Date: new Date(),
                                 Description: 'added to wallet',
+                                Transaction_id: generateTransactionID(),
                                 Transaction_type: 'credit'
                             }
                         }
@@ -67,6 +81,7 @@ const addMoneyToWallet = async (req, res) => {
                         Amount: req.body.amount,
                         Date: new Date(),
                         Description: 'added to wallet',
+                        Transaction_id: generateTransactionID(),
                         Transaction_type: 'credit'
                     }]
                 });
@@ -78,7 +93,7 @@ const addMoneyToWallet = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).send('Internal Server Error');
+        return next(error)
     }
 };
 
@@ -110,7 +125,7 @@ const wallet_razorpay = async (req, res, razorpayInstance) => {
 
 
 // wallet order update
-const walletOrder = async (req, res) => {
+const walletOrder = async (req, res, next) => {
     try {
         const user = await users.findOne({ Email: req.session.user });
         const userId = user._id
@@ -131,6 +146,7 @@ const walletOrder = async (req, res) => {
                         Amount: amount,
                         Date: new Date(),
                         Description: 'purchased a product',
+                        Transaction_id: generateTransactionID(),
                         Transaction_type: 'debit'
                     }
                 }
@@ -140,7 +156,7 @@ const walletOrder = async (req, res) => {
         res.json({ success: true, message: 'Wallet updated successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        return next(error)
     }
 };
 

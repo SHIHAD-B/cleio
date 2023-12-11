@@ -1,0 +1,49 @@
+<div class="menu">
+    <div class="logo"><img class="log" src="/user/images/logo_black.png" alt=""></div>
+    <div class="menu_items">
+
+        <a href="/admin">
+            <div class="items"><img src="/admin/images/dashboard.png" alt=""><span class="tag ">Dashboard</span>
+        </a>
+    </div>
+    <a href="/admin/product">
+        <div class="items"><img src="/admin/images/product.png" alt=""><span class="tag ">Products</span>
+        </div>
+    </a>
+    <a href="/admin/category">
+        <div class="items"><img src="/admin/images/category.png" alt=""><span class="tag ">Category</span>
+        </div>
+    </a>
+    <a href="/admin/order">
+        <div class="items"><img src="/admin/images/orders.png" alt=""><span class="tag ">Orders</span></div>
+
+    </a>
+    <a href="/admin/couponManagement">
+        <div class="items"><img src="/admin/images/coupons.png" alt=""><span class="tag ">Coupons</span></div>
+
+    </a>
+    <a href="/admin/offerManagement">
+        <div class="items"><img src="/admin/images/price-tag.png" alt=""><span class="tag ">Offers</span></div>
+
+    </a>
+    <a href="/admin/bannerManagement">
+        <div class="items"><img src="/admin/images/banner.png" alt=""><span class="tag ">Banner</span></div>
+    </a>
+    <a href="/admin/transaction">
+        <div class="items"><img src="/admin/images/transactions.png" alt=""><span class="tag ">Transactions</span></div>
+    </a>
+    <%if(superadmin){%>
+        <a href="/admin/adminManagement">
+            <div class="items"><img src="/admin/images/manageadmin.png" alt=""><span class="tag ">Admin</span></div>
+        </a>
+        <%}%>
+            <a href="/admin/user">
+                <div class="items"><img src="/admin/images/users.png" alt=""><span class="tag ">User</span></div>
+            </a>
+
+
+            <a href="/admin/logout">
+                <div class="items"><img src="/admin/images/logout.png" alt=""><span class="tag ">Logout</span></div>
+            </a>
+</div>
+</div>

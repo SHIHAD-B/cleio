@@ -9,26 +9,26 @@
 </head>
 
 <body>
-    <%- include('../partials/user/coupon') %>
-        <%- include('../partials/user/nav_w_search') %>
-            <div class="main">
-                <div class="order-box">
-                    <div class="image"><img src="/user/images/order_confirmed.webp" alt=""
-                            style="width: 350px;height: 350px;"></div>
-                    <div id="order-message" class="msg">Processing....</div>
-                    <div class="order-details">
-                        <span class="font1" id="orderdetails"></span>
-                        <span class="font2" id="orderid"></span>
-                        <span class="font2" id="ordertotal"></span>
-                        <span class="font1" id="delivery"></span>
-                        <span class="font2" id="expectdate"></span>
-                    </div>
-                    <div class="buttons">
-                        <button onclick="orders()">Orders</button>
-                        <button onclick="home()">Home</button>
-                    </div>
+
+    <%- include('../partials/user/nav_w_search') %>
+        <div class="main">
+            <div class="order-box">
+                <div class="image"><img src="/user/images/order_confirmed.webp" alt=""
+                        style="width: 350px;height: 350px;"></div>
+                <div id="order-message" class="msg">Processing....</div>
+                <div class="order-details">
+                    <span class="font1" id="orderdetails"></span>
+                    <span class="font2" id="orderid"></span>
+                    <span class="font2" id="ordertotal"></span>
+                    <span class="font1" id="delivery"></span>
+                    <span class="font2" id="expectdate"></span>
+                </div>
+                <div class="buttons">
+                    <button onclick="orders()">Orders</button>
+                    <button onclick="home()">Home</button>
                 </div>
             </div>
+        </div>
 </body>
 <script>
     function home() {

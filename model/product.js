@@ -27,6 +27,8 @@ const ProductSchema = new Schema({
       Category: { type: String },
    }],
    Price: { type: Number, required: true },
+   product_offer: { type: Schema.Types.ObjectId, ref: 'Productoffer' },
+   category_offer: { type: Schema.Types.ObjectId, ref: 'Categoryoffer' },
    Rating: { type: Number },
    Product_details: {
       Closure_type: { type: String },

@@ -12,6 +12,7 @@ const cartController = require('../../controller/cartcontroller');
 const walletController = require('../../controller/walletController')
 const wishlistController = require('../../controller/wishlistController')
 const couponController = require('../../controller/couponController')
+const invoiceController = require('../../controller/invoiceController')
 require("dotenv").config();
 
 //middlewares
@@ -45,7 +46,7 @@ router.post('/forgetpassword', authenticatedUser, usercontroller.postforgetpassw
 router.get('/forgetotp', authenticatedUser, optController.forgetgetotp)
 router.post('/forgetotp', authenticatedUser, optController.forgetotpcheck)
 router.post('/resetpassword', usercontroller.resetpasswordpost)
-
+router.get('/user/resetpassword', optController.resetpasswordpage)
 
 //product list and product detail
 router.get('/product', isAuthenticated, usercontroller.productpage)
@@ -70,6 +71,11 @@ const uploadFields = [
 
 ];
 router.post('/editDetails', upload.any(uploadFields), isAuthenticated, usercontroller.posteditProfile)
+
+
+
+router.get('/download_invoice/:orderId', invoiceController.orderInvoice);
+
 
 
 //cart
@@ -102,6 +108,7 @@ router.get('/buynowOrderConfirmed', isAuthenticated, afterOrder, ordercontroller
 //address
 router.get('/address', isAuthenticated, afterOrder, addressController.address)
 router.post('/address/:id', isAuthenticated, afterOrder, addressController.addAddress)
+router.post('/buynowaddress/:id/:pdid', isAuthenticated, afterOrder, addressController.buynowaddAddress)
 router.get('/billingaddress', isAuthenticated, afterOrder, addressController.billingaddress)
 usercontroller.deleteExpiredOTP();
 //edit address

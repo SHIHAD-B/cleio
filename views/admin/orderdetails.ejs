@@ -19,200 +19,183 @@
 <body>
 
     <div class="whole">
-        <div class="menu">
-            <div class="logo"><img class="log" src="/user/images/logo_black.png" alt=""></div>
-            <div class="menu_items">
-                <div class="items"><img src="/admin/images/admin online.png" alt=""><span class="tag">Profile</span>
-                </div>
-                <div class="items"><img src="/admin/images/dashboard.png" alt=""><span class="tag">Dashboard</span>
-                </div>
-                <a href="/admin/product">
-                    <div class="items"><img src="/admin/images/product.png" alt=""><span class="tag">Products</span>
-                    </div>
-                </a>
-                <a href="/admin/category">
-                    <div class="items"><img src="/admin/images/category.png" alt=""><span class="tag">Category</span>
-                    </div>
-                </a>
-                <a href="/admin/order">
-                    <div class="items"><img src="/admin/images/orders.png" alt=""><span class="tag">Orders</span>
-                    </div>
-                </a>
-                <div class="items"><img src="/admin/images/coupons.png" alt=""><span class="tag">Coupons</span>
-                </div>
-                <div class="items"><img src="/admin/images/banner.png" alt=""><span class="tag">Banner</span>
-                </div>
-                <div class="items"><img src="/admin/images/transactions.png" alt=""><span
-                        class="tag">Transactions</span>
-                </div>
-                <div class="items"><img src="/admin/images/manageadmin.png" alt=""><span class="tag">Admin</span>
-                </div>
-                <a href="/admin">
-                    <div class="items"><img src="/admin/images/users.png" alt=""><span class="tag">User</span>
-                    </div>
-                </a>
-                <div class="items"><img src="/admin/images/settings.png" alt=""><span class="tag">Settings</span>
-                </div>
-                <a href="/logout">
-                    <div class="items"><img src="/admin/images/logout.png" alt=""><span class="tag">Logout</span>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <%- include('../partials/admin/menu') %>
 
-        <div class="main">
-            <div class="order-details">
-                <table>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-
-                    <% orders.Products.forEach(product=> { %>
+            <div class="main">
+                <div class="order-details">
+                    <table>
                         <tr>
-                            <td>
-                                <img src="<%= product.Product_id.Image[0].Main %>" alt=""
-                                    style="width: 40px; height: 40px;">
-                                <%= product.Product_id.Name %>
-                            </td>
-                            <td>
-                                <%= product.Quantity %>
-                            </td>
-                            <td>₹<%= product.Product_id.Price %>
-                            </td>
-                            <td>₹<%= product.Product_id.Price*product.Quantity %>
-                            </td>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
                         </tr>
 
-                        <% }) %>
+                        <% orders.Products.forEach(product=> { %>
+                            <tr>
+                                <td>
+                                    <img src="<%= product.Product_id.Image[0].Main %>" alt=""
+                                        style="width: 40px; height: 40px;">
+                                    <%= product.Product_id.Name %>
+                                </td>
+                                <td>
+                                    <%= product.Quantity %>
+                                </td>
+                                <td>₹<%= product.Product_id.Price %>
+                                </td>
+                                <td>₹<%= product.Product_id.Price*product.Quantity %>
+                                </td>
+                            </tr>
+
+                            <% }) %>
 
 
 
-                </table>
+                    </table>
+                </div>
+                <div class="address_actions">
+                    <div class="address">
+                        <div class="address-card">
+
+                            <span class="font1"> Shipping Address:</span>
+                            <span class="font2">
+                                <%=orders.Shipping_address.name%>
+                            </span>
+                            <span class="font2">Phone number:<%=orders.Shipping_address.phone_number%></span>
+                            <span class="font2">Pincode:<%=orders.Shipping_address.pincode%></span>
+                            <span class="font2">
+                                <%=orders.Shipping_address.locality%>
+                            </span>
+                            <span class="font2">
+                                <%=orders.Shipping_address.landmark%>
+                            </span>
+                            <span class="font2">
+                                <%=orders.Shipping_address.state%>
+                            </span>
+                            <span class="font2">Delivery on:<%=orders.Shipping_address.delivery_on%></span>
+                            <span class="font2">City:<%=orders.Shipping_address.city%></span>
+                            <span class="font2">Alternative Phone:<%=orders.Shipping_address.alternative_phone%></span>
+                            <span class="font2">
+                                <%=orders.Shipping_address.address%>
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="address">
+                        <div class="address-card">
+
+                            <span class="font1">Billing Address:</span>
+                            <span class="font2">
+                                <%=orders.Billing_address.name%>
+                            </span>
+                            <span class="font2">Phone number:<%=orders.Billing_address.phone_number%></span>
+                            <span class="font2">Pincode:<%=orders.Billing_address.pincode%></span>
+                            <span class="font2">
+                                <%=orders.Billing_address.locality%>
+                            </span>
+                            <span class="font2">
+                                <%=orders.Billing_address.landmark%>
+                            </span>
+                            <span class="font2">
+                                <%=orders.Billing_address.state%>
+                            </span>
+                            <span class="font2">Delivery on:<%=orders.Billing_address.delivery_on%></span>
+                            <span class="font2">City:<%=orders.Billing_address.city%></span>
+                            <span class="font2">Alternative Phone:<%=orders.Billing_address.alternative_phone%></span>
+                            <span class="font2">
+                                <%=orders.Billing_address.address%>
+                            </span>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
             </div>
-            <div class="address_actions">
-                <div class="address">
-                    <div class="address-card">
+            <div class="actions">
+                <div class="action-actions">
+                    <div class="left">
+                        <span class="font6">User Id:</span>
+                        <span class="font6">Order_status:</span>
+                        <span class="font6">Order_date:</span>
+                        <span class="font6">Payment_status:</span>
+                        <span class="font6">Payment_method:</span>
+                        <span class="font6">Bill_number:</span>
+                        <span class="font6">Delivery_date:</span>
+                        <span class="font6">Activity:</span>
+                        <span class="font6">Coupon Id:</span>
+                        <span class="font6">Total_amount:</span>
+                    </div>
+                    <div class="right">
+                        <span class="font6">
+                            <%=orders.User_id%>
+                        </span>
+                        <%if(!authority){%>
+                            <select class="font4" id="orderStatus" onchange="updateStatus()">
+                                <option value="pending" <%=orders.Order_status==='pending' ? 'selected' : '' %>
+                                    >pending
+                                </option>
+                                <option value="processing" <%=orders.Order_status==='processing' ? 'selected' : '' %>
+                                    >processing
+                                </option>
+                                <option value="shipped" <%=orders.Order_status==='shipped' ? 'selected' : '' %>
+                                    >shipped
+                                </option>
+                                <option value="out for delivery" <%=orders.Order_status==='out for delivery'
+                                    ? 'selected' : '' %>>out for delivery</option>
+                                <option value="delivered" <%=orders.Order_status==='delivered' ? 'selected' : '' %>
+                                    >delivered
+                                </option>
+                                <option value="cancelled" <%=orders.Order_status==='cancelled' ? 'selected' : '' %>
+                                    >cancelled
+                                </option>
+                                <option value="returned" <%=orders.Order_status==='returned' ? 'selected' : '' %>
+                                    >returned
+                                </option>
+                            </select>
+                            <%}else{%>
+                                <div class="font4" id="orderStatus">
+                                    <%=orders.Order_status%>
+                                </div>
+                                <%}%>
+                                    <span class="font6"><%- new Date(orders.Order_date).toLocaleDateString('en-GB', {
+                                            day: '2-digit' , month: '2-digit' , year: 'numeric' }) %></span>
+                                    <%if(!authority){%>
+                                        <select class="font4" id="paymentStatus" onchange="updateStatus()">
+                                            <option value="pending" <%=orders.Payment_status==='pending' ? 'selected'
+                                                : '' %>
+                                                >pending
+                                            </option>
+                                            <option value="paid" <%=orders.Payment_status==='paid' ? 'selected' : '' %>
+                                                >paid
+                                            </option>
+                                            <option value="failed" <%=orders.Payment_status==='failed' ? 'selected' : ''
+                                                %>
+                                                >failed
+                                            </option>
 
-                        <span class="font1"> Shipping Address:</span>
-                        <span class="font2">
-                            <%=orders.Shipping_address.name%>
-                        </span>
-                        <span class="font2">Phone number:<%=orders.Shipping_address.phone_number%></span>
-                        <span class="font2">Pincode:<%=orders.Shipping_address.pincode%></span>
-                        <span class="font2">
-                            <%=orders.Shipping_address.locality%>
-                        </span>
-                        <span class="font2">
-                            <%=orders.Shipping_address.landmark%>
-                        </span>
-                        <span class="font2">
-                            <%=orders.Shipping_address.state%>
-                        </span>
-                        <span class="font2">Delivery on:<%=orders.Shipping_address.delivery_on%></span>
-                        <span class="font2">City:<%=orders.Shipping_address.city%></span>
-                        <span class="font2">Alternative Phone:<%=orders.Shipping_address.alternative_phone%></span>
-                        <span class="font2">
-                            <%=orders.Shipping_address.address%>
-                        </span>
-
+                                        </select>
+                                        <%}else{%>
+                                            <div class="font4" id="paymentStatus">
+                                                <%=orders.Payment_status%>
+                                            </div>
+                                            <%}%>
+                                                <span class="font6">
+                                                    <%=orders.Payment_method%>
+                                                </span>
+                                                <span class="font6">
+                                                    <%=orders._id%>
+                                                </span>
+                                                <span class="font6">pending</span>
+                                                <span class="font6">
+                                                    <%=orders.Activity[0].Status%>
+                                                </span>
+                                                <span class="font6">1234</span>
+                                                <span class="font6">₹<%=orders.Total_amount%></span>
                     </div>
                 </div>
-                <div class="address">
-                    <div class="address-card">
-
-                        <span class="font1">Billing Address:</span>
-                        <span class="font2">
-                            <%=orders.Billing_address.name%>
-                        </span>
-                        <span class="font2">Phone number:<%=orders.Billing_address.phone_number%></span>
-                        <span class="font2">Pincode:<%=orders.Billing_address.pincode%></span>
-                        <span class="font2">
-                            <%=orders.Billing_address.locality%>
-                        </span>
-                        <span class="font2">
-                            <%=orders.Billing_address.landmark%>
-                        </span>
-                        <span class="font2">
-                            <%=orders.Billing_address.state%>
-                        </span>
-                        <span class="font2">Delivery on:<%=orders.Billing_address.delivery_on%></span>
-                        <span class="font2">City:<%=orders.Billing_address.city%></span>
-                        <span class="font2">Alternative Phone:<%=orders.Billing_address.alternative_phone%></span>
-                        <span class="font2">
-                            <%=orders.Billing_address.address%>
-                        </span>
-
-                    </div>
-                </div>
-
-
             </div>
-
-        </div>
-        <div class="actions">
-            <div class="action-actions">
-                <div class="left">
-                    <span class="font6">User Id:</span>
-                    <span class="font6">Order_status:</span>
-                    <span class="font6">Order_date:</span>
-                    <span class="font6">Payment_status:</span>
-                    <span class="font6">Payment_method:</span>
-                    <span class="font6">Bill_number:</span>
-                    <span class="font6">Delivery_date:</span>
-                    <span class="font6">Activity:</span>
-                    <span class="font6">Coupon Id:</span>
-                    <span class="font6">Total_amount:</span>
-                </div>
-                <div class="right">
-                    <span class="font6">
-                        <%=orders.User_id%>
-                    </span>
-                    <select class="font4" id="orderStatus" onchange="updateStatus()">
-                        <option value="pending" <%=orders.Order_status==='pending' ? 'selected' : '' %>>pending</option>
-                        <option value="processing" <%=orders.Order_status==='processing' ? 'selected' : '' %>>processing
-                        </option>
-                        <option value="shipped" <%=orders.Order_status==='shipped' ? 'selected' : '' %>>shipped</option>
-                        <option value="out for delivery" <%=orders.Order_status==='out for delivery' ? 'selected' : ''
-                            %>>out for delivery</option>
-                        <option value="delivered" <%=orders.Order_status==='delivered' ? 'selected' : '' %>>delivered
-                        </option>
-                        <option value="cancelled" <%=orders.Order_status==='cancelled' ? 'selected' : '' %>>cancelled
-                        </option>
-                        <option value="returned" <%=orders.Order_status==='returned' ? 'selected' : '' %>>returned
-                        </option>
-
-
-
-
-
-                    </select>
-                    <span class="font6"><%- new Date(orders.Order_date).toLocaleDateString('en-GB', { day: '2-digit' ,
-                            month: '2-digit' , year: 'numeric' }) %></span>
-                    <select class="font4" id="paymentStatus" onchange="updateStatus()">
-                        <option value="pending" <%=orders.Payment_status==='pending' ? 'selected' : '' %>>pending
-                        </option>
-                        <option value="paid" <%=orders.Payment_status==='paid' ? 'selected' : '' %>>paid</option>
-                        <option value="failed" <%=orders.Payment_status==='failed' ? 'selected' : '' %>>failed</option>
-
-                    </select>
-                    <span class="font6">
-                        <%=orders.Payment_method%>
-                    </span>
-                    <span class="font6">
-                        <%=orders._id%>
-                    </span>
-                    <span class="font6">pending</span>
-                    <span class="font6">
-                        <%=orders.Activity[0].Status%>
-                    </span>
-                    <span class="font6">1234</span>
-                    <span class="font6">₹<%=orders.Total_amount%></span>
-                </div>
-            </div>
-        </div>
     </div>
 
 

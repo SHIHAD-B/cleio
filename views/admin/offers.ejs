@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/admin/css/offers.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+
+    <title>user-management</title>
+</head>
+
+<body>
+
+
+    <div class="whole">
+        <%- include('../partials/admin/menu') %>
+            <div class="main">
+                <div class="button-container">
+
+                    <button class="btn btn-primary btn-offer" onclick="location.href='/admin/categoryoffer'">Category
+                        Offers</button>
+                    <button class="btn btn-primary btn-offer" onclick="location.href='/admin/referal'">Referral
+                        Offers</button>
+                </div>
+
+                <h2 class="text-primary use">Product Offer Management</h2>
+                <div class="content  ">
+                    <%if(!authority){%>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn bg-success  addcategory" data-toggle="modal"
+                            data-target="#addcoupons">
+                            <img src="/admin/images/plus.png" style=" margin-right: 10px;" alt=""><span class="add">Add
+                                offer</span>
+                        </button>
+
+                        <div class="modal fade" id="addcoupons" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">product offer</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div id="add">
+                                        <div class="modal-body">
+
+                                            <div class="form-group">
+                                                <label for="product">Product:</label>
+                                                <select class="form-control" id="product" name="product">
+                                                    <% products.forEach(product=> { %>
+                                                        <option value="<%=product._id+ ',' +product.Name %>">
+                                                            <%= product.Name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+
+                                                <div class="error" id="productError"></div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label for="Start_date">Start Date:</label>
+                                                <input type="date" class="form-control" id="Start_date"
+                                                    name="Start_date">
+                                                <div class="error" id="strDateError"> </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="Expiration_date">Expiration Date:</label>
+                                                <input type="date" class="form-control" id="Expiration_date"
+                                                    name="Expiration_date">
+                                                <div class="error" id="expDateError"> </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="Discount_value">Discount Value:</label>
+                                                <input type="number" class="form-control" id="Discount_value"
+                                                    name="Discount_value">
+                                                <div class="error" id="discountError"> </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" name="submit" onclick="addOffer()"
+                                                class="btn btn-success">Add
+                                                offer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%}%>
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">product</th>
+                                        <th scope="col">Discount</th>
+
+                                        <th scope="col">Start</th>
+                                        <th scope="col">Expiry</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Created</th>
+
+                                        <th scope="col">
+                                        </th>
+                                        <th scope="col"></th>
+                                        <%if(!authority){%>
+                                            <th scope="col">
+                                                Actions</th>
+
+                                            <th scope="col"></th>
+                                            <%}%>
+                                    </tr>
+                                </thead>
+
+
+
+                                <tbody>
+
+                                    <%productsoffer.forEach((value,index)=>{%>
+
+
+                                        <tr>
+                                            <th scope="row">
+                                                <%=index+1%>
+                                            </th>
+
+                                            <td>
+                                                <%=value.Product_id.Name%>
+                                            </td>
+                                            <td>
+                                                <%=value.Offer%>%
+
+                                            </td>
+
+                                            <td>
+                                                <%- new Date(value.Starts_at ).toLocaleDateString('en-GB', {
+                                                    day: '2-digit' , month: '2-digit' , year: 'numeric' }) %>
+
+
+                                            </td>
+                                            <td>
+                                                <%- new Date(value.Expires_at).toLocaleDateString('en-GB', {
+                                                    day: '2-digit' , month: '2-digit' , year: 'numeric' }) %>
+
+
+                                            </td>
+                                            <%if(value.Status=="active"){%>
+
+                                                <td
+                                                    style="width: 100px; height: 35px; display: flex; justify-content: center;align-items: center; background-color: green !important;margin-top: 7px; color: white;">
+                                                    active</td>
+
+                                                <%}else{%>
+                                                    <td style="width: 100px; height: 35px; display: flex; justify-content:
+                                            center;align-items: center; background-color: red !important;margin-top:
+                                            7px; color: white;">
+                                                        expired</td>
+
+
+                                                    <%}%>
+                                                        <td>
+                                                            <%- new Date(value.created_at ).toLocaleDateString('en-GB',
+                                                                { day: '2-digit' , month: '2-digit' , year: 'numeric' })
+                                                                %>
+
+                                                        </td>
+                                                        <%if(!authority){%>
+                                                            <td>
+                                                                <div class="modal fade" id="editproduct_<%=value._id%>"
+                                                                    tabindex="-1" role="dialog"
+                                                                    aria-labelledby="exampleModalCenterTitle"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog modal-dialog-centered"
+                                                                        role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLongTitle">
+                                                                                    Edit offer</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span
+                                                                                        aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div id="edit">
+                                                                                <div class="modal-body">
+
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="product">Product:</label>
+                                                                                        <select class="form-control"
+                                                                                            id="product_<%=value._id%>"
+                                                                                            name="product">
+                                                                                            <option
+                                                                                                value="<%=value.Product_id._id%>">
+                                                                                                <%=value.product_name%>
+                                                                                            </option>
+
+                                                                                        </select>
+
+                                                                                        <div class="error"
+                                                                                            id="productError_<%=value._id%>">
+                                                                                        </div>
+                                                                                    </div>
+
+
+                                                                                    <div class="form-group">
+                                                                                        <label for="Start_date">Start
+                                                                                            Date:</label>
+                                                                                        <input type="date"
+                                                                                            value="<%= new Date(value.Starts_at).toISOString().split('T')[0] %>"
+                                                                                            class="form-control"
+                                                                                            id="Start_date_<%=value._id%>"
+                                                                                            name="Start_date">
+                                                                                        <div class="error"
+                                                                                            id="strDateError_<%=value._id%>">
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="Expiration_date">Expiration
+                                                                                            Date:</label>
+                                                                                        <input type="date"
+                                                                                            value="<%= new Date(value.Expires_at).toISOString().split('T')[0] %>"
+                                                                                            class="form-control"
+                                                                                            id="Expiration_date_<%=value._id%>"
+                                                                                            name="Expiration_date">
+                                                                                        <div class="error"
+                                                                                            id="expDateError_<%=value._id%>">
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="Discount_value">Discount
+                                                                                            Value:</label>
+                                                                                        <input type="number"
+                                                                                            value="<%=value.Offer%>"
+                                                                                            class="form-control"
+                                                                                            id="Discount_value_<%=value._id%>"
+                                                                                            name="Discount_value">
+                                                                                        <div class="error"
+                                                                                            id="discountError_<%=value._id%>">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-secondary"
+                                                                                        data-dismiss="modal">Close</button>
+                                                                                    <button type="submit"
+                                                                                        onclick="editOffer('<%=value._id%>')"
+                                                                                        name="submit"
+                                                                                        class="btn btn-success">Edit
+                                                                                        Offer</button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-sm" data-toggle="modal"
+                                                                    data-target="#editproduct_<%=value._id%>">
+                                                                    <img src="/admin/images/edit.png" alt="" width="12"
+                                                                        height="12">
+                                                                </button>
+                                                            </td>
+
+                                                            <td>
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+                <div class="modal fade" id="deleteoffer_<%=value._id%>" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Product Offer</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="/admin/deleteOffer/<%=value._id%>" method="POST">
+                                <div class="modal-body">
+
+                                    Are you sure to delete <%=value.product_name%> Offer
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" name="submit" class="btn btn-danger">Delete
+                                            </button>
+                                        </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <td>
+                    <button class="btn btn-sm" data-toggle="modal" data-target="#deleteoffer_<%=value._id%>">
+                        <img src="/admin/images/delete.png" alt="" width="12" height="12">
+                    </button>
+                </td>
+
+                <%}%>
+
+
+                    </tr>
+                    <%})%>
+
+                        </tbody>
+
+                        </table>
+            </div>
+    </div>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        async function addOffer() {
+
+            function isEmpty(value) {
+                const trimmedValue = value.trim();
+                return trimmedValue === "";
+            }
+            function isDateBeforeToday(date) {
+                const currentDate = new Date();
+                const inputDate = new Date(date);
+                currentDate.setHours(0, 0, 0, 0);
+                inputDate.setHours(0, 0, 0, 0);
+
+                return inputDate < currentDate;
+            }
+
+
+            function isDateBefore(date1, date2) {
+                const firstDate = new Date(date1);
+                const secondDate = new Date(date2);
+                firstDate.setHours(0, 0, 0, 0);
+                secondDate.setHours(0, 0, 0, 0);
+
+                return firstDate > secondDate;
+            }
+            function isValueLessThanZero(value) {
+                return value < 0;
+            }
+            function isValuegreaterThanhundred(value) {
+                return value > 100;
+            }
+            const product = document.getElementById('product');
+            const productValue = product.value;
+            const productError = document.getElementById('productError')
+
+            const Expiration_date = document.getElementById('Expiration_date');
+            const Expiration_dateValue = Expiration_date.value;
+            const expDateError = document.getElementById('expDateError');
+
+            const Start_date = document.getElementById('Start_date');
+            const Start_dateValue = Start_date.value;
+            const strDateError = document.getElementById('strDateError');
+
+
+            const Discount_value = document.getElementById('Discount_value');
+            const Discount_valueValue = Discount_value.value;
+            const discountError = document.getElementById('discountError');
+
+
+
+            expDateError.textContent = "";
+            Start_date.textContent = "";
+            discountError.textContent = "";
+
+            let valid = true;
+
+            if (isEmpty(Start_dateValue)) {
+                strDateError.textContent = " starting date field can't be empty";
+                valid = false;
+            }
+            if (isDateBeforeToday(Start_dateValue)) {
+                strDateError.textContent = "not a valida date";
+                valid = false;
+            }
+
+            if (isEmpty(Expiration_dateValue)) {
+                expDateError.textContent = " Expiration date field can't be empty";
+                valid = false;
+            }
+            if (isDateBeforeToday(Expiration_dateValue)) {
+                expDateError.textContent = "not a valida date";
+                valid = false;
+            }
+
+            if (isDateBefore(Start_dateValue, Expiration_dateValue)) {
+                expDateError.textContent = "expire date can't be before start date";
+                valid = false;
+            }
+
+            if (isEmpty(Discount_valueValue)) {
+                discountError.textContent = "discount value field can't be empty";
+                valid = false;
+            }
+            if (isValueLessThanZero(Discount_valueValue)) {
+                discountError.textContent = "discount value can't be less than 0";
+                valid = false;
+            }
+            if (isValuegreaterThanhundred(Discount_valueValue)) {
+                discountError.textContent = "discount value can't be greater than 100";
+                valid = false;
+            }
+            if (valid) {
+                const url = "/admin/addProductOffer"
+                const data = {
+                    product: productValue,
+                    Start_date: Start_dateValue,
+                    Expiration_date: Expiration_dateValue,
+                    Discount_value: Discount_valueValue
+                }
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        window.location.href = '/admin/offerManagement';
+                    } else {
+                        productError.textContent = "product already exist"
+                    }
+                } catch (error) {
+                    console.error('Error during fetch:', error);
+                }
+
+            }
+
+        }
+
+
+        async function editOffer(id) {
+
+            function isEmpty(value) {
+                const trimmedValue = value.trim();
+                return trimmedValue === "";
+            }
+            function isDateBeforeToday(date) {
+                const currentDate = new Date();
+                const inputDate = new Date(date);
+                currentDate.setHours(0, 0, 0, 0);
+                inputDate.setHours(0, 0, 0, 0);
+
+                return inputDate < currentDate;
+            }
+
+
+            function isDateBefore(date1, date2) {
+                const firstDate = new Date(date1);
+                const secondDate = new Date(date2);
+                firstDate.setHours(0, 0, 0, 0);
+                secondDate.setHours(0, 0, 0, 0);
+
+                return firstDate > secondDate;
+            }
+            function isValueLessThanZero(value) {
+                return value < 0;
+            }
+            function isValuegreaterThanhundred(value) {
+                return value > 100;
+            }
+            const product = document.getElementById('product_' + id);
+            const productValue = product.value;
+            const productError = document.getElementById('productError_' + id)
+
+            const Expiration_date = document.getElementById('Expiration_date_' + id);
+            const Expiration_dateValue = Expiration_date.value;
+            const expDateError = document.getElementById('expDateError_' + id);
+
+            const Start_date = document.getElementById('Start_date_' + id);
+            const Start_dateValue = Start_date.value;
+            const strDateError = document.getElementById('strDateError_' + id);
+
+
+            const Discount_value = document.getElementById('Discount_value_' + id);
+            const Discount_valueValue = Discount_value.value;
+            const discountError = document.getElementById('discountError_' + id);
+
+
+            productError.textContent = ""
+            expDateError.textContent = "";
+            Start_date.textContent = "";
+            discountError.textContent = "";
+
+            let valid = true;
+
+            if (isEmpty(Start_dateValue)) {
+                strDateError.textContent = " starting date field can't be empty";
+                valid = false;
+            }
+            if (isDateBeforeToday(Start_dateValue)) {
+                strDateError.textContent = "not a valida date";
+                valid = false;
+            }
+
+            if (isEmpty(Expiration_dateValue)) {
+                expDateError.textContent = " Expiration date field can't be empty";
+                valid = false;
+            }
+            if (isDateBeforeToday(Expiration_dateValue)) {
+                expDateError.textContent = "not a valida date";
+                valid = false;
+            }
+
+            if (isDateBefore(Start_dateValue, Expiration_dateValue)) {
+                expDateError.textContent = "expire date can't be before start date";
+                valid = false;
+            }
+
+            if (isEmpty(Discount_valueValue)) {
+                discountError.textContent = "discount value field can't be empty";
+                valid = false;
+            }
+            if (isValueLessThanZero(Discount_valueValue)) {
+                discountError.textContent = "discount value can't be less than 0";
+                valid = false;
+            }
+            if (isValuegreaterThanhundred(Discount_valueValue)) {
+                discountError.textContent = "discount value can't be greater than 100";
+                valid = false;
+            }
+            if (valid) {
+                const url = "/admin/editProductOffer"
+
+                const data = {
+                    product: productValue,
+                    Start_date: Start_dateValue,
+                    Expiration_date: Expiration_dateValue,
+                    Discount_value: Discount_valueValue
+                }
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        window.location.href = '/admin/offerManagement';
+                    } else {
+                        productError.textContent = "product already exist"
+                    }
+                } catch (error) {
+                    console.error('Error during fetch:', error);
+                }
+
+            }
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>

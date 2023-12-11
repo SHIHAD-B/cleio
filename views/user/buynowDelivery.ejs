@@ -33,7 +33,15 @@
                                 </div>
 
                                 <div class="prd-price-del">
-                                    <span>₹<%=products.Price %></span>
+                                    <% if(products.product_offer){%>
+                                        <span>₹<%=products.Price-(products.Price*products.product_offer.Offer
+                                                /100)%></span>
+                                        <%}else if(products.category_offer){%>
+                                            <span>₹<%=products.Price-(products.Price*products.category_offer.Offer
+                                                    /100)%></span>
+                                            <% }else{%>
+                                                <span>₹<%=products.Price %></span>
+                                                <%}%>
 
                                 </div>
 
@@ -53,10 +61,28 @@
                         </div>
 
                         <div class="price-right">
-                            <span class="font2">₹<%=products.Price%></span>
-                            <span class="font2">FREE</span>
-                            <span class="font2">₹0</span>
-                            <span class="font2">₹<%=products.Price%></span>
+                            <% if(products.product_offer){%>
+                                <span class="font2">₹<%=products.Price-(products.Price*products.product_offer.Offer
+                                        /100)%></span>
+                                <%}else if(products.category_offer){%>
+                                    <span class="font2">₹<%=products.Price-(products.Price*products.category_offer.Offer
+                                            /100)%></span>
+                                    <% }else{%>
+                                        <span class="font2">₹<%=products.Price%></span>
+                                        <%}%>
+                                            <span class="font2">FREE</span>
+                                            <span class="font2">₹0</span>
+                                            <% if(products.product_offer){%>
+                                                <span
+                                                    class="font2">₹<%=products.Price-(products.Price*products.product_offer.Offer
+                                                        /100)%></span>
+                                                <%}else if(products.category_offer){%>
+                                                    <span
+                                                        class="font2">₹<%=products.Price-(products.Price*products.category_offer.Offer
+                                                            /100)%></span>
+                                                    <% }else{%>
+                                                        <span class="font2">₹<%=products.Price%></span>
+                                                        <%}%>
                         </div>
                     </div>
                 </div>
@@ -132,11 +158,29 @@
                             event.preventDefault();
                             displayErrorMessage();
                         } else {
+                            const selectedRadioButton = document.querySelector("input[name='delivery-option']:checked");
+                            if (selectedRadioButton) {
+                                const deliveryOption = selectedRadioButton.id;
+                                switch (deliveryOption) {
+                                    case "extra-standard":
+                                        deliveryAmount = 0;
+                                        break;
+                                    case "standard":
+                                        deliveryAmount = 100;
+                                        break;
+                                    case "sameday":
+                                        deliveryAmount = 300;
+                                        break;
+                                    default:
+                                        deliveryAmount = 0;
+                                        break;
+                                }
+                            }
                             errorDiv.textContent = "";
                             const billingid = '<%=billingid%>'
                             const addressid = '<%=addressid%>'
 
-                            window.location.href = '/buynowPayment?id=' + addressid + '&billingid=' + billingid;
+                            window.location.href = '/buynowPayment?id=' + addressid + '&billingid=' + billingid + '&deliveryAmount=' + deliveryAmount;
                         }
 
                         backButton.addEventListener("click", function () {

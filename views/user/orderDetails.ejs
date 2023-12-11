@@ -15,7 +15,7 @@
         <div class="headtotoal">
             <div class="id">
                 <span class="font1">
-                    <%=order._id%>
+                    <%=order.Bill_number%>
                 </span>
                 <span class="font2">order place on <%- new Date(order.Order_date).toLocaleDateString('en-GB', {
                         day: '2-digit' , month: '2-digit' , year: 'numeric' }) %></span>
@@ -27,9 +27,13 @@
                 </span>
             </div>
             <div class="price">
-                <span class="font1">₹<%=product.Price*quantity%></span>
+                <span class="font1">₹<%=order.Total_amount%></span>
             </div>
         </div>
+
+
+
+
         <%if( order.Order_status!=='delivered' && order.Order_status!=='cancelled' &&order.Order_status!=='returned'
             ){%>
             <div class="modal fade" id="cancel<%=order._id%>" tabindex="-1" role="dialog"
@@ -91,100 +95,118 @@
                     <button class="return" data-toggle="modal" data-target="#return<%=order._id%>">Return</button>
 
                     <%}%>
-                        <div class="producthead">
-                            <span class="font3">Product</span>
-                            <span class="font3">Details</span>
-                            <span class="font3">Price</span>
-                            <span class="font3">Quantity</span>
-                            <span class="font3">Sub-total</span>
-                        </div>
-                        <div class="product">
-                            <div class="productimage"><img src="<%=product.Image[0].Main%>" alt=""
-                                    style="width: 80%;height: 80%;">
-                            </div>
-                            <div class="productdetails">
-                                <span class="font2">Brand:<%=product.Name%></span>
-                                <span class="font2">Color:<%=color%></span>
-                                <spanclass="font2">Size:<%=size%></span>
-                            </div>
-                            <div class="productprice">
-                                <span class="font2">₹<%=product.Price%></span>
-                            </div>
-                            <div class="qty">
-                                <span class="font2">x<%=quantity%></span>
-                            </div>
-                            <div class="subtotal">
-                                <span class="font2">₹<%=product.Price*quantity%></span>
-                            </div>
-                        </div>
-                        <div class="productaddress">
-                            <div class="address_actions">
-                                <div class="address">
-                                    <div class="address-card">
+                        <% if(order.Order_status=='delivered' ){%>
+                            <button onclick="downloadInvoice()" class="btn btn-primary"
+                                style="margin-left: 1250px; margin-top: 5px;">Download
+                                Invoice</button>
+                            <%}%>
+                                <div class="producthead">
+                                    <span class="font3">Product</span>
+                                    <span class="font3">Details</span>
+                                    <span class="font3">Price</span>
+                                    <span class="font3">Quantity</span>
+                                    <span class="font3">Sub-total</span>
+                                </div>
+                                <div class="product">
+                                    <div class="productimage"><img src="<%=product.Image[0].Main%>" alt=""
+                                            style="width: 80%;height: 80%;">
+                                    </div>
+                                    <div class="productdetails">
+                                        <span class="font2">Brand:<%=product.Name%></span>
+                                        <span class="font2">Color:<%=color%></span>
+                                        <spanclass="font2">Size:<%=size%></span>
+                                    </div>
+                                    <div class="productprice">
+                                        <span class="font2">₹<%=price%></span>
+                                    </div>
+                                    <div class="qty">
+                                        <span class="font2">x<%=quantity%></span>
+                                    </div>
+                                    <div class="subtotal">
+                                        <span class="font2">₹<%=price*quantity%></span>
+                                    </div>
+                                </div>
+                                <div class="productaddress">
+                                    <div class="address_actions">
+                                        <div class="address">
+                                            <div class="address-card">
 
-                                        <span class="font5"> Shipping Address:</span>
-                                        <span class="font6">
-                                            <%=order.Shipping_address.name%>
-                                        </span>
-                                        <span class="font6">Phone number:<%=order.Shipping_address.phone_number%></span>
-                                        <span class="font6">Pincode:<%=order.Shipping_address.pincode%></span>
-                                        <span class="font6">
-                                            <%=order.Shipping_address.locality%>
-                                        </span>
-                                        <span class="font6">
-                                            <%=order.Shipping_address.landmark%>
-                                        </span>
-                                        <span class="font6">
-                                            <%=order.Shipping_address.state%>
-                                        </span>
-                                        <span class="font6">Delivery on:<%=order.Shipping_address.delivery_on%></span>
-                                        <span class="font6">City:<%=order.Shipping_address.city%></span>
-                                        <span class="font6">Alternative Phone:
-                                            <%=order.Shipping_address.alternative_phone%>
-                                        </span>
-                                        <span class="font6">
-                                            <%=order.Shipping_address.address%>
-                                        </span>
+                                                <span class="font5"> Shipping Address:</span>
+                                                <span class="font6">
+                                                    <%=order.Shipping_address.name%>
+                                                </span>
+                                                <span class="font6">Phone number:
+                                                    <%=order.Shipping_address.phone_number%>
+                                                </span>
+                                                <span class="font6">Pincode:<%=order.Shipping_address.pincode%></span>
+                                                <span class="font6">
+                                                    <%=order.Shipping_address.locality%>
+                                                </span>
+                                                <span class="font6">
+                                                    <%=order.Shipping_address.landmark%>
+                                                </span>
+                                                <span class="font6">
+                                                    <%=order.Shipping_address.state%>
+                                                </span>
+                                                <span class="font6">Delivery on:<%=order.Shipping_address.delivery_on%>
+                                                </span>
+                                                <span class="font6">City:<%=order.Shipping_address.city%></span>
+                                                <span class="font6">Alternative Phone:
+                                                    <%=order.Shipping_address.alternative_phone%>
+                                                </span>
+                                                <span class="font6">
+                                                    <%=order.Shipping_address.address%>
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                        <div class="address">
+                                            <div class="address-card">
+
+                                                <span class="font5">Billing Address:</span>
+                                                <span class="font6">
+                                                    <%=order.Billing_address.name%>
+                                                </span>
+                                                <span class="font6">Phone number:<%=order.Billing_address.phone_number%>
+                                                </span>
+                                                <span class="font6">Pincode:<%=order.Billing_address.pincode%></span>
+                                                <span class="font6">
+                                                    <%=order.Billing_address.locality%>
+                                                </span>
+                                                <span class="font6">
+                                                    <%=order.Billing_address.landmark%>
+                                                </span>
+                                                <span class="font6">
+                                                    <%=order.Billing_address.state%>
+                                                </span>
+                                                <span class="font6">Delivery on:<%=order.Billing_address.delivery_on%>
+                                                </span>
+                                                <span class="font6">City:<%=order.Billing_address.city%></span>
+                                                <span class="font6">Alternative Phone:
+                                                    <%=order.Billing_address.alternative_phone%>
+                                                </span>
+                                                <span class="font6">
+                                                    <%=order.Billing_address.address%>
+                                                </span>
+
+                                            </div>
+                                        </div>
+
 
                                     </div>
                                 </div>
-                                <div class="address">
-                                    <div class="address-card">
-
-                                        <span class="font5">Billing Address:</span>
-                                        <span class="font6">
-                                            <%=order.Billing_address.name%>
-                                        </span>
-                                        <span class="font6">Phone number:<%=order.Billing_address.phone_number%></span>
-                                        <span class="font6">Pincode:<%=order.Billing_address.pincode%></span>
-                                        <span class="font6">
-                                            <%=order.Billing_address.locality%>
-                                        </span>
-                                        <span class="font6">
-                                            <%=order.Billing_address.landmark%>
-                                        </span>
-                                        <span class="font6">
-                                            <%=order.Billing_address.state%>
-                                        </span>
-                                        <span class="font6">Delivery on:<%=order.Billing_address.delivery_on%></span>
-                                        <span class="font6">City:<%=order.Billing_address.city%></span>
-                                        <span class="font6">Alternative Phone:
-                                            <%=order.Billing_address.alternative_phone%>
-                                        </span>
-                                        <span class="font6">
-                                            <%=order.Billing_address.address%>
-                                        </span>
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </div>
     </div>
 
 
     <script>
+        function downloadInvoice() {
+
+            var orderId = '<%= order._id %>';
+
+
+            window.location.href = `/download_invoice/${orderId}`;
+        }
+
         function cancelOrder() {
             window.location.href = '/cancelOrder/ <%=order._id%>'
         }

@@ -32,7 +32,8 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form action="/address/<%=user._id%>" method="POST">
+                                <form action="/buynowaddress/<%= user._id %>/<%= pdid %>" method="POST">
+
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label for="name" class="categorytag">Name:</label>

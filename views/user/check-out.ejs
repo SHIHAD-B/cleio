@@ -33,7 +33,16 @@
                                     </div>
 
                                     <div class="prd-price-del">
-                                        <span>₹<%=value.Product_id.Price*value.Quantity %></span>
+                                        <%if(value.Product_id.product_offer){%>
+                                            <span>₹<%=value.Product_id.Price-(value.Product_id.Price*value.Product_id.product_offer.Offer
+                                                    /100)%></span>
+
+                                            <%}else if(value.Product_id.category_offer){%>
+                                                <span>₹<%=value.Product_id.Price-(value.Product_id.Price*value.Product_id.category_offer.Offer
+                                                        /100)%></span>
+                                                <%}else{%>
+                                                    <span>₹<%=value.Product_id.Price%></span>
+                                                    <%}%>
 
                                     </div>
 

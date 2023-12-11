@@ -17,7 +17,7 @@ body {
   background: #408e5f;
 }
 
-:where(.container, form, .input-field, header) {
+:where(.container, .input-field, header) {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,7 +47,7 @@ body {
   font-weight: 500;
 }
 
-form .input-field {
+.input-field {
   flex-direction: row;
   column-gap: 10px;
 }
@@ -71,20 +71,6 @@ form .input-field {
   display: none;
 }
 
-form button {
-  margin-top: 25px;
-  width: 100%;
-  color: #fff;
-  font-size: 1rem;
-  border: none;
-  padding: 9px 0;
-  cursor: pointer;
-  border-radius: 6px;
-  pointer-events: none;
-  background: #54ab78fa;
-  transition: all 0.2s ease;
-}
-
 #resendOTP {
   margin-top: 25px;
   width: 100%;
@@ -98,12 +84,12 @@ form button {
   transition: all 0.2s ease;
 }
 
-form button.active {
+button.active {
   background: #408e5f;
   pointer-events: auto;
 }
 
-form button:hover {
+button:hover {
   background-color: #408e5f;
 }
 
@@ -209,20 +195,23 @@ form button:hover {
   }
 }
 
-button {
-  padding: 12px 20px;
-  font-size: 20px;
-  outline: none;
-  border: none;
-  background-color: red;
+#verifyOTP {
+
+  margin-top: 25px;
+  width: 100%;
   color: #fff;
-  border-radius: 6px;
+  font-size: 1rem;
+  border: none;
+  padding: 9px 0;
   cursor: pointer;
-  transition: 0.3s;
+  border-radius: 6px;
+
+  background: #54ab78fa;
+  transition: all 0.2s ease;
 }
 
 button:hover {
-  background-color: red;
+  background-color: #408e5f;
 }
 
 .toast.active~button {

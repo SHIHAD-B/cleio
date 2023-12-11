@@ -49,7 +49,9 @@
                     </div>
                     <div class="amount">
                         <span class="font1">Wallet Balance</span>
-                        <span class="font2">₹<%= wallet ? wallet.Account_balance : 0 %></span>
+                        <span class="font2">₹<%= wallet && wallet.Account_balance ? wallet.Account_balance.toFixed(2)
+                                : '0.00' %></span>
+
 
                     </div>
                     <div class="addmoney">
@@ -69,13 +71,13 @@
                     </div>
                     <div class="transactions">
                         <%if(wallet){ %>
-                            <%wallet.Transactions.reverse().forEach((value)=>{%>
+                            <%transactions.forEach((value)=>{%>
 
                                 <!-- one transaction -->
                                 <div class="transDetails">
                                     <div class="transationId">
                                         <span class="font4">
-                                            <%=value._id%>
+                                            <%=value.Transaction_id%>
                                         </span>
                                     </div>
                                     <div class="description">
@@ -101,9 +103,15 @@
                                 </div>
                                 <!--  -->
                                 <%})%>
-                                    <% }%>
+
 
                     </div>
+                    <div class="pagination">
+                        <% for(let i=1; i <=Math.ceil(wallet.Transactions.length/10); i++) { %>
+                            <a href="?page=<%= i %>" <% if (currentPage==i) { %>class="active"<% } %>><%= i %></a>
+                            <% } %>
+                    </div>
+                    <% }%>
                 </div>
             </div>
             <%- include('../partials/user/footer') %>

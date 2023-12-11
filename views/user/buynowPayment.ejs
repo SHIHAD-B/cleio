@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/user/css/buynowPayment.css">
     <title>Document</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 
 <body>
@@ -17,7 +18,6 @@
                     <div class="order-main">
                         <span class="font1" style="margin-left: 5px;">Order Summary</span>
                         <div class="ordersummary">
-
                             <div class="products-summary" id="product">
                                 <div class="prd-image">
                                     <img src=<%=products.Image[0].Main %> alt=""
@@ -33,11 +33,12 @@
                                 </div>
 
                                 <div class="prd-price-del">
-                                    <span>₹<%=products.Price%></span>
+                                    <span>₹<%=total%></span>
 
                                 </div>
 
                             </div>
+
 
 
 
@@ -49,8 +50,11 @@
                             <label for="coupon-code">Coupon Code / Discount Code</label>
                             <div class="coupon-input">
                                 <input type="text" id="coupon-code" placeholder="Enter your code">
-                                <button id="apply-button">Apply</button>
+                                <button id="apply-button" onclick="coupon()">Apply</button>
+                                <button id="cancel-button" onclick="cancelCoupon()"
+                                    style="display: none; background-color: inherit; border: 1px solid rgba(128, 128, 128, 0.4); color: rgba(0, 0, 0, 0.586);">Cancel</button>
                             </div>
+                            <div id="couponError" style="color: red;"></div>
                         </div>
 
                     </div>
@@ -63,10 +67,10 @@
                         </div>
 
                         <div class="price-right">
-                            <span class="font2">₹<%=products.Price%></span>
-                            <span class="font2">FREE</span>
-                            <span class="font2">₹0</span>
-                            <span class="font2">₹<%=products.Price%></span>
+                            <span class="font2">₹<%=total%></span>
+                            <span class="font2">₹<%=deliveryAmount%></span>
+                            <span class="font2" id="discount">₹0</span>
+                            <span class="font2" id="total">₹<%=total%></span>
                         </div>
                     </div>
                 </div>
@@ -95,13 +99,18 @@
 
                                 </label>
                                 <label>
-                                    <input type="radio" name="payment-option" id="standard"> Razor Pay
+                                    <input type="radio" name="payment-option" id="razorpay"> Razor Pay
+
                                 </label>
                                 <label>
-                                    <input type="radio" name="payment-option" id="sameday"> My Wallet
+                                    <input type="radio" name="payment-option" id="wallet"> My Wallet(balance :₹
+                                    <%=walletBalance%>)
+
+
+
                                 </label>
                             </div>
-                            <div class="icon">
+                            <div class=" icon">
                                 <span><img src="/user/images/money.png" alt=""
                                         style="width: 50px; height: auto;"></span>
                                 <span><img src="/user/images/razorpay-icon.png" alt=""
@@ -114,13 +123,104 @@
                             <button class="fax"
                                 style="color: #408e5f; border: 1px solid rgba(0, 0, 0, 0.174);">Back</button>
 
-                            <button class="fax" style="background-color: #408e5f ; color:white" onclick="pay()">Pay
-                                ₹<%=products.Price%></button>
+                            <button class="fax" id="pay" style="background-color: #408e5f ; color:white"
+                                onclick="pay()">Pay
+                                ₹<%=total%></button>
                         </div>
                     </div>
                 </div>
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
                 <script>
+                    function coupon() {
+                        const couponInput = document.getElementById('coupon-code');
+                        const couponValue = couponInput.value;
+                        const couponError = document.getElementById('couponError');
+                        const total = document.querySelector('#total');
+                        const discount = document.querySelector('#discount');
+                        const payButton = document.querySelector('#pay');
+                        const cancelButton = document.getElementById('cancel-button');
+                        const couponUrl = '/user/validate-coupon';
+
+                        fetch(couponUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                couponCode: couponValue,
+                            }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    if ('<%=total%>' >= data.min && '<%=total%>' <= data.max) {
+                                        const newTotal = '<%=total%>' - (data.discountValue / 100) * parseFloat('<%=total%>');
+                                        total.textContent = `₹${newTotal.toFixed(2)}`;
+                                        discount.textContent = '<%=total%>' - newTotal
+                                        payButton.textContent = `Pay ₹${newTotal.toFixed(2)}`;
+                                        (function () {
+                                            Toastify({
+                                                text: "Coupon applied successfully!",
+                                                duration: 3000,
+                                                destination: "https://github.com/apvarun/toastify-js",
+                                                newWindow: true,
+                                                close: true,
+                                                gravity: "top",
+                                                position: "left",
+                                                stopOnFocus: true,
+                                                style: {
+                                                    background: "green",
+                                                },
+                                                onClick: function () { }
+                                            }).showToast();
+                                        })();
+
+                                        cancelButton.style.display = 'inline-block';
+                                    } else {
+                                        cancelButton.style.display = 'none';
+                                        couponError.textContent = "Coupon discount value does not meet criteria.";
+                                    }
+                                } else {
+                                    couponError.textContent = data.message || "Invalid coupon code. Please try again.";
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                couponError.textContent = "Error applying coupon. Please try again.";
+                            });
+                    }
+
+                    function cancelCoupon() {
+                        const couponInput = document.getElementById('coupon-code');
+                        const total = document.querySelector('#total');
+                        const discount = document.querySelector('#discount');
+                        const payButton = document.querySelector('#pay');
+                        const cancelButton = document.getElementById('cancel-button');
+
+
+                        couponInput.value = '';
+
+
+                        total.textContent = `₹<%=total%>`;
+                        discount.textContent = `₹0`;
+                        payButton.textContent = `Pay ₹<%=total%>`;
+
+                        cancelButton.style.display = 'none';
+
+
+                        const couponError = document.getElementById('couponError');
+                        couponError.textContent = '';
+                    }
+
                     function pay() {
+                        const couponInput = document.getElementById('coupon-code');
+                        const couponValue = couponInput.value;
+                        const total = document.querySelector('#discount');
+                        const totalText = total.textContent.replace(/[^\d.]/g, '');
+                        const totaldiscount = parseFloat(totalText).toFixed(2);
+                        const totalvalue = '<%=total%>' - totaldiscount;
+
                         const errorDiv = document.getElementById("error");
                         const radioButtons = document.querySelectorAll("input[name='payment-option']");
 
@@ -133,29 +233,109 @@
                             return false;
                         }
 
-                        function displayErrorMessage() {
-                            errorDiv.textContent = "Please select a payment option.";
+                        function displayErrorMessage(message) {
+                            errorDiv.textContent = message;
                         }
 
                         if (!isRadioButtonChecked()) {
-                            displayErrorMessage();
+                            displayErrorMessage("Please select a payment option.");
                         } else {
                             errorDiv.textContent = "";
-                            const billingid = '<%=billingid%>'
-                            const addressid = '<%=addressid%>'
 
-                            window.location.href = '/buynowOrderConfirmed?id=' + addressid + '&billingid=' + billingid;
+                            const billingid = '<%=billingid%>';
+                            const addressid = '<%=addressid%>';
 
 
+                            const razorpayChecked = document.getElementById("razorpay").checked;
+                            const walletChecked = document.getElementById("wallet").checked;
+                            if (razorpayChecked) {
+
+                                fetch('/razorpay/order', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+
+                                        amount: totalvalue,
+                                    }),
+                                })
+                                    .then(response => response.json())
+                                    .then(order => {
+                                        const options = {
+                                            key: 'rzp_test_UYs0J9wWlBNkXT',
+                                            amount: totalvalue,
+                                            currency: "INR",
+                                            name: 'CLEIO',
+                                            description: 'Payment for your order',
+                                            order_id: order.id,
+                                            handler: function (response) {
+
+
+
+                                                window.location.href = '/buynowOrderConfirmed?id=' + addressid + '&billingid=' + billingid + '&type=razorPay' + '&total=' + encodeURIComponent(totalvalue) + '&couponcode=' + couponValue + '&deliveryAmount=<%=deliveryAmount%>';
+                                            },
+                                            prefill: {
+                                                name: '<%=user.Name%>',
+                                                email: '<%=user.Email%>',
+                                                contact: '<%=user.Contact%>',
+                                            },
+                                        };
+                                        const rzp = new Razorpay(options);
+                                        rzp.open();
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+
+                                        displayErrorMessage("Error processing payment. Please try again.");
+                                    });
+                            } else if (walletChecked) {
+                                if (parseFloat('<%=total%>') > parseFloat('<%=walletBalance%>')) {
+                                    displayErrorMessage("not enough balance");
+                                } else {
+                                    fetch('/wallet/order', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({
+
+                                            amount: totalvalue,
+                                        }),
+                                    })
+                                        .then(response => response.json())
+                                        .then(data => {
+
+                                            if (data.success) {
+
+                                                window.location.href = '/buynowOrderConfirmed?id=' + addressid + '&billingid=' + billingid + '&type=wallet' + '&total=' + encodeURIComponent(totalvalue) + '&couponcode=' + couponValue + '&deliveryAmount=<%=deliveryAmount%>';
+                                            } else {
+                                                displayErrorMessage("Failed to update wallet balance");
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            displayErrorMessage("Error updating wallet balance. Please try again.");
+                                        });
+
+
+                                }
+
+                            } else {
+                                window.location.href = '/buynowOrderConfirmed?id=' + addressid + '&billingid=' + billingid + '&type=COD' + '&total=' + encodeURIComponent(totalvalue) + '&couponcode=' + couponValue + '&deliveryAmount=<%=deliveryAmount%>';
+                            }
                         }
                     }
                 </script>
+                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
                 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
                     id="bootstrap-css">
                 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
                 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 
 
 </body>

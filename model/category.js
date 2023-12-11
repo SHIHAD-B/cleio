@@ -5,7 +5,8 @@ const { Schema, ObjectId } = mongoose;
 const CategorySchema = new Schema({
   date: { type: Date },
   Category: { type: String, },
-  isdeleted: { type: Boolean }
+  isdeleted: { type: Boolean },
+  offer: { type: Schema.Types.ObjectId }
 });
 
 const Category = mongoose.model('Category', CategorySchema);

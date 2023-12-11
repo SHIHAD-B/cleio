@@ -1,0 +1,87 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    align-items: center;
+    background: linear-gradient(#007b5e, #007b5e);
+    color: white;
+    display: flex;
+    font: 2rem "Poiret One";
+    height: 100vh;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.box {
+    height: 100px;
+    margin: 10px;
+    overflow: hidden;
+    position: relative;
+    transform: rotateZ(270deg) scale(1.05);
+    width: 100px;
+}
+
+.box:nth-of-type(2) {
+    left: -28px;
+    transform: rotateX(-180deg) rotateY(180deg) rotateZ(270deg) scale(1.05);
+}
+
+
+h1 {
+    text-shadow: 0 0 10px #fff;
+    animation: blink 4.8s infinite both;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h1:nth-of-type(2) {
+    animation: none;
+    letter-spacing: -14px;
+    margin: 0 auto;
+    opacity: 0.1;
+    padding-left: 41px;
+    position: absolute;
+    top: 50%;
+    transform: translatey(-50%);
+}
+
+@keyframes blink {
+
+    0%,
+    50%,
+    100% {
+        opacity: 0.2;
+    }
+
+    25%,
+    75% {
+        opacity: 1;
+    }
+}
+
+h5,
+p {
+    position: absolute;
+    font-family: monospace;
+}
+
+h5 {
+    top: 10%;
+    font-size: 0.4em;
+
+}
+
+p {
+    font-size: 0.3em;
+    bottom: 10%;
+    width: 50%;
+    text-align: center;
+}
+
+p a {
+    color: cyan;
+}

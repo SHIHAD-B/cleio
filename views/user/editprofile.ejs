@@ -9,16 +9,46 @@
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="/user/cropperjs/cropper.css">
+    <script src="/user/cropperjs/cropper.js"></script>
+
     <title>Home</title>
+
 </head>
 
 <body>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Change Profile Image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="display: flex; justify-content:center;align-items:center;">
+                    <img src="" alt="" id="edit_image" style="height: 80%; width: 80%;">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="btn-crop" data-dismiss="modal" class="btn btn-primary">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <%- include('../partials/user/nav_w_search') %>
         <div class="main">
             <div class="userdetails">
                 <div class="head">
-                    <span>PROFILE</span>
+                    <span id="profile">PROFILE</span>
                 </div>
 
                 <form id="profileForm" enctype="multipart/form-data" method="POST" action="/editDetails"
@@ -94,6 +124,31 @@
         </div>
 
         <script>
+            function crop() {
+                const image = document.getElementById('edit_image')
+
+                if (cropper) {
+                    cropper.destroy();
+                }
+
+                var cropper = new Cropper(image, {
+                    aspectRatio: 0,
+                    viewMode: 0
+                });
+
+                document.querySelector('#btn-crop').addEventListener('click', function () {
+                    var croppedImage = cropper.getCroppedCanvas().toDataURL('image/png');
+                    document.getElementById('previewImage').src = croppedImage;
+
+                })
+            }
+            document.getElementsByName('profile')[0].addEventListener('change', function () {
+                if (cropper) {
+                    cropper.destroy();
+                }
+
+            });
+
             const profile = '<%=profile%>'
             console.log(profile);
             if (profile == 'true') {
@@ -110,21 +165,29 @@
             }
 
             function displaySelectedImage() {
+
+                $('#exampleModalCenter').modal('show');
+                const edit_image = document.getElementById('edit_image')
                 const previewImage = document.getElementById('previewImage');
                 const deleteButton = document.getElementById('deleteButton');
                 const fileInput = document.getElementById('profilePicture');
                 const selectedImage = fileInput.files[0];
+
                 localStorage.setItem("image", selectedImage)
                 if (selectedImage) {
                     const reader = new FileReader();
                     reader.onload = function (e) {
-                        previewImage.src = e.target.result; localStorage.setItem("image", e.target.result);
+                        edit_image.src = e.target.result; localStorage.setItem("image", e.target.result);
                         deleteButton.style.display = 'inline-block';
+
+                        crop()
                     };
 
                     reader.readAsDataURL(selectedImage);
+
                 }
             }
+
 
             function deleteSelectedImage() {
                 const previewImage = document.getElementById('previewImage');
@@ -288,10 +351,9 @@
             }
         </script>
 
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 
 </body>
 

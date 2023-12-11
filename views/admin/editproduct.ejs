@@ -18,531 +18,502 @@
 
 <body>
     <div class="whole">
-        <div class="menu">
-            <div class="logo"><img class="log" src="/user/images/logo_black.png" alt=""></div>
-            <div class="menu_items">
-                <div class="items"><img src="/admin/images/admin online.png" alt=""><span class="tag ">Profile</span>
-                </div>
-                <div class="items"><img src="/admin/images/dashboard.png" alt=""><span class="tag ">Dashboard</span>
-                </div>
-                <a href="/admin/product">
-                    <div class="items"><img src="/admin/images/product.png" alt=""><span class="tag ">Products</span>
-                    </div>
-                </a>
-                <a href="/admin/category">
-                    <div class="items"><img src="/admin/images/category.png" alt=""><span class="tag ">Category</span>
-                    </div>
-                </a>
-                <div class="items"><img src="/admin/images/orders.png" alt=""><span class="tag ">Orders</span></div>
-                <div class="items"><img src="/admin/images/coupons.png" alt=""><span class="tag ">Coupons</span></div>
-                <div class="items"><img src="/admin/images/banner.png" alt=""><span class="tag ">Banner</span></div>
-                <div class="items"><img src="/admin/images/transactions.png" alt=""><span
-                        class="tag ">Transactions</span></div>
-                <div class="items"><img src="/admin/images/manageadmin.png" alt=""><span class="tag ">Admin</span></div>
-                <a href="/admin">
-                    <div class="items"><img src="/admin/images/users.png" alt=""><span class="tag ">User</span></div>
-                </a>
-                <div class="items"><img src="/admin/images/settings.png" alt=""><span class="tag ">Settings</span></div>
-                <a href="/logout">
-                    <div class="items"><img src="/admin/images/logout.png" alt=""><span class="tag ">Logout</span></div>
-                </a>
-            </div>
-        </div>
-        <div class="main">
-            <div class="left">
-                <form action="/admin/editproduct/<%=data[0]._id%>" method="POST" id="productForm"
-                    enctype="multipart/form-data">
+        <%- include('../partials/admin/menu') %>
+            <div class="main">
+                <div class="left">
+                    <form action="/admin/editproduct/<%=data[0]._id%>" method="POST" id="productForm"
+                        enctype="multipart/form-data">
 
 
-                    <div class="nameanddescription">
-                        <span class="head">General Information</span>
-                        <label for="productname" class="name">Product name:</label>
-                        <input type="text" name="productname" class="producttext" value="<%=data[0].Name%>"
-                            id="productname">
-                        <div id="productnameError" class="error"></div>
-                        <label for="description" class="name">Description:</label>
-                        <textarea name="description" id="description" class="descriptiontext" cols="30" rows="5">"<%=data[0].
+                        <div class="nameanddescription">
+                            <span class="head">General Information</span>
+                            <label for="productname" class="name">Product name:</label>
+                            <input type="text" name="productname" class="producttext" value="<%=data[0].Name%>"
+                                id="productname">
+                            <div id="productnameError" class="error"></div>
+                            <label for="description" class="name">Description:</label>
+                            <textarea name="description" id="description" class="descriptiontext" cols="30" rows="5">"<%=data[0].
                             Description%>"</textarea>
-                        <div id="descriptionError" class="error"></div>
-                    </div>
-                    <div class="productandspecification">
-                        <div class="productdetails">
-                            <span class="head">Product Details</span>
-                            <label for="materialtype" class="name">Material Type:</label>
-                            <input type="text" class="producttext" name="materialtype" value="<%=data[0].Product_details.
-                            Material_type%>" id="materialtype">
-                            <div id="materialError" class="error"></div>
-                            <label for="closuretype" class="name">Closure Type:</label>
-                            <input type="text" class="producttext" name="closuretype"
-                                value="<%=data[0].Product_details.Closure_type%>" id="closuretype">
-                            <div id="closureError" class="error"></div>
-                            <label for="heeltype" class="name">Heel Type:</label>
-                            <input type="text" class="producttext" name="heeltype" value="<%=data[0].Product_details.
-                            Heel_type%>" id="heeltype">
-                            <div id="heelError" class="error"></div>
-                            <label for="solematerial" class="name">Sole Material:</label>
-                            <input type="text" class="producttext" name="solematerial" value="<%=data[0].Product_details.
-                            Sole_material%>" id="solematerial">
-                            <div id="soleError" class="error"></div>
-                            <label for="style" class="name">Style:</label>
-                            <input type="text" class="producttext" name="style" value="<%=data[0].Product_details.
-                            Style%>" id="style">
-                            <div id="styleError" class="error"></div>
-                            <label for="waterresistance" class="name">Water Resistance:</label>
-                            <input type="text" class="producttext" name="waterresistance" value="<%=data[0].Product_details.
-                            Water_resistance%>" id="waterresistance">
-                            <div id="waterresistanceError" class="error"></div>
-                            <label for="countryoforigin" class="name">Country Of Origin:</label>
-                            <input type="text" class="producttext" name="countryoforigin" value="<%=data[0].Product_details.
-                            Country_of_origin%>" id="countryoforigin">
-                            <div id="countryError" class="error"></div>
+                            <div id="descriptionError" class="error"></div>
                         </div>
+                        <div class="productandspecification">
+                            <div class="productdetails">
+                                <span class="head">Product Details</span>
+                                <label for="materialtype" class="name">Material Type:</label>
+                                <input type="text" class="producttext" name="materialtype" value="<%=data[0].Product_details.
+                            Material_type%>" id="materialtype">
+                                <div id="materialError" class="error"></div>
+                                <label for="closuretype" class="name">Closure Type:</label>
+                                <input type="text" class="producttext" name="closuretype"
+                                    value="<%=data[0].Product_details.Closure_type%>" id="closuretype">
+                                <div id="closureError" class="error"></div>
+                                <label for="heeltype" class="name">Heel Type:</label>
+                                <input type="text" class="producttext" name="heeltype" value="<%=data[0].Product_details.
+                            Heel_type%>" id="heeltype">
+                                <div id="heelError" class="error"></div>
+                                <label for="solematerial" class="name">Sole Material:</label>
+                                <input type="text" class="producttext" name="solematerial" value="<%=data[0].Product_details.
+                            Sole_material%>" id="solematerial">
+                                <div id="soleError" class="error"></div>
+                                <label for="style" class="name">Style:</label>
+                                <input type="text" class="producttext" name="style" value="<%=data[0].Product_details.
+                            Style%>" id="style">
+                                <div id="styleError" class="error"></div>
+                                <label for="waterresistance" class="name">Water Resistance:</label>
+                                <input type="text" class="producttext" name="waterresistance" value="<%=data[0].Product_details.
+                            Water_resistance%>" id="waterresistance">
+                                <div id="waterresistanceError" class="error"></div>
+                                <label for="countryoforigin" class="name">Country Of Origin:</label>
+                                <input type="text" class="producttext" name="countryoforigin" value="<%=data[0].Product_details.
+                            Country_of_origin%>" id="countryoforigin">
+                                <div id="countryError" class="error"></div>
+                            </div>
 
-                        <div class="categoryandspec">
-                            <span class="head">Specification</span>
-                            <label for="gender" class="name">Gender:</label>
-                            <select name="gender" class="producttext" class="drop" id="gender">
-                                <option value="men">Men</option>
-                                <option value="women">Women</option>
-                                <option value="boys">Boys</option>
-                                <option value="girls">Girls</option>
-                            </select>
-                            <label for="brand" class="name">Brand:</label>
-                            <input type="text" class="producttext" name="brand"
-                                value="<%=data[0].Specification[0].brand%>" id="brand">
-                            <div id="brandError" class="error"></div>
-                            <label for="color" class="name">Color:</label>
-                            <input type="text" class="producttext" name="color" value="<%=data[0].Specification[0].
+                            <div class="categoryandspec">
+                                <span class="head">Specification</span>
+                                <label for="gender" class="name">Gender:</label>
+                                <select name="gender" class="producttext" class="drop" id="gender">
+                                    <option value="men">Men</option>
+                                    <option value="women">Women</option>
+                                    <option value="boys">Boys</option>
+                                    <option value="girls">Girls</option>
+                                </select>
+                                <label for="brand" class="name">Brand:</label>
+                                <input type="text" class="producttext" name="brand"
+                                    value="<%=data[0].Specification[0].brand%>" id="brand">
+                                <div id="brandError" class="error"></div>
+                                <label for="color" class="name">Color:</label>
+                                <input type="text" class="producttext" name="color" value="<%=data[0].Specification[0].
                             color%>" id="color">
-                            <div id="colorError" class="error"></div>
+                                <div id="colorError" class="error"></div>
 
-                            <label for="gender" class="name">Category:</label>
-                            <select name="category" class="producttext" value="<%=data[0].Product_details.
+                                <label for="gender" class="name">Category:</label>
+                                <select name="category" class="producttext" value="<%=data[0].Product_details.
                             Category%>" id="type">
-                                <% category.forEach((value)=> { %>
-                                    <option value="<%=value.Category%>">
-                                        <%=value.Category%>
-                                    </option>
-                                    <%})%>
-                            </select>
-                            <div class="variants">
-                                <span class="head">Variants</span>
-                                <div id="variant-container">
-                                    <% data[0].variant.forEach(vari=> { %>
-                                        Size: <%= vari.size %>,
-                                            Quantity: <%= vari.quantity %><br>
-                                                <% }); %>
+                                    <% category.forEach((value)=> { %>
+                                        <option value="<%=value.Category%>">
+                                            <%=value.Category%>
+                                        </option>
+                                        <%})%>
+                                </select>
+                                <div class="variants">
+                                    <span class="head">Variants</span>
+                                    <div id="variant-container">
+                                        <% data[0].variant.forEach(vari=> { %>
+                                            Size: <%= vari.size %>,
+                                                Quantity: <%= vari.quantity %><br>
+                                                    <% }); %>
+
+                                    </div>
+                                    <div class="variant-selector">
+                                        <label for="size">Size:</label>
+                                        <select class="producttext size">
+                                            <option value="7">7</option>
+                                            <option value="7.5">7.5</option>
+                                            <option value="8">8</option>
+                                            <option value="8.5">8.5</option>
+                                            <option value="9">9</option>
+                                            <option value="9.5">9.5</option>
+                                            <option value="10">10</option>
+                                            <option value="10.5">10.5</option>
+                                            <option value="11">11</option>
+                                            <option value="11.5">11.5</option>
+                                            <option value="12">12</option>
+                                            <option value="12.5">12.5</option>
+                                            <option value="13">13</option>
+                                            <option value="13.5">13.5</option>
+                                            <option value="14">14</option>
+                                            <option value="14.5">14.5</option>
+                                            <option value="15">15</option>
+                                            <option value="15.5">15.5</option>
+                                        </select>
+                                        <div id="sizeError" class="error"></div>
+                                    </div>
+                                    <!-- Quantity input -->
+                                    <div class="variant-selector">
+                                        <label for="quantity">Quantity</label>
+                                        <input type="text" class="producttext quantity">
+                                        <div id="quantityError" class="error"></div>
+                                        <input type="hidden" name="variants" id="variantsInput" value="[]">
+
+
+                                    </div>
+
+                                    <!-- Button to add the variant -->
+                                    <button id="addVariantButton" type="button">Add Variant</button>
+
 
                                 </div>
-                                <div class="variant-selector">
-                                    <label for="size">Size:</label>
-                                    <select class="producttext size">
-                                        <option value="7">7</option>
-                                        <option value="7.5">7.5</option>
-                                        <option value="8">8</option>
-                                        <option value="8.5">8.5</option>
-                                        <option value="9">9</option>
-                                        <option value="9.5">9.5</option>
-                                        <option value="10">10</option>
-                                        <option value="10.5">10.5</option>
-                                        <option value="11">11</option>
-                                        <option value="11.5">11.5</option>
-                                        <option value="12">12</option>
-                                        <option value="12.5">12.5</option>
-                                        <option value="13">13</option>
-                                        <option value="13.5">13.5</option>
-                                        <option value="14">14</option>
-                                        <option value="14.5">14.5</option>
-                                        <option value="15">15</option>
-                                        <option value="15.5">15.5</option>
-                                    </select>
-                                    <div id="sizeError" class="error"></div>
-                                </div>
-                                <!-- Quantity input -->
-                                <div class="variant-selector">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="text" class="producttext quantity">
-                                    <div id="quantityError" class="error"></div>
-                                    <input type="hidden" name="variants" id="variantsInput" value="[]">
 
 
-                                </div>
-
-                                <!-- Button to add the variant -->
-                                <button id="addVariantButton" type="button">Add Variant</button>
 
 
                             </div>
-
-
-
-
                         </div>
-                    </div>
-                    <div class="statusandprice">
-                        <div class="status">
-                            <span class="head">Status</span>
-                            <label for="status" class="name">Status:</label>
-                            <select name="status" class="producttext" value="<%=data[0].
+                        <div class="statusandprice">
+                            <div class="status">
+                                <span class="head">Status</span>
+                                <label for="status" class="name">Status:</label>
+                                <select name="status" class="producttext" value="<%=data[0].
                            Status%>" id="status">
-                                <option value="draft">Draft</option>
-                                <option value="published">Published</option>
-                                <option value="outofstock">Out of stock</option>
-                                <option value="lowquantity">Low quantity</option>
-                            </select>
+                                    <option value="draft">Draft</option>
+                                    <option value="published">Published</option>
+                                    <option value="outofstock">Out of stock</option>
+                                    <option value="lowquantity">Low quantity</option>
+                                </select>
 
-                        </div>
-                        <div class="price">
-                            <span class="head">Price</span>
-                            <label for="price" class="name">Price</label>
-                            <input type="text" class="producttext" name="price" value="<%=data[0].
+                            </div>
+                            <div class="price">
+                                <span class="head">Price</span>
+                                <label for="price" class="name">Price</label>
+                                <input type="text" class="producttext" name="price" value="<%=data[0].
                             Price%>" id="price">
-                            <div id="priceError" class="error"></div>
+                                <div id="priceError" class="error"></div>
+                            </div>
+
                         </div>
 
-                    </div>
 
 
-
-                    <button class="submit btn btn-success" type="button" onclick="validateForm()">Submit</button>
+                        <button class="submit btn btn-success" type="button" onclick="validateForm()">Submit</button>
 
 
 
 
-            </div>
-            <div class="right">
-                <label class="mainimage">
-                    <input type="file" id="imageInput" name="mainimage" accept="image/*" style="display: none;">
+                </div>
+                <div class="right">
+                    <label class="mainimage">
+                        <input type="file" id="imageInput" name="mainimage" accept="image/*" style="display: none;">
 
-                    <div class="drop-zone" id="dropZone"
-                        style="width: 100%; height: 100%;display: flex;justify-content: center; align-items:center;position: relative;">
+                        <div class="drop-zone" id="dropZone"
+                            style="width: 100%; height: 100%;display: flex;justify-content: center; align-items:center;position: relative;">
 
-                        <div class="btn btn-success " style="z-index: 10; position:absolute;">Uploadimage</div>
-                        <img id="selectedImage" src="<%=data[0].Image[0].Main%>"
-                            style="width: 100%; max-height: 400px;  z-index: 99;">
-                    </div>
-                </label>
-                <div id="mainimageError" class="error"></div>
-                <label class="sideimage">
-                    <input type="file" id="imageInputMultiple" name="multipleimage" multiple accept="image/*"
-                        onchange="displayImages()" style="display: none;">
-                    <div id="dropZoneMultiple"
-                        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative;">
-                        <div class="btn btn-success" style="z-index: 10; position: absolute;">Upload image</div>
-                        <div id="imageContainer" style="z-index: 99;">
-                            <% data[0].Image.forEach((image)=> { %>
-                                <div class="uploaded-image"
-                                    style="display: flex;flex-direction: column; align-items: center;">
-                                    <img src="<%=image.Child_one %>" style="max-width: 220px; max-height: 220px;">
-                                    <img src="<%=image.Child_two %>" style="max-width: 220px; max-height: 220px;">
-                                    <img src="<%=image.Child_three %>" style="max-width: 220px; max-height: 220px;">
-
-                                </div>
-                                <% }) %>
+                            <div class="btn btn-success " style="z-index: 10; position:absolute;">Uploadimage</div>
+                            <img id="selectedImage" src="<%=data[0].Image[0].Main%>"
+                                style="width: 100%; max-height: 400px;  z-index: 99;">
                         </div>
-                    </div>
-                </label>
+                    </label>
+                    <div id="mainimageError" class="error"></div>
+                    <label class="sideimage">
+                        <input type="file" id="imageInputMultiple" name="multipleimage" multiple accept="image/*"
+                            onchange="displayImages()" style="display: none;">
+                        <div id="dropZoneMultiple"
+                            style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative;">
+                            <div class="btn btn-success" style="z-index: 10; position: absolute;">Upload image</div>
+                            <div id="imageContainer" style="z-index: 99;">
+                                <% data[0].Image.forEach((image)=> { %>
+                                    <div class="uploaded-image"
+                                        style="display: flex;flex-direction: column; align-items: center;">
+                                        <img src="<%=image.Child_one %>" style="max-width: 220px; max-height: 220px;">
+                                        <img src="<%=image.Child_two %>" style="max-width: 220px; max-height: 220px;">
+                                        <img src="<%=image.Child_three %>" style="max-width: 220px; max-height: 220px;">
+
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </div>
+                    </label>
 
 
-                <div id="sideimageError" class="error"></div>
+                    <div id="sideimageError" class="error"></div>
 
+
+                </div>
+                </form>
 
             </div>
-            </form>
-
-        </div>
 
 
 
-        <script>
+            <script>
 
-            function validateForm() {
-                event.preventDefault();
-                const errorElements = document.querySelectorAll(".error");
-                errorElements.forEach((element) => (element.textContent = ""));
+                function validateForm() {
+                    event.preventDefault();
+                    const errorElements = document.querySelectorAll(".error");
+                    errorElements.forEach((element) => (element.textContent = ""));
 
-                let isValid = true;
+                    let isValid = true;
 
-                // General Information
-                function validateAndSubmitForm() {
-                    if (validateForm()) {
-                        // If validation passes, submit the form
-                        document.getElementById("productForm").submit();
+                    // General Information
+                    function validateAndSubmitForm() {
+                        if (validateForm()) {
+                            // If validation passes, submit the form
+                            document.getElementById("productForm").submit();
+                        }
+                    }
+                    const productnameInput = document.getElementById("productname");
+                    const descriptionInput = document.getElementById("description");
+                    if (productnameInput.value.trim() === "") {
+                        document.getElementById("productnameError").textContent = "Product name is required.";
+                        isValid = false;
+                    }
+                    if (descriptionInput.value.trim() === "") {
+                        document.getElementById("descriptionError").textContent = "Description is required.";
+                        isValid = false;
+                    }
+
+                    // Product Details
+                    const materialtypeInput = document.getElementById("materialtype");
+                    const closuretypeInput = document.getElementById("closuretype");
+                    const heeltypeInput = document.getElementById("heeltype");
+                    const solematerialInput = document.getElementById("solematerial");
+                    const styleInput = document.getElementById("style");
+                    const waterresistanceInput = document.getElementById("waterresistance");
+                    const countryoforiginInput = document.getElementById("countryoforigin");
+
+                    if (materialtypeInput.value.trim() === "") {
+                        document.getElementById("materialError").textContent = "Material Type is required.";
+                        isValid = false;
+                    }
+                    if (closuretypeInput.value.trim() === "") {
+                        document.getElementById("closureError").textContent = "Closure Type is required.";
+                        isValid = false;
+                    }
+                    if (heeltypeInput.value.trim() === "") {
+                        document.getElementById("heelError").textContent = "Heel Type is required.";
+                        isValid = false;
+                    }
+                    if (solematerialInput.value.trim() === "") {
+                        document.getElementById("soleError").textContent = "Sole Material is required.";
+                        isValid = false;
+                    }
+                    if (styleInput.value.trim() === "") {
+                        document.getElementById("styleError").textContent = "Style is required.";
+                        isValid = false;
+                    }
+                    if (waterresistanceInput.value.trim() === "") {
+                        document.getElementById("waterresistanceError").textContent = "Water Resistance is required.";
+                        isValid = false;
+                    }
+                    if (countryoforiginInput.value.trim() === "") {
+                        document.getElementById("countryError").textContent = "Country of Origin is required.";
+                        isValid = false;
+                    }
+
+                    // Specification
+                    const brandInput = document.getElementById("brand");
+                    const colorInput = document.getElementById("color");
+                    if (brandInput.value.trim() === "") {
+                        document.getElementById("brandError").textContent = "Brand is required.";
+                        isValid = false;
+                    }
+                    if (colorInput.value.trim() === "") {
+                        document.getElementById("colorError").textContent = "Color is required.";
+                        isValid = false;
+                    }
+
+                    // Variants
+                    const selectedSize = document.querySelector(".producttext.size").value;
+                    const selectedQuantity = document.querySelector(".producttext.quantity").value;
+
+
+                    // Status
+                    const statusInput = document.getElementById("status");
+                    if (statusInput.value.trim() === "") {
+                        document.getElementById("statusError").textContent = "Status is required.";
+                        isValid = false;
+                    }
+
+                    // Price
+                    const priceInput = document.getElementById("price");
+                    if (priceInput.value.trim() === "") {
+                        document.getElementById("priceError").textContent = "Price is required.";
+                        isValid = false;
+                    } else if (isNaN(priceInput.value) || parseFloat(priceInput.value) < 0) {
+                        document.getElementById("priceError").textContent = "Price must be a valid positive number.";
+                        isValid = false;
+                    }
+
+
+                    // Image validation for the main image
+                    const selectedImage = document.getElementById('selectedImage');
+                    if (!selectedImage.src || selectedImage.style.display === 'none') {
+                        document.getElementById("mainimageError").textContent = "Main image is required.";
+                        isValid = false;
+                    }
+
+                    // Image validation for side images
+                    const imageContainer = document.getElementById('imageContainer');
+                    if (imageContainer.children.length === 0) {
+                        document.getElementById("sideimageError").textContent = "Side images are required.";
+                        isValid = false;
+                    }
+
+
+                    if (isValid) {
+                        let form = document.getElementById("productForm");
+                        form.submit()
+                    }
+
+                }
+            </script>
+
+            <script>
+                const variants = [];
+
+                function addVariantEventListener() {
+                    const addVariantButton = document.querySelector("#addVariantButton");
+                    addVariantButton.addEventListener("click", addVariant);
+                }
+
+                function addVariant() {
+                    const selectedSize = document.querySelector(".producttext.size").value;
+                    const selectedQuantity = document.querySelector(".producttext.quantity").value;
+
+                    if (selectedSize && selectedQuantity) {
+                        const existingVariant = variants.find((variant) => variant.size === selectedSize);
+
+                        if (existingVariant) {
+                            alert("A variant with the same size already exists.");
+                            return;
+                        }
+
+                        const variant = { size: selectedSize, quantity: selectedQuantity };
+                        variants.push(variant);
+
+                        const variantsInput = document.getElementById('variantsInput');
+                        // Convert the array to JSON format without additional brackets
+                        variantsInput.value = JSON.stringify(variants);
+
+                        const variantContainer = document.getElementById("variant-container");
+                        const variantDiv = document.createElement("div");
+                        variantDiv.textContent = `Size: ${selectedSize}, Quantity: ${selectedQuantity}`;
+                        variantContainer.appendChild(variantDiv);
+
+                        const sizeInputs = document.querySelectorAll(".producttext.size");
+                        const quantityInput = document.querySelector(".producttext.quantity");
+
+                        sizeInputs.forEach((input) => {
+                            input.value = "small";
+                        });
+
+                        quantityInput.value = "";
+                    } else {
+                        alert("Please enter both size and quantity.");
+                    }
+
+                    console.log("Variants Array:", variants);
+                }
+
+                addVariantEventListener();
+            </script>
+            <script>
+                const imageInputMultiple = document.getElementById('imageInputMultiple');
+                const imageContainer = document.getElementById('imageContainer');
+                const dropZoneMultiple = document.getElementById('dropZoneMultiple');
+                const maxImageCount = 3;
+
+
+                function displayImages() {
+                    const files = imageInputMultiple.files;
+                    const imageContainer = document.getElementById('imageContainer');
+                    const maxImageCount = 4;
+
+                    // Clear existing images
+                    imageContainer.innerHTML = '';
+
+                    for (let i = 0; i < Math.min(files.length, maxImageCount); i++) {
+                        const file = files[i];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                const imageDiv = document.createElement("div");
+                                const imageElement = document.createElement("img");
+                                imageElement.src = e.target.result;
+                                imageElement.style.maxWidth = "220px";
+                                imageElement.style.maxHeight = "220px";
+                                imageDiv.appendChild(imageElement);
+                                imageContainer.appendChild(imageDiv);
+                            };
+                            reader.readAsDataURL(file);
+                        }
                     }
                 }
-                const productnameInput = document.getElementById("productname");
-                const descriptionInput = document.getElementById("description");
-                if (productnameInput.value.trim() === "") {
-                    document.getElementById("productnameError").textContent = "Product name is required.";
-                    isValid = false;
-                }
-                if (descriptionInput.value.trim() === "") {
-                    document.getElementById("descriptionError").textContent = "Description is required.";
-                    isValid = false;
-                }
 
-                // Product Details
-                const materialtypeInput = document.getElementById("materialtype");
-                const closuretypeInput = document.getElementById("closuretype");
-                const heeltypeInput = document.getElementById("heeltype");
-                const solematerialInput = document.getElementById("solematerial");
-                const styleInput = document.getElementById("style");
-                const waterresistanceInput = document.getElementById("waterresistance");
-                const countryoforiginInput = document.getElementById("countryoforigin");
+                dropZoneMultiple.addEventListener('dragover', function (e) {
+                    e.preventDefault();
+                    dropZoneMultiple.style.border = '2px dashed #007BFF';
+                });
 
-                if (materialtypeInput.value.trim() === "") {
-                    document.getElementById("materialError").textContent = "Material Type is required.";
-                    isValid = false;
-                }
-                if (closuretypeInput.value.trim() === "") {
-                    document.getElementById("closureError").textContent = "Closure Type is required.";
-                    isValid = false;
-                }
-                if (heeltypeInput.value.trim() === "") {
-                    document.getElementById("heelError").textContent = "Heel Type is required.";
-                    isValid = false;
-                }
-                if (solematerialInput.value.trim() === "") {
-                    document.getElementById("soleError").textContent = "Sole Material is required.";
-                    isValid = false;
-                }
-                if (styleInput.value.trim() === "") {
-                    document.getElementById("styleError").textContent = "Style is required.";
-                    isValid = false;
-                }
-                if (waterresistanceInput.value.trim() === "") {
-                    document.getElementById("waterresistanceError").textContent = "Water Resistance is required.";
-                    isValid = false;
-                }
-                if (countryoforiginInput.value.trim() === "") {
-                    document.getElementById("countryError").textContent = "Country of Origin is required.";
-                    isValid = false;
-                }
+                dropZoneMultiple.addEventListener('dragleave', function () {
+                    dropZoneMultiple.style.border = '2px dashed #ccc';
+                });
 
-                // Specification
-                const brandInput = document.getElementById("brand");
-                const colorInput = document.getElementById("color");
-                if (brandInput.value.trim() === "") {
-                    document.getElementById("brandError").textContent = "Brand is required.";
-                    isValid = false;
-                }
-                if (colorInput.value.trim() === "") {
-                    document.getElementById("colorError").textContent = "Color is required.";
-                    isValid = false;
-                }
+                dropZoneMultiple.addEventListener('drop', function (e) {
+                    e.preventDefault();
+                    dropZoneMultiple.style.border = '2px dashed #ccc';
+                    displayImages();
+                });
 
-                // Variants
-                const selectedSize = document.querySelector(".producttext.size").value;
-                const selectedQuantity = document.querySelector(".producttext.quantity").value;
+                document.body.addEventListener('dragover', function (e) {
+                    e.preventDefault();
+                });
 
+                document.body.addEventListener('dragleave', function () {
+                    dropZoneMultiple.style.border = '2px dashed #ccc';
+                });
 
-                // Status
-                const statusInput = document.getElementById("status");
-                if (statusInput.value.trim() === "") {
-                    document.getElementById("statusError").textContent = "Status is required.";
-                    isValid = false;
-                }
+                document.body.addEventListener('drop', function (e) {
+                    e.preventDefault();
+                    dropZoneMultiple.style.border = '2px dashed #ccc';
+                });
 
-                // Price
-                const priceInput = document.getElementById("price");
-                if (priceInput.value.trim() === "") {
-                    document.getElementById("priceError").textContent = "Price is required.";
-                    isValid = false;
-                } else if (isNaN(priceInput.value) || parseFloat(priceInput.value) < 0) {
-                    document.getElementById("priceError").textContent = "Price must be a valid positive number.";
-                    isValid = false;
-                }
+            </script>
 
-
-                // Image validation for the main image
+            <script>
+                const imageInput = document.getElementById('imageInput');
                 const selectedImage = document.getElementById('selectedImage');
-                if (!selectedImage.src || selectedImage.style.display === 'none') {
-                    document.getElementById("mainimageError").textContent = "Main image is required.";
-                    isValid = false;
-                }
-
-                // Image validation for side images
-                const imageContainer = document.getElementById('imageContainer');
-                if (imageContainer.children.length === 0) {
-                    document.getElementById("sideimageError").textContent = "Side images are required.";
-                    isValid = false;
-                }
+                const dropZone = document.getElementById('dropZone');
 
 
-                if (isValid) {
-                    let form = document.getElementById("productForm");
-                    form.submit()
-                }
-
-            }
-        </script>
-
-        <script>
-            const variants = [];
-
-            function addVariantEventListener() {
-                const addVariantButton = document.querySelector("#addVariantButton");
-                addVariantButton.addEventListener("click", addVariant);
-            }
-
-            function addVariant() {
-                const selectedSize = document.querySelector(".producttext.size").value;
-                const selectedQuantity = document.querySelector(".producttext.quantity").value;
-
-                if (selectedSize && selectedQuantity) {
-                    const existingVariant = variants.find((variant) => variant.size === selectedSize);
-
-                    if (existingVariant) {
-                        alert("A variant with the same size already exists.");
-                        return;
-                    }
-
-                    const variant = { size: selectedSize, quantity: selectedQuantity };
-                    variants.push(variant);
-
-                    const variantsInput = document.getElementById('variantsInput');
-                    // Convert the array to JSON format without additional brackets
-                    variantsInput.value = JSON.stringify(variants);
-
-                    const variantContainer = document.getElementById("variant-container");
-                    const variantDiv = document.createElement("div");
-                    variantDiv.textContent = `Size: ${selectedSize}, Quantity: ${selectedQuantity}`;
-                    variantContainer.appendChild(variantDiv);
-
-                    const sizeInputs = document.querySelectorAll(".producttext.size");
-                    const quantityInput = document.querySelector(".producttext.quantity");
-
-                    sizeInputs.forEach((input) => {
-                        input.value = "small";
-                    });
-
-                    quantityInput.value = "";
-                } else {
-                    alert("Please enter both size and quantity.");
-                }
-
-                console.log("Variants Array:", variants);
-            }
-
-            addVariantEventListener();
-        </script>
-        <script>
-            const imageInputMultiple = document.getElementById('imageInputMultiple');
-            const imageContainer = document.getElementById('imageContainer');
-            const dropZoneMultiple = document.getElementById('dropZoneMultiple');
-            const maxImageCount = 3;
-
-
-            function displayImages() {
-                const files = imageInputMultiple.files;
-                const imageContainer = document.getElementById('imageContainer');
-                const maxImageCount = 4;
-
-                // Clear existing images
-                imageContainer.innerHTML = '';
-
-                for (let i = 0; i < Math.min(files.length, maxImageCount); i++) {
-                    const file = files[i];
+                function handleFile(file) {
                     if (file) {
                         const reader = new FileReader();
                         reader.onload = function (e) {
-                            const imageDiv = document.createElement("div");
-                            const imageElement = document.createElement("img");
-                            imageElement.src = e.target.result;
-                            imageElement.style.maxWidth = "220px";
-                            imageElement.style.maxHeight = "220px";
-                            imageDiv.appendChild(imageElement);
-                            imageContainer.appendChild(imageDiv);
+                            selectedImage.src = e.target.result;
+                            selectedImage.style.display = 'block';
                         };
                         reader.readAsDataURL(file);
                     }
                 }
-            }
-
-            dropZoneMultiple.addEventListener('dragover', function (e) {
-                e.preventDefault();
-                dropZoneMultiple.style.border = '2px dashed #007BFF';
-            });
-
-            dropZoneMultiple.addEventListener('dragleave', function () {
-                dropZoneMultiple.style.border = '2px dashed #ccc';
-            });
-
-            dropZoneMultiple.addEventListener('drop', function (e) {
-                e.preventDefault();
-                dropZoneMultiple.style.border = '2px dashed #ccc';
-                displayImages();
-            });
-
-            document.body.addEventListener('dragover', function (e) {
-                e.preventDefault();
-            });
-
-            document.body.addEventListener('dragleave', function () {
-                dropZoneMultiple.style.border = '2px dashed #ccc';
-            });
-
-            document.body.addEventListener('drop', function (e) {
-                e.preventDefault();
-                dropZoneMultiple.style.border = '2px dashed #ccc';
-            });
-
-        </script>
-
-        <script>
-            const imageInput = document.getElementById('imageInput');
-            const selectedImage = document.getElementById('selectedImage');
-            const dropZone = document.getElementById('dropZone');
 
 
-            function handleFile(file) {
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        selectedImage.src = e.target.result;
-                        selectedImage.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
+                imageInput.addEventListener('change', function () {
+                    const file = imageInput.files[0];
+                    handleFile(file);
+                });
 
 
-            imageInput.addEventListener('change', function () {
-                const file = imageInput.files[0];
-                handleFile(file);
-            });
+                dropZone.addEventListener('dragover', function (e) {
+                    e.preventDefault();
+                    dropZone.style.border = '2px dashed #007BFF';
+                });
+
+                dropZone.addEventListener('dragleave', function () {
+                    dropZone.style.border = '2px dashed #ccc';
+                });
+
+                dropZone.addEventListener('drop', function (e) {
+                    e.preventDefault();
+                    dropZone.style.border = '2px dashed #ccc';
+                    const file = e.dataTransfer.files[0];
+                    handleFile(file);
+                });
 
 
-            dropZone.addEventListener('dragover', function (e) {
-                e.preventDefault();
-                dropZone.style.border = '2px dashed #007BFF';
-            });
+                document.body.addEventListener('dragover', function (e) {
+                    e.preventDefault();
+                });
 
-            dropZone.addEventListener('dragleave', function () {
-                dropZone.style.border = '2px dashed #ccc';
-            });
+                document.body.addEventListener('dragleave', function () {
+                    dropZone.style.border = '2px dashed #ccc';
+                });
 
-            dropZone.addEventListener('drop', function (e) {
-                e.preventDefault();
-                dropZone.style.border = '2px dashed #ccc';
-                const file = e.dataTransfer.files[0];
-                handleFile(file);
-            });
-
-
-            document.body.addEventListener('dragover', function (e) {
-                e.preventDefault();
-            });
-
-            document.body.addEventListener('dragleave', function () {
-                dropZone.style.border = '2px dashed #ccc';
-            });
-
-            document.body.addEventListener('drop', function (e) {
-                e.preventDefault();
-                dropZone.style.border = '2px dashed #ccc';
-            });
-        </script>
+                document.body.addEventListener('drop', function (e) {
+                    e.preventDefault();
+                    dropZone.style.border = '2px dashed #ccc';
+                });
+            </script>
 
 
 

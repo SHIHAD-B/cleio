@@ -2,12 +2,13 @@
 const cart_Collection = require('../model/cart')
 const Users = require('../model/userdata')
 const coupon = require('../model/coupon')
-
+const product = require('../model/product')
 
 
 // cart
-const cart = async (req, res) => {
+const cart = async (req, res, next) => {
     try {
+        const currentDate = new Date();
         const coupons = await coupon.find();
         const from_user = await Users.findOne({ Email: req.session.user });
 
@@ -16,26 +17,44 @@ const cart = async (req, res) => {
             return res.redirect('/');
         }
 
-        const userCart = await cart_Collection.findOne({ User_id: from_user._id }).populate({
-            path: 'Items.Product_id',
-            select: 'Name Image.Main Price variant',
-        });
+        const userCart = await cart_Collection.findOne({ User_id: from_user._id })
+            .populate({
+                path: 'Items.Product_id',
+                select: 'Name Image.Main Price variant product_offer',
+            })
+        for (const item of userCart.Items) {
+            const productDetails = await product.findById(item.Product_id._id)
+                .populate({
+                    path: 'product_offer',
+                    select: 'Offer Starts_at Expires_at',
+                    match: { Starts_at: { $lte: currentDate }, Expires_at: { $gte: currentDate } }
+                })
+                .populate({
+                    path: 'category_offer',
+                    select: 'Offer Starts_at Ends_at',
+                    match: { Starts_at: { $lte: currentDate }, Ends_at: { $gte: currentDate } }
+                });
+
+            item.Product_id.product_offer = productDetails.product_offer;
+            item.Product_id.category_offer = productDetails.category_offer;
+        }
+
 
         if (!userCart) {
             console.log("Cart not found for user");
             return res.render('./user/cart', { products: [], length: 0, coupons: coupons });
         }
-
+        // res.json(userCart)
         res.render('./user/cart', { products: userCart.Items, length: userCart.Items.length, coupons: coupons });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        return next(error)
     }
 };
 
 //delete from cart
 
-const delete_cart = async (req, res) => {
+const delete_cart = async (req, res, next) => {
     try {
 
         const prd_id = req.params.id;
@@ -49,8 +68,6 @@ const delete_cart = async (req, res) => {
             { $pull: { "Items": { _id: prd_id } } }
         );
 
-
-
         if (result.nModified === 1) {
 
             return res.status(200).json({ message: "Item removed from cart", status: true });
@@ -61,12 +78,13 @@ const delete_cart = async (req, res) => {
     } catch (error) {
 
         console.error(error);
-        res.redirect('/');
+        return next(error)
+
     }
 };
 
 //update
-const update_cart = async (req, res) => {
+const update_cart = async (req, res, next) => {
     try {
         const productId = req.params.id;
         const newQuantity = req.body.quantity;
@@ -91,13 +109,14 @@ const update_cart = async (req, res) => {
 
     } catch (error) {
         console.error('Update Error:', error);
-        res.redirect('/');
+        return next(error)
+
     }
 };
 
 
 //add to cart
-const add_to_cart = async (req, res) => {
+const add_to_cart = async (req, res, next) => {
     try {
 
 
@@ -137,7 +156,7 @@ const add_to_cart = async (req, res) => {
         return res.status(200).json({ message: 'Item added to the cart.' });
     } catch (error) {
         console.error('Error adding item to the cart:', error);
-        return res.redirect('/');
+        return next(error)
     }
 };
 

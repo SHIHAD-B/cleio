@@ -10,208 +10,225 @@
 </head>
 
 <body>
-    <% if(error){ %>
-        <div class="toast">
-            <div class="toast-content">
-                <i class="fas fa-solid fa-check check"></i>
-                <div class="message">
-                    <span class="text text-1">
-                        <%= error %>
-                    </span>
-                    <span class="text text-2"> Please try again</span>
+    <%- include('../partials/user/toast') %>
+        <div class="contain">
+            <div class="image"></div>
+            <div class="element">
+                <div class="logo"></div>
+                <span id="signup">signup</span>
+
+                <div class="form-row">
+                    <div class="lab"> <label for="firstname">First Name</label></div>
+                    <input type="text" name="firstname" id="firstname" class="firstname">
+                    <div class="error" id="firstname-error"></div>
                 </div>
+                <div class="form-row">
+                    <div class="lab"> <label for="secondname">Second Name</label></div>
+                    <input type="text" name="secondname" id="secondname" class="secondname">
+                    <div class="error" id="secondname-error"></div>
+                </div>
+                <div class="form-row">
+                    <div class="lab"><label for="email">Email</label></div>
+
+                    <input type="text" name="email" id="email" class="email">
+                    <div class="error" id="email-error"></div>
+                </div>
+                <div class="form-row">
+                    <div class="lab"> <label for="phonenumber">Phone Number</label></div>
+
+                    <input type="text" name="phonenumber" id="phonenumber" class="phonenumber">
+                    <div class="error" id="phone-error"></div>
+                </div>
+                <div class="form-row">
+                    <div class="lab"> <label for="password">Password</label></div>
+                    <input type="password" name="password" id="password" class="password">
+                    <div class="error" id="password-error"></div>
+                </div>
+                <div class="form-row">
+                    <div class="lab"> <label for="confirmpassword">Confirm Password</label></div>
+                    <input type="password" name="confirmpassword" id="confirmpassword" class="confirmpassword">
+                    <div class="error" id="confirmPassword-error"></div>
+                </div>
+                <div class="form-row">
+                    <div class="lab"> <label for="referralcode">Referral Code</label></div>
+                    <input type="text" name="referralcode" id="referralcode" class="confirmpassword"
+                        placeholder="(optional)">
+                    <div class="error" id="referralError"></div>
+                </div>
+                <div class="form-row">
+                    <input type="submit" name="Login" class="btn btn-success submit" id="Login" onclick="submit()"
+                        value="submit">
+                </div>
+                <div class="form-group" style="text-align: end;">
+                    <a href="/login" class="New">Have an account?</a>
+                </div>
+
             </div>
-            <i class="fas fa-solid fa-times close"></i> <!-- Changed to use the correct Font Awesome class -->
-            <div class="progress"></div>
         </div>
-        <% } %>
-            <div class="contain">
-                <div class="image"></div>
-                <div class="element">
-                    <div class="logo"></div>
-                    <span id="signup">signup</span>
-                    <form action="/signup" method="POST" class="needs-validation">
-                        <div class="form-row">
-                            <div class="lab"> <label for="firstname">First Name</label></div>
-                            <input type="text" name="firstname" id="firstname" class="firstname">
-                            <div class="error" id="firstname-error"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="lab"> <label for="secondname">Second Name</label></div>
-                            <input type text" name="secondname" id="secondname" class="secondname">
-                            <div class="error" id="secondname-error"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="lab"><label for="email">Email</label></div>
-                            <!-- Changed the 'for' attribute to "email" -->
-                            <input type="text" name="email" id="email" class="email">
-                            <div class="error" id="email-error"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="lab"> <label for="phonenumber">Phone Number</label></div>
-                            <!-- Changed the 'for' attribute to "phonenumber" -->
-                            <input type="text" name="phonenumber" id="phonenumber" class="phonenumber">
-                            <div class="error" id="phone-error"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="lab"> <label for="password">Password</label></div>
-                            <input type="password" name="password" id="password" class="password">
-                            <div class="error" id="password-error"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="lab"> <label for="confirmpassword">Confirm Password</label></div>
-                            <input type="password" name="confirmpassword" id="confirmpassword" class="confirmpassword">
-                            <div class="error" id="confirmPassword-error"></div>
-                        </div>
-                        <div class="form-row">
-                            <input type="submit" name="Login" class="btn btn-success submit" id="Login" value="submit">
-                        </div>
-                        <div class="form-group" style="text-align: end;">
-                            <a href="/login" class="New">Have an account?</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <script>
+        <script>
+            const toast = document.querySelector(".toast");
+            const closeIcon = document.querySelector(".close");
+            const progress = document.querySelector(".progress");
+            let timer1, timer2;
+
+
+
+        </script>
+        <script>
+            function showToast(message) {
                 const toast = document.querySelector(".toast");
-                const closeIcon = document.querySelector(".close");
                 const progress = document.querySelector(".progress");
-                let timer1, timer2;
 
-                // Function to show the toast
-                function showToast(message) {
-                    toast.classList.add("active");
-                    progress.classList.add("active");
+                toast.classList.add("active");
+                progress.classList.add("active");
 
-                    timer1 = setTimeout(() => {
-                        toast.classList.remove("active");
-                    }, 5000); // 1s = 1000 milliseconds
-
-                    timer2 = setTimeout(() => {
-                        progress.classList.remove("active");
-                    }, 5300);
-
-                    // Update the message text
-                    document.querySelector(".text-2").textContent = message;
-                }
-
-                // Function to hide the toast
-                function hideToast() {
-                    toast.classList.remove("active");
-
-                    setTimeout(() => {
-                        progress.classList.remove("active");
-                    }, 300);
-
-                    clearTimeout(timer1);
-                    clearTimeout(timer2);
-                }
-
-                // Example usage
-                // Show the toast with a custom message
-                showToast("Please try again");
-
-                // Hide the toast after a certain time (e.g., 3 seconds)
                 setTimeout(() => {
-                    hideToast();
-                }, 3000); // Hide after 3 seconds
-            </script>
-            <script>
-                function validateEmail(email) {
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+/;
-                    return emailRegex.test(email);
+                    toast.classList.remove("active");
+                    progress.classList.remove("active");
+                }, 5000);
+
+                document.querySelector(".text-2").textContent = message;
+            }
+            function validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+/;
+                return emailRegex.test(email);
+            }
+
+            function isEmpty(value) {
+                const trimmedValue = value.trim();
+                return trimmedValue === "";
+            }
+
+            function validatePhone(phonenumber) {
+                const phoneRegex = /^\d{10}$/;
+                return phoneRegex.test(phonenumber);
+            }
+
+            function validatePassword(password) {
+
+                const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%^&*])[A-Za-z\d!@#\$%^&*]{8,}$/;
+
+
+                return strongPasswordPattern.test(password);
+            }
+
+            async function submit() {
+                let anyError = false;
+                const emailInput = document.querySelector("#email");
+                const emailValue = emailInput.value;
+                const emailError = document.querySelector("#email-error");
+
+                const firstNameInput = document.querySelector("#firstname");
+                const firstNameValue = firstNameInput.value;
+                const firstNameError = document.querySelector("#firstname-error");
+
+                const lastNameInput = document.querySelector("#secondname");
+                const lastNameValue = lastNameInput.value;
+                const lastNameError = document.querySelector("#secondname-error");
+
+                const phoneInput = document.querySelector("#phonenumber");
+                const phoneValue = phoneInput.value;
+                const phoneError = document.querySelector("#phone-error");
+
+                const passwordInput = document.querySelector("#password");
+                const passwordValue = passwordInput.value;
+                const passwordError = document.querySelector("#password-error");
+
+                const confirmPasswordInput = document.querySelector("#confirmpassword");
+                const confirmPasswordValue = confirmPasswordInput.value;
+                const confirmPasswordError = document.querySelector("#confirmPassword-error");
+
+                const referralcode = document.getElementById('referralcode')
+                const referalvalue = referralcode.value;
+
+                const referralError = document.getElementById('referralError')
+                //to show toast error
+                const textfield = document.querySelector('.text-1');
+
+                emailError.textContent = "";
+                firstNameError.textContent = "";
+                lastNameError.textContent = "";
+                phoneError.textContent = "";
+                passwordError.textContent = "";
+                confirmPasswordError.textContent = "";
+
+                if (isEmpty(emailValue)) {
+                    emailError.textContent = "Email can't be empty";
+                    anyError = true;
+                }
+                if (!validateEmail(emailValue)) {
+                    emailError.textContent = "Invalid email format. Please try again.";
+                    anyError = true;
                 }
 
-                function isEmpty(value) {
-                    const trimmedValue = value.trim();
-                    return trimmedValue === "";
+                if (isEmpty(firstNameValue)) {
+                    firstNameError.textContent = "First name can't be empty.";
+                    anyError = true;
                 }
 
-                function validatePhone(phonenumber) {
-                    const phoneRegex = /^\d{10}$/;
-                    return phoneRegex.test(phonenumber);
+                if (isEmpty(lastNameValue)) {
+                    lastNameError.textContent = "Last name can't be empty.";
+                    anyError = true;
                 }
 
-                function validatePassword(password) {
-                    // Define the strong password pattern
-                    const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%^&*])[A-Za-z\d!@#\$%^&*]{8,}$/;
-
-                    // Test the password against the pattern
-                    return strongPasswordPattern.test(password);
+                if (isEmpty(phoneValue)) {
+                    phoneError.textContent = "Phone number can't be empty.";
+                    anyError = true;
+                } else if (!validatePhone(phoneValue)) {
+                    phoneError.textContent = "Invalid phone number. Please enter a 10-digit number.";
+                    anyError = true;
                 }
 
-                document.querySelector("form").addEventListener("submit", function (event) {
-                    const emailInput = document.querySelector("#email");
-                    const emailValue = emailInput.value;
-                    const emailError = document.querySelector("#email-error");
+                if (!validatePassword(passwordValue)) {
+                    passwordError.textContent =
+                        "password is too weak"
+                    anyError = true;
+                }
 
-                    const firstNameInput = document.querySelector("#firstname");
-                    const firstNameValue = firstNameInput.value;
-                    const firstNameError = document.querySelector("#firstname-error");
-
-                    const lastNameInput = document.querySelector("#secondname");
-                    const lastNameValue = lastNameInput.value;
-                    const lastNameError = document.querySelector("#secondname-error");
-
-                    const phoneInput = document.querySelector("#phonenumber");
-                    const phoneValue = phoneInput.value;
-                    const phoneError = document.querySelector("#phone-error");
-
-                    const passwordInput = document.querySelector("#password");
-                    const passwordValue = passwordInput.value;
-                    const passwordError = document.querySelector("#password-error");
-
-                    const confirmPasswordInput = document.querySelector("#confirmpassword");
-                    const confirmPasswordValue = confirmPasswordInput.value;
-                    const confirmPasswordError = document.querySelector("#confirmPassword-error");
-
-                    // Clear any previous error messages
-                    emailError.textContent = "";
-                    firstNameError.textContent = "";
-                    lastNameError.textContent = "";
-                    phoneError.textContent = "";
-                    passwordError.textContent = "";
-                    confirmPasswordError.textContent = "";
-
-                    if (isEmpty(emailValue)) {
-                        emailError.textContent = "Email can't be empty";
-                        event.preventDefault();
+                if (referalvalue && referalvalue.length) {
+                    if (referalvalue.length < 8) {
+                        referralError.textContent = "not a valid referral"
+                        anyError = true;
                     }
-                    if (!validateEmail(emailValue)) {
-                        emailError.textContent = "Invalid email format. Please try again.";
-                        event.preventDefault();
-                    }
+                }
 
-                    if (isEmpty(firstNameValue)) {
-                        firstNameError.textContent = "First name can't be empty.";
-                        event.preventDefault();
+                if (passwordValue !== confirmPasswordValue) {
+                    confirmPasswordError.textContent = "Passwords do not match.";
+                    anyError = true;
+                }
+                if (!anyError) {
+                    const url = '/signup'
+                    const data = {
+                        firstname: firstNameValue,
+                        secondname: lastNameValue,
+                        email: emailValue,
+                        referral: referalvalue,
+                        phonenumber: phoneValue,
+                        password: passwordValue
                     }
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
 
-                    if (isEmpty(lastNameValue)) {
-                        lastNameError.textContent = "Last name can't be empty.";
-                        event.preventDefault();
-                    }
+                    if (response.ok) {
 
-                    if (isEmpty(phoneValue)) {
-                        phoneError.textContent = "Phone number can't be empty.";
-                        event.preventDefault();
-                    } else if (!validatePhone(phoneValue)) {
-                        phoneError.textContent = "Invalid phone number. Please enter a 10-digit number.";
-                        event.preventDefault();
-                    }
+                        const result = await response.json();
 
-                    if (!validatePassword(passwordValue)) {
-                        passwordError.textContent =
-                            "password is too weak"
-                        event.preventDefault();
-                    }
+                        window.location.href = '/verify-otp';
+                    } else {
 
-                    if (passwordValue !== confirmPasswordValue) {
-                        confirmPasswordError.textContent = "Passwords do not match.";
-                        event.preventDefault();
+                        const errorData = await response.json();
+                        textfield.innerHTML = errorData.message
+                        showToast("please try again");
                     }
-                });
-            </script>
+                }
+
+            };
+        </script>
 
 
 </body>

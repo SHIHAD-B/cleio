@@ -544,3 +544,42 @@ button {
     font-size: 25px;
 
 }
+
+
+@media (max-width: 575px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .left {
+        width: 100%;
+        gap: 9px;
+    }
+
+    .right {
+        width: 100%;
+    }
+
+    .order-main {
+        height: 116px;
+    }
+
+    .price-summary {
+
+        height: 135px;
+
+    }
+
+    .active {
+        width: 20px;
+    }
+
+}
+
+@media (min-width: 576px) and (max-width: 767px) {}
+
+@media (min-width: 768px) and (max-width: 991px) {}
+
+@media (min-width: 992px) and (max-width: 1199px) {}
+
+@media (min-width: 1200px) {}

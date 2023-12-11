@@ -1,12 +1,13 @@
 const wishlist = require('../model/wishlist');
 const Users = require('../model/userdata')
 const coupon = require('../model/coupon')
-
+const productsdata = require('../model/product')
 
 
 //wishlist page 
-const wishlistPage = async (req, res) => {
+const wishlistPage = async (req, res, next) => {
     try {
+        const currentDate = new Date();
         const coupons = await coupon.find();
         const from_user = await Users.findOne({ Email: req.session.user });
 
@@ -15,10 +16,24 @@ const wishlistPage = async (req, res) => {
             return res.redirect('/');
         }
 
-        const userWishlist = await wishlist.findOne({ User_id: from_user._id }).populate({
-            path: 'Product.Product_id',
-            select: '_id Name Image.Main Price variant Specification',
-        });
+        const userWishlist = await wishlist.findOne({ User_id: from_user._id }).populate('Product.Product_id');
+        for (const item of userWishlist.Product) {
+            const productDetails = await productsdata.findById(item.Product_id._id)
+                .populate({
+                    path: 'product_offer',
+                    select: 'Offer Starts_at Expires_at',
+                    match: { Starts_at: { $lte: currentDate }, Expires_at: { $gte: currentDate } }
+                })
+                .populate({
+                    path: 'category_offer',
+                    select: 'Offer Starts_at Ends_at',
+                    match: { Starts_at: { $lte: currentDate }, Ends_at: { $gte: currentDate } }
+                });
+
+            item.Product_id.product_offer = productDetails.product_offer;
+            item.Product_id.category_offer = productDetails.category_offer;
+        }
+
 
         if (!userWishlist) {
 
@@ -26,16 +41,17 @@ const wishlistPage = async (req, res) => {
         }
 
         res.render('./user/wishlist', { products: userWishlist.Product, coupons: coupons });
+
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        return next(error)
     }
 };
 
 
 
 //add to wishlist
-const add_to_wishlist = async (req, res) => {
+const add_to_wishlist = async (req, res, next) => {
     try {
         const userEmail = req.session.user;
         const productId = req.body.id;
@@ -72,13 +88,13 @@ const add_to_wishlist = async (req, res) => {
         }
     } catch (error) {
         console.error('Error adding item to the wishlist:', error);
-        return res.status(500).json({ message: 'Internal Server Error' });
+        return next(error)
     }
 };
 
 //delete from wishlist
 
-const delete_wishlist = async (req, res) => {
+const delete_wishlist = async (req, res, next) => {
     try {
         const prd_id = req.params.id;
 
@@ -112,7 +128,7 @@ const delete_wishlist = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.redirect('/');
+        return next(error)
     }
 };
 

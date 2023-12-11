@@ -8,6 +8,7 @@
     <title>Document</title>
     <link rel="icon" href="/admin/images/users.png">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Home</title>
 </head>
 
@@ -20,9 +21,11 @@
                         <span>PROFILE</span>
                     </div>
                     <div class="first">
-                        <div class="left">
-                            <img id="profileImage" src="<%=user.Profile%>" alt=""
-                                style="width: 200px; height: 200px; border-radius: 50%;">
+                        <div class="profile-picture">
+                            <label for="profilePicture">
+                                <img src="<%=user.Profile%>" alt="Profile Picture" id="previewImage"
+                                    style="width:100%; height: 100%;">
+                            </label>
                         </div>
                         <div class="right">
                             <div class="name">
@@ -47,6 +50,18 @@
                                     <input type="text" name="phone" id="phone" value="<%=user.Mobile%>" readonly>
                                 </div>
                             </div>
+                            <div class="referral">
+                                <label for="referralCode">Referral Code</label>
+                                <div class="input-with-copy" style="display: flex;gap:10px;">
+                                    <input type="text" name="referralCode" id="referralCode"
+                                        value="<%=user.referral_code%>" readonly>
+                                    <div id="copyReferralCode" onclick="copyToClipboard('referralCode')"
+                                        style="width: 40px; height: 25px; border: 1px solid black;display: flex; justify-content:center;align-items: center;">
+                                        <img src="/user/images/copy.png" alt="" srcset=""
+                                            style="width: 15px; height: 15px;">
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="saveandcancel">
                                 <a href="/editprofile"><button>edit</button></a>
@@ -55,7 +70,24 @@
                         </div>
                     </div>
                 </div>
+                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+                <script>
+                    function copyToClipboard(elementId) {
+                        var copyText = document.getElementById(elementId);
+                        copyText.select();
+                        document.execCommand("copy");
+                        (function () {
+                            Toastify({
+                                text: "Copied to clipboard",
+                                className: "info",
+                                style: {
+                                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                                }
+                            }).showToast();
+                        })();
 
+                    }
+                </script>
 
                 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

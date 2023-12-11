@@ -277,3 +277,23 @@ a {
   color: red;
   font-size: 12px;
 }
+
+/* pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  padding: 10px;
+  text-decoration: none !important;
+  color: #007b5e;
+  margin: 0 5px;
+
+}
+
+.pagination a.active {
+  background-color: rgba(128, 128, 128, 0.399);
+  color: white;
+}

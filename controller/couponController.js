@@ -1,19 +1,71 @@
 const coupon = require('../model/coupon')
 const orders = require('../model/orders')
-//coupon page
-const couponPage = async (req, res) => {
+
+const mongoose = require('mongoose');
+//clean up 
+const cron = require('node-cron');
+
+const productoffers = require('../model/productoffer')
+const categoryoffers = require('../model/categoryoffer')
+
+cron.schedule('0 */5 * * *', async () => {
+
     try {
+
+        const currentDate = new Date();
+
+        //changing status expired coupons
+        await coupon.updateMany(
+            {
+                Expiration_date: { $lt: currentDate },
+                Is_active: true,
+            },
+            { $set: { Is_active: false } }
+        );
+        //changing status of expired product offers
+
+        await productoffers.updateMany(
+            {
+                Expires_at: { $lt: currentDate },
+                Status: 'active',
+            },
+            { $set: { Status: 'expired' } }
+        );
+
+        //changing status of expired category offers
+        await categoryoffers.updateMany(
+            {
+                Ends_at: { $lt: currentDate },
+                Status: 'active',
+            },
+            { $set: { Status: 'expired' } }
+        );
+
+    } catch (error) {
+        console.error('Error updating coupons:', error);
+    }
+});
+
+
+
+
+//coupon page
+const couponPage = async (req, res, next) => {
+    try {
+        const superadmin = req.session.superadmin;
+        const authority = req.session.readonly;
         const coupons = await coupon.find()
 
-        res.render('./admin/couponManagement', { coupons: coupons })
+        res.render('./admin/couponManagement', { coupons: coupons, superadmin: superadmin, authority: authority })
 
     } catch (error) {
         console.log(error);
+        return next(error)
     }
 }
 
 //add coupon
-const addcoupon = async (req, res) => {
+const addcoupon = async (req, res, next) => {
     try {
         const coupons = new coupon({
             Code: req.body.Code,
@@ -30,11 +82,12 @@ const addcoupon = async (req, res) => {
         res.redirect('/admin/couponManagement')
     } catch (error) {
         console.log(error);
+        return next(error)
     }
 }
 
 //validate coupon
-const validateCoupon = async (req, res) => {
+const validateCoupon = async (req, res, next) => {
     try {
         const code = req.body.couponCode.toString().trim("");
         const currentDate = new Date();
@@ -77,13 +130,49 @@ const validateCoupon = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        return next(error)
     }
 };
 
+//delete coupon
+const deletecoupon = async (req, res, next) => {
+    try {
+        await coupon.deleteOne({ _id: req.params.id })
+        res.redirect('/admin/couponManagement')
+    } catch (error) {
+        console.log(error);
+        return next(error)
+    }
+}
 
+//edit coupon
+const editcoupon = async (req, res, next) => {
+    try {
+
+        await coupon.updateOne({ _id: req.params.id }, {
+            $set: {
+                Code: req.body.Code.trim(""),
+                Min_purchase_amount: req.body.Min_purchase_amount,
+                Max_discount_value: req.body.Max_purchase_amount,
+                Expiration_date: req.body.Expiration_date,
+                Start_date: req.body.Start_date,
+                Is_active: true,
+                Max_usage_count: req.body.Max_usage_count,
+                Discount_value: req.body.Discount_value
+            }
+        })
+        res.redirect('/admin/couponManagement')
+
+    } catch (error) {
+        console.log(error);
+        return next(error)
+    }
+}
 module.exports = {
     couponPage,
     addcoupon,
-    validateCoupon
+    validateCoupon,
+    deletecoupon,
+    editcoupon
+
 }

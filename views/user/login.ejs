@@ -22,13 +22,13 @@
 
                     <div class="form-row">
                         <div class="lab"><label for="Email">Email</label></div>
-                        <input type="text" name="email" id="email" value="shihadb0@gmail.com" class="email">
+                        <input type="text" name="email" id="email" class="email">
                         <div class="error" id="email-error"></div>
                     </div>
 
                     <div class="form-row">
                         <div class="lab"> <label for="password">Password</label></div>
-                        <input type="password" name="password" id="password" value="Lareina@1" class="password">
+                        <input type="password" name="password" id="password" class="password">
                         <div class="error" id="password-error"></div>
                     </div>
 
@@ -129,11 +129,8 @@
 
                     if (response.ok) {
                         const result = await response.json();
-                        if (result.isAdmin) {
-                            window.location.href = '/admin';
-                        } else {
-                            window.location.href = '/home';
-                        }
+                        window.location.href = '/home';
+
                     } else {
                         const errorData = await response.json();
                         textfield.innerHTML = errorData.message

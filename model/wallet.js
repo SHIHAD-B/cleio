@@ -9,6 +9,7 @@ const WalletSchema = new Schema({
         Amount: { type: Number },
         Date: { type: Date },
         Description: { type: String },
+        Transaction_id: { type: String },
         Transaction_type: { type: String },
     }],
 });

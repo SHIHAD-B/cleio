@@ -33,7 +33,16 @@
                                     </div>
 
                                     <div class="prd-price-del">
-                                        <span>₹<%=value.Product_id.Price*value.Quantity %></span>
+                                        <%if(value.Product_id.product_offer){%>
+                                            <span>₹<%=value.Product_id.Price-(value.Product_id.Price*value.Product_id.product_offer.Offer
+                                                    /100)%></span>
+
+                                            <%}else if(value.Product_id.category_offer){%>
+                                                <span>₹<%=value.Product_id.Price-(value.Product_id.Price*value.Product_id.category_offer.Offer
+                                                        /100)%></span>
+                                                <%}else{%>
+                                                    <span>₹<%=value.Product_id.Price%></span>
+                                                    <%}%>
 
                                     </div>
 
@@ -111,6 +120,7 @@
                     function continues() {
                         const errorDiv = document.getElementById("error");
                         const radioButtons = document.querySelectorAll("input[name='delivery-option']");
+                        let deliveryAmount = 0;
 
                         function isRadioButtonChecked() {
                             for (const radioButton of radioButtons) {
@@ -129,22 +139,43 @@
                         const continueButton = document.querySelector(".back-continue .fax:last-child");
 
                         if (!isRadioButtonChecked()) {
-                            event.preventDefault(); // Prevent the form from submitting
+                            event.preventDefault();
                             displayErrorMessage();
                         } else {
-                            errorDiv.textContent = "";
-                            const billingid = '<%=billingid%>'
-                            const addressid = '<%=addressid%>'
 
-                            window.location.href = '/Payment?id=' + addressid + '&billingid=' + billingid;
+                            const selectedRadioButton = document.querySelector("input[name='delivery-option']:checked");
+                            if (selectedRadioButton) {
+                                const deliveryOption = selectedRadioButton.id;
+                                switch (deliveryOption) {
+                                    case "extra-standard":
+                                        deliveryAmount = 0;
+                                        break;
+                                    case "standard":
+                                        deliveryAmount = 100;
+                                        break;
+                                    case "sameday":
+                                        deliveryAmount = 300;
+                                        break;
+                                    default:
+                                        deliveryAmount = 0;
+                                        break;
+                                }
+                            }
+
+                            errorDiv.textContent = "";
+                            const billingid = '<%=billingid%>';
+                            const addressid = '<%=addressid%>';
+
+
+                            window.location.href = '/Payment?id=' + addressid + '&billingid=' + billingid + '&deliveryAmount=' + deliveryAmount;
                         }
 
                         backButton.addEventListener("click", function () {
                             errorDiv.textContent = "";
-
                         });
                     }
                 </script>
+
 
 
                 </script>

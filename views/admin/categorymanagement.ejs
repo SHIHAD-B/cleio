@@ -15,197 +15,179 @@
 <body>
 
     <div class="whole">
-        <div class="menu">
-            <div class="logo"><img class="log" src="/admin/images/logo_black.png" alt=""></div>
-            <div class="menu_items">
-                <div class="items"><img src="/admin/images/admin online.png" alt=""><span class="tag ">Profile</span>
-                </div>
-                <div class="items"><img src="/admin/images/dashboard.png" alt=""><span class="tag ">Dashboard</span>
-                </div>
-                <a href="/admin/product">
-                    <div class="items"><img src="/admin/images/product.png" alt=""><span class="tag ">Products</span>
-                    </div>
-                </a>
-                <a href="/admin/category">
-                    <div class="items"><img src="/admin/images/category.png" alt=""><span class="tag ">Category</span>
-                    </div>
-                </a>
-                <div class="items"><img src="/admin/images/orders.png" alt=""><span class="tag ">Orders</span>
-                </div>
-                <div class="items"><img src="/admin/images/coupons.png" alt=""><span class="tag ">Coupons</span>
-                </div>
-                <div class="items"><img src="/admin/images/banner.png" alt=""><span class="tag ">Banner</span>
-                </div>
-                <div class="items"><img src="/admin/images/transactions.png" alt=""><span
-                        class="tag ">Transactions</span></div>
-                <div class="items"><img src="/admin/images/manageadmin.png" alt=""><span class="tag ">Admin</span></div>
-                <a href="/admin">
-                    <div class="items"><img src="/admin/images/users.png" alt=""><span class="tag ">User</span>
-                    </div>
-                </a>
-                <div class="items"><img src="/admin/images/settings.png" alt=""><span class="tag ">Settings</span></div>
-                <a href="/logout">
-                    <div class="items"><img src="/admin/images/logout.png" alt=""><span class="tag ">Logout</span></div>
-                </a>
-            </div>
-        </div>
-        <div class="main">
+        <%- include('../partials/admin/menu') %>
+            <div class="main">
 
-            <div class="content  ">
+                <div class="content  ">
+                    <%if(!authority){%>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn bg-success  addcategory" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            <img src="/admin/images/plus.png" style=" margin-right: 10px;" alt=""><span class="add">Add
+                                category</span>
+                        </button>
 
-                <!-- Button trigger modal -->
-                <button type="button" class="btn bg-success  addcategory" data-toggle="modal"
-                    data-target="#exampleModalCenter">
-                    <img src="/admin/images/plus.png" style=" margin-right: 10px;" alt=""><span class="add">Add
-                        category</span>
-                </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Category</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="/admin/addcategory" method="POST">
+                                        <div class="modal-body">
+                                            <label for="categoryname" class="categorytag">Category Name:</label>
+                                            <input type="text" name="categoryname" class="categoryfield"
+                                                id="categoryname">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success ">Save changes</button>
+                                        </div>
+                                    </form>
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Category</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                </div>
                             </div>
-                            <form action="/admin/addcategory" method="POST">
-                                <div class="modal-body">
-                                    <label for="categoryname" class="categorytag">Category Name:</label>
-                                    <input type="text" name="categoryname" class="categoryfield" id="categoryname">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-success ">Save changes</button>
-                                </div>
-                            </form>
-
                         </div>
-                    </div>
-                </div>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Added on</th>
+                        <%}%>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Added on</th>
+                                        <%if(!authority){%>
 
+                                            <th scope="col">Actions</th>
+                                            <%}%>
 
-                            <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if(data){ %>
+                                        <% data.forEach((value, index)=> { %>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if(data){ %>
-                            <% data.forEach((value, index)=> { %>
+                                            <tr>
+                                                <th scope="row">
+                                                    <%= index + 1 %>
+                                                </th>
+                                                <td><%- value.Category %></td>
+                                                <td><%- new Date(value.date).toLocaleDateString('en-GB', {
+                                                        day: '2-digit' , month: '2-digit' , year: 'numeric' }) %></td>
+                                                <%if(!authority){%>
+                                                    <td>
+                                                        <div class="modal fade" id="exampleModal<%= value._id %>"
+                                                            tabindex="-1" role="dialog"
+                                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                                            Edit
+                                                                            Category</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form
+                                                                            action="/admin/editcategory/<%= value._id %>"
+                                                                            method="POST"
+                                                                            onsubmit="return validateEdit()">
+                                                                            <div class="edit-content">
 
-                                <tr>
-                                    <th scope="row">
-                                        <%= index + 1 %>
-                                    </th>
-                                    <td><%- value.Category %></td>
-                                    <td><%- new Date(value.date).toLocaleDateString('en-GB', { day: '2-digit' ,
-                                            month: '2-digit' , year: 'numeric' }) %></td>
-                                    <td>
-                                        <div class="modal fade" id="exampleModal<%= value._id %>" tabindex="-1"
-                                            role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Edit
-                                                            Category</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="/admin/editcategory/<%= value._id %>"
-                                                            method="POST" onsubmit="return validateEdit()">
-                                                            <div class="edit-content">
-
-                                                                <label for="edit" class="lab">
-                                                                    Category:</label>
-                                                                <input type="text" name="edit" id="edit"
-                                                                    value="<%= value.Category %>">
-                                                                <div id="editError" class="error-message"
-                                                                    style="width: 100%;margin-left: 90px;">
+                                                                                <label for="edit" class="lab">
+                                                                                    Category:</label>
+                                                                                <input type="text" name="edit" id="edit"
+                                                                                    value="<%= value.Category %>">
+                                                                                <div id="editError"
+                                                                                    class="error-message"
+                                                                                    style="width: 100%;margin-left: 90px;">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-dismiss="modal">Close</button>
+                                                                                <button type="submit"
+                                                                                    class="btn btn-success">Save</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal">Close</button>
-                                                                <button type="submit"
-                                                                    class="btn btn-success">Save</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-sm" data-toggle="modal"
-                                            data-target="#exampleModal<%= value._id %>">
-                                            <img src="/admin/images/edit.png" alt="" width="12" height="12">
-                                        </button>
-                                    </td>
-                                    <td>
-
-
-
-
-
-
-
-
-
-
-
-                                        <div class="modal fade" id="Modal<%= value._id %>" tabindex="-1" role="dialog"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">
-                                                            Confirm
-                                                            delete
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
+                                                        </div>
+                                                        <button class="btn btn-sm" data-toggle="modal"
+                                                            data-target="#exampleModal<%= value._id %>">
+                                                            <img src="/admin/images/edit.png" alt="" width="12"
+                                                                height="12">
                                                         </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Are you sure to delete
-                                                        <%-value.Category%>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class=" btn-secondary"
-                                                            data-dismiss="modal">Close</button>
-                                                        <a href="/admin/deletecategory/<%= value._id%>">
-                                                            <button type="button" class="btn-danger">Delete</button>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                    </td>
+                                                    <td>
+
+
+
+
+
+
+
+
+
+
+
+                                                        <div class="modal fade" id="Modal<%= value._id %>" tabindex="-1"
+                                                            role="dialog" aria-labelledby="exampleModalLabel"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                                            Confirm
+                                                                            delete
+                                                                        </h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        Are you sure to delete
+                                                                        <%-value.Category%>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class=" btn-secondary"
+                                                                            data-dismiss="modal">Close</button>
+                                                                        <a href="/admin/deletecategory/<%= value._id%>">
+                                                                            <button type="button"
+                                                                                class="btn-danger">Delete</button>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                </div>
+                <button class="btn btn-sm" data-toggle="modal" data-target="#Modal<%= value._id %>">
+                    <img src="/admin/images/delete.png" alt="" width="12" height="12">
+                </button>
+                </td>
+
+                <%}%>
+
+
+
+
+                    </tr>
+                    <% }) %>
+                        <% } %>
+                            </tbody>
+                            </table>
             </div>
-            <button class="btn btn-sm" data-toggle="modal" data-target="#Modal<%= value._id %>">
-                <img src="/admin/images/delete.png" alt="" width="12" height="12">
-            </button>
-            </td>
-
-
-
-
-
-            </tr>
-            <% }) %>
-                <% } %>
-                    </tbody>
-                    </table>
-        </div>
 
     </div>
     <div id="snackbar">

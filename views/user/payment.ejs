@@ -34,7 +34,16 @@
                                     </div>
 
                                     <div class="prd-price-del">
-                                        <span>₹<%=value.Product_id.Price*value.Quantity %></span>
+                                        <%if(value.Product_id.product_offer){%>
+                                            <span>₹<%=value.Product_id.Price-(value.Product_id.Price*value.Product_id.product_offer.Offer
+                                                    /100)%></span>
+
+                                            <%}else if(value.Product_id.category_offer){%>
+                                                <span>₹<%=value.Product_id.Price-(value.Product_id.Price*value.Product_id.category_offer.Offer
+                                                        /100)%></span>
+                                                <%}else{%>
+                                                    <span>₹<%=value.Product_id.Price%></span>
+                                                    <%}%>
 
                                     </div>
 
@@ -68,7 +77,7 @@
 
                         <div class="price-right">
                             <span class="font2">₹<%=total%></span>
-                            <span class="font2">FREE</span>
+                            <span class="font2">₹<%=deliveryAmount%></span>
                             <span class="font2" id="discount">₹0</span>
                             <span class="font2" id="total">₹<%=total%></span>
                         </div>
@@ -273,7 +282,7 @@
 
 
 
-                                                window.location.href = '/order-confirmed?id=' + addressid + '&billingid=' + billingid + '&type=razorPay' + '&total=' + encodeURIComponent(totalvalue) + '&couponcode=' + couponValue;
+                                                window.location.href = '/order-confirmed?id=' + addressid + '&billingid=' + billingid + '&type=razorPay' + '&total=' + encodeURIComponent(totalvalue) + '&couponcode=' + couponValue + '&deliveryAmount=<%=deliveryAmount%>';
                                             },
                                             prefill: {
                                                 name: '<%=user.Name%>',
@@ -308,7 +317,7 @@
 
                                             if (data.success) {
 
-                                                window.location.href = '/order-confirmed?id=' + addressid + '&billingid=' + billingid + '&type=wallet' + '&total=' + encodeURIComponent(totalvalue) + '&couponcode=' + couponValue;
+                                                window.location.href = '/order-confirmed?id=' + addressid + '&billingid=' + billingid + '&type=wallet' + '&total=' + encodeURIComponent(totalvalue) + '&couponcode=' + couponValue + '&deliveryAmount=<%=deliveryAmount%>';
                                             } else {
                                                 displayErrorMessage("Failed to update wallet balance");
                                             }
@@ -322,7 +331,7 @@
                                 }
 
                             } else {
-                                window.location.href = '/order-confirmed?id=' + addressid + '&billingid=' + billingid + '&type=COD' + '&total=' + encodeURIComponent(totalvalue) + '&couponcode=' + couponValue;
+                                window.location.href = '/order-confirmed?id=' + addressid + '&billingid=' + billingid + '&type=COD' + '&total=' + encodeURIComponent(totalvalue) + '&couponcode=' + couponValue + '&deliveryAmount=<%=deliveryAmount%>';
                             }
                         }
                     }

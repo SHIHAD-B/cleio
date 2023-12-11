@@ -7,222 +7,245 @@
     <link rel="stylesheet" href="/admin/css/dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <title>user-management</title>
 </head>
 
 <body>
+    <!-- Add the modal structure -->
+    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportModalLabel">Download Reports</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="reportType" id="dailyReport" value="daily"
+                            checked>
+                        <label class="form-check-label" for="dailyReport">Daily Report</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="reportType" id="weeklyReport" value="weekly">
+                        <label class="form-check-label" for="weeklyReport">Weekly Report</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="reportType" id="monthlyReport"
+                            value="monthly">
+                        <label class="form-check-label" for="monthlyReport">Annually Report</label>
+                    </div>
 
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="reportType" id="dateRangeReport"
+                            value="dateRange">
+                        <label class="form-check-label" for="dateRangeReport">Date Range</label>
+                    </div>
+                    <div id="dateRangeInputs" style="display: none;">
+                        <label for="fromDate">From:</label>
+                        <input type="date" id="fromDate" name="fromDate">
+                        <label for="toDate">To:</label>
+                        <input type="date" id="toDate" name="toDate">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="downloadReport()">Download Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="whole">
-        <div class="menu">
-            <div class="logo"><img class="log" src="/user/images/logo_black.png" alt=""></div>
-            <div class="menu_items">
-                <div class="items"><img src="/admin/images/admin online.png" alt=""><span class="tag ">Profile</span>
+        <%- include('../partials/admin/menu') %>
+
+
+
+            <div class="main">
+                <div class="topreport">
+                    <div class="reports">
+                        <div class="todaysales">
+                            <div class="sales">
+                                <span class="font1">Todays Sales</span>
+                                <span class="font2">₹<%=totalRevenueToday%></span>
+                                <span class="font1">
+                                    <%=deliveryToday%> items sold
+                                </span>
+                            </div>
+                        </div>
+                        <div class="todaysorder">
+                            <div class="order">
+                                <span class="font1">Todays Orders</span>
+                                <span class="font2">
+                                    <%=ordersToday%>
+
+                                </span>
+                                <span class="font1">
+                                    <%=ordersToday%> items ordered so far
+                                </span>
+                            </div>
+                        </div>
+                        <div class="todaysreturn">
+                            <div class="return">
+                                <span class="font1">Todays returns</span>
+                                <span class="font2">
+
+                                    <%=totalreturnToday%>
+                                </span>
+                                <span class="font1">
+                                    <%=totalreturnToday%> items returned today
+                                </span>
+                            </div>
+                        </div>
+                        <div class="usrescount">
+                            <div class="count">
+                                <span class="font1">Users Count</span>
+                                <span class="font2">
+
+                                    <%=users%>
+                                </span>
+                                <span class="font1">Total users signedup to cleio</span>
+                            </div>
+                        </div>
+                        <div class="totalproducts">
+                            <div class="products">
+                                <span class="font1">Total Products</span>
+                                <span class="font2">
+                                    <%=products%>
+                                </span>
+                                <span class="font1">
+                                    <%=products%> product available
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-                <div class="items"><img src="/admin/images/dashboard.png" alt=""><span class="tag ">Dashboard</span>
-                </div>
-                <a href="/admin/product">
-                    <div class="items"><img src="/admin/images/product.png" alt=""><span class="tag ">Products</span>
-                    </div>
-                </a>
-                <a href="/admin/category">
-                    <div class="items"><img src="/admin/images/category.png" alt=""><span class="tag ">Category</span>
-                    </div>
-                </a>
-                <div class="items"><img src="/admin/images/orders.png" alt=""><span class="tag ">Orders</span></div>
-                <div class="items"><img src="/admin/images/coupons.png" alt=""><span class="tag ">Coupons</span></div>
-                <div class="items"><img src="/admin/images/banner.png" alt=""><span class="tag ">Banner</span></div>
-                <div class="items"><img src="/admin/images/transactions.png" alt=""><span
-                        class="tag ">Transactions</span></div>
-                <div class="items"><img src="/admin/images/manageadmin.png" alt=""><span class="tag ">Admin</span></div>
-                <a href="/admin/user">
-                    <div class="items"><img src="/admin/images/users.png" alt=""><span class="tag ">User</span></div>
-                </a>
-                <div class="items"><img src="/admin/images/settings.png" alt=""><span class="tag ">Settings</span></div>
-                <a href="/logout">
-                    <div class="items"><img src="/admin/images/logout.png" alt=""><span class="tag ">Logout</span></div>
-                </a>
-            </div>
-        </div>
+                <div class="graphandreport">
+                    <div class="graph">
 
+                        <div class="graph-buttons" style="margin-left: 10px;">
+                            <button id="btnDaily" class="btn btn-outline-primary" onclick="today()">Today</button>
+                            <button id="btnDaily" class="btn btn-outline-primary" onclick="loadDaily()">Weekly</button>
+                            <button id="btnMonthly" class="btn btn-outline-primary"
+                                onclick="loadMonthly()">Monthly</button>
+                            <button id="btnAnnually" class="btn btn-outline-primary"
+                                onclick="loadAnnually()">Annually</button>
+                        </div>
 
-
-        <div class="main">
-            <div class="topreport">
-                <div class="reports">
-                    <div class="todaysales">
-                        <div class="sales">
-                            <span class="font1">Todays Sales</span>
-                            <span class="font2">₹<%=priceToday%></span>
-                            <span class="font1">
-                                <%=deliveryToday%> items sold
-                            </span>
-                        </div>
-                    </div>
-                    <div class="todaysorder">
-                        <div class="order">
-                            <span class="font1">Todays Orders</span>
-                            <span class="font2">
-                                <%=ordersToday%>
-
-                            </span>
-                            <span class="font1">
-                                <%=ordersToday%> items ordered so far
-                            </span>
-                        </div>
-                    </div>
-                    <div class="todaysreturn">
-                        <div class="return">
-                            <span class="font1">Todays returns</span>
-                            <span class="font2">
-
-                                <%=totalreturnToday%>
-                            </span>
-                            <span class="font1">
-                                <%=totalreturnToday%> items returned today
-                            </span>
-                        </div>
-                    </div>
-                    <div class="usrescount">
-                        <div class="count">
-                            <span class="font1">Users Count</span>
-                            <span class="font2">
-                                <%=users%>
-                            </span>
-                            <span class="font1">Total users signedup to cleio</span>
-                        </div>
-                    </div>
-                    <div class="totalproducts">
-                        <div class="products">
-                            <span class="font1">Total Products</span>
-                            <span class="font2">
-                                <%=products%>
-                            </span>
-                            <span class="font1">
-                                <%=products%> product available
-                            </span>
-                        </div>
+                        <div id="chart_div" style="width: 100%; height: 500px;"></div>
+                        <button id="btnDownloadReport" onclick="salesReport()" class="btn btn-primary">Download
+                            Overall Report</button>
                     </div>
 
                 </div>
             </div>
-            <div class="graphandreport">
-                <div class="graph">
-                    <span class="font3" style="margin-left: 10px;">Sales Report</span>
-                    <div class="graph-buttons" style="margin-left: 10px;">
-                        <button id="btnDaily" class="btn btn-outline-primary" onclick="loadDaily()">Daily</button>
-                        <button id="btnMonthly" class="btn btn-outline-primary" onclick="loadMonthly()">Monthly</button>
-                        <button id="btnAnnually" class="btn btn-outline-primary"
-                            onclick="loadAnnually()">Annually</button>
-                    </div>
 
-                    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-                </div>
-                <div class="greports">
-                    <div id="donutchart" style="width: 483px; height: 400px;">
-                    </div>
-                    <div class="download-button">
-                        <button id="btnDownloadReport" class="btn btn-primary">Download Overall Report</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-            loadDaily()
-            function loadDaily() {
-                var dailyData = {
-                    day: 'Today',
-                    sales: parseInt('<%=priceToday%>'),
-                    expenses: 0.7 * parseInt('<%=priceToday%>'),
-                    profit: 0.3 * parseInt('<%=priceToday%>')
-                };
-
-                drawCharts(dailyData);
-            }
-
-            function loadMonthly() {
-                var monthlyData = {
-                    month: 'January',
-                    sales: parseInt('<%=priceMonthly%>'),
-                    expenses: 0.7 * parseInt('<%=priceMonthly%>'),
-                    profit: 0.3 * parseInt('<%=priceMonthly%>'),
-                };
-
-                drawCharts(monthlyData);
-            }
-
-            function loadAnnually() {
-                var yearlyData = {
-                    year: '2023',
-                    sales: parseInt('<%=priceYearly%>'),
-                    expenses: 0.7 * parseInt('<%=priceYearly%>'),
-                    profit: 0.3 * parseInt('<%=priceYearly%>')
-                };
-
-                drawCharts(yearlyData);
-            }
-
-            function drawCharts(data) {
-                google.charts.load("current", { packages: ["corechart"] });
-                google.charts.setOnLoadCallback(drawChart);
-
-                function drawChart() {
-
-                    var donutData = google.visualization.arrayToDataTable([
-                        ['Task', 'Hours per Day'],
-                        ['Profit', data.profit],
-                        ['Expenses', data.expenses]
-                    ]);
-
-                    var donutOptions = {
-                        title: 'Overall Sales',
-                        pieHole: 0.4,
-                    };
-
-                    var donutChart = new google.visualization.PieChart(document.getElementById('donutchart'));
-                    donutChart.draw(donutData, donutOptions);
+            <script>
+                function salesReport() {
+                    $('#reportModal').modal('show');
                 }
 
-                google.charts.load('current', { 'packages': ['corechart'] });
-                google.charts.setOnLoadCallback(drawVisualization);
+                function downloadReport() {
+                    var reportType = $("input[name='reportType']:checked").val();
+                    var fromDate = $('#fromDate').val();
+                    var toDate = $('#toDate').val();
 
-                function drawVisualization() {
 
-                    var comboData = google.visualization.arrayToDataTable([
-                        ['Day', 'Sales', 'Expenses', 'Profit'],
-                        [data.day || data.month || data.year, data.sales, data.expenses, data.profit]
-                    ]);
+                    var downloadLink = '/admin/downloadOverallReport?type=' + reportType;
 
-                    var comboOptions = {
-                        title: 'Sales, Expenses, and Profit',
-                        seriesType: 'bars',
-                        series: {
-                            0: { color: '0AC1F2' },
-                            1: { color: 'F2230A' },
-                            2: { color: '21C933' }
-                        },
-                        bar: { groupWidth: '30%' }
-                    };
+                    if (reportType === 'dateRange' && fromDate && toDate) {
+                        downloadLink += '&fromDate=' + fromDate + '&toDate=' + toDate;
+                    }
 
-                    var comboChart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-                    comboChart.draw(comboData, comboOptions);
+
+                    window.location.href = downloadLink;
+
+
+                    $('#reportModal').modal('hide');
                 }
-            }
-        </script>
+
+
+                $('input[name="reportType"]').change(function () {
+                    if ($(this).val() === 'dateRange') {
+                        $('#dateRangeInputs').show();
+                    } else {
+                        $('#dateRangeInputs').hide();
+                    }
+                });
+            </script>
+
+            <script>
+                var chartDom = document.getElementById('chart_div');
+                var myChart = echarts.init(chartDom);
+                var option;
+
+
+                option = {
+                    xAxis: {
+                        type: 'category',
+                        data: ['Today']
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            data: ['<%=totalRevenueToday%>'],
+                            type: 'bar',
+                            barWidth: 60
+                        }
+                    ]
+                };
+
+                option && myChart.setOption(option);
+
+                function today() {
+
+
+                    option.xAxis.data = ['Today'];
+                    option.series[0].data = ['<%=totalRevenueToday%>'];
+                    myChart.setOption(option);
+                }
+
+                function loadDaily() {
+
+                    option.xAxis.data = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    option.series[0].data = '<%=totalRevenueThisWeek%>'.split(',').map(Number);
 
 
 
 
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                    myChart.setOption(option);
+                }
+
+                function loadMonthly() {
+                    alert(JSON.stringify('<%=totalRevenueThisMonth%>'))
+                    option.xAxis.data = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    option.series[0].data = '<%=totalRevenueThisMonth%>'.split(',').map(Number);
+
+                    myChart.setOption(option);
+                }
+
+                function loadAnnually() {
+
+                    option.xAxis.data = Array.from({ length: 5 }, (_, index) => `${new Date().getFullYear() - index}`).reverse();
+
+
+                    option.series[0].data = '<%=totalRevenueThisYear%>'.split(',').map(Number);
+
+                    myChart.setOption(option);
+                }
+            </script>
+
+
+            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 
 </body>
 

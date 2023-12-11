@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/admin/css/referaloffer.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+
+    <title>referal management</title>
+</head>
+
+<body>
+
+
+    <div class="whole">
+        <%- include('../partials/admin/menu') %>
+            <div class="main">
+                <div class="button-container">
+
+                    <button class="btn btn-primary btn-offer" onclick="location.href='/admin/offerManagement'">Product
+                        Offers</button>
+                    <button class="btn btn-primary btn-offer" onclick="location.href='/admin/categoryoffer'">Category
+                        Offers</button>
+                </div>
+                <div class="details">
+                    <div class="table1">
+                        <div class="head">
+                            <span>Content</span>
+                            <span>Last Edited</span>
+                            <span>Amount</span>
+
+                            <span>Status</span>
+                        </div>
+                        <div class="content1">
+                            <span>referred</span>
+                            <span>
+                                <%- new Date(referralData[0]. Referred_user_lastedit).toLocaleDateString('en-GB', {
+                                    day: '2-digit' , month: '2-digit' , year: 'numeric' }) %>
+                            </span>
+                            <span>₹<%=referralData[0].Referred_user%></span>
+                            <%if(referralData[0].Referred_user_status=='active'){%>
+                                <%if(!authority){%>
+                                    <span> <input id="referred" class="switch" type="checkbox" onchange="referred()"
+                                            checked></span>
+                                    <%}else{%>
+                                        <span>active</span>
+                                        <% }%>
+                                            <%}else{%>
+                                                <%if(!authority){%>
+                                                    <span> <input id="referred" class="switch" type="checkbox"
+                                                            onchange="referred()"></span>
+                                                    <%}else{%>
+                                                        <span>blocked</span>
+                                                        <% }%>
+                                                            <% }%>
+                        </div>
+                        <div class="content1">
+                            <span>Inviter</span>
+                            <span> <%- new Date(referralData[0].Inviter_lastedit).toLocaleDateString('en-GB', {
+                                    day: '2-digit' , month: '2-digit' , year: 'numeric' }) %></span>
+                            <span>₹<%=referralData[0].Inviter%></span>
+
+                            <%if(referralData[0].Inviter_status=='active'){%>
+                                <%if(!authority){%>
+                                    <span> <input id="inviter" class="switch" type="checkbox" onchange="inviter()"
+                                            checked></span>
+                                    <%}else{%>
+                                        <span>active</span>
+                                        <%}%>
+
+                                            <%}else{%>
+                                                <%if(!authority){%>
+                                                    <span> <input id="inviter" class="switch" type="checkbox"
+                                                            onchange="inviter()"></span>
+                                                    <%}else{%>
+                                                        <%}%>
+                                                            <span>blocked</span>
+                                                            <% }%>
+                        </div>
+                    </div>
+                    <%if(!authority){%>
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Referral</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group">
+                                            <label for="inviterBonus">Inviter Bonus:</label>
+                                            <input type="Number" class="form-control" id="inviterBonus"
+                                                name="inviterBonus" value="<%=referralData[0].Inviter%>">
+                                            <div class="error" id="inviterBonusError"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="referredUserBonus">Referred User Bonus:</label>
+                                            <input type="Number" class="form-control" id="referredUserBonus"
+                                                name="referredUserBonus" value="<%=referralData[0].Referred_user%>">
+                                            <div class="error" id="referredUserBonusError"></div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-success" onclick="edit()">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn btn-primary" style="margin-left: 900px; margin-top: 10px;" data-toggle="modal"
+                            data-target="#exampleModalCenter">Edit Referral</div>
+                        <%}%>
+                </div>
+                <div class="referals">
+                    <table class="table table-striped" style="width: 80%;">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Inviter</th>
+                                <th>Referred User</th>
+                                <th>Referral date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% pageData.reverse().forEach((value,index)=>{%>
+
+                                <tr>
+                                    <td>
+                                        <%=index+1%>
+                                    </td>
+                                    <td>
+                                        <%=value.Inviter%>
+                                    </td>
+                                    <td>
+                                        <%=value.Referred_user%>
+                                    </td>
+                                    <td>
+                                        <%- new Date(value.Date).toLocaleDateString('en-GB', { day: '2-digit' ,
+                                            month: '2-digit' , year: 'numeric' }) %>
+
+
+                                    </td>
+                                </tr>
+                                <%})%>
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <% for(let i=1; i <=Math.ceil(data.length/5); i++) { %>
+                        <a href="?page=<%= i %>" <% if (currentPage==i) { %>class="active"<% } %>><%= i %></a>
+                        <% } %>
+                </div>
+            </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        async function edit() {
+
+            function isEmpty(value) {
+                const trimmedValue = value.trim();
+                return trimmedValue === "";
+            }
+
+            function isLessthan0(value) {
+                return value < 0;
+            }
+            const referredUserBonus = document.getElementById('referredUserBonus')
+            const referredUserBonusValue = referredUserBonus.value;
+            const referredUserBonusError = document.getElementById('referredUserBonusError')
+
+
+            const inviterBonus = document.getElementById('inviterBonus');
+            const inviterBonusValue = inviterBonus.value;
+            const inviterBonusError = document.getElementById('inviterBonusError')
+
+            referredUserBonusError.textContent = ""
+            inviterBonusError.textContent = ""
+
+            let valid = true;
+            if (isEmpty(referredUserBonusValue)) {
+                referredUserBonusError.textContent = " field can't be empty"
+                valid = false;
+            }
+            if (isLessthan0(referredUserBonusValue)) {
+                referredUserBonusError.textContent = " value can't be less than 0"
+                valid = false;
+            }
+
+            if (isEmpty(inviterBonusValue)) {
+                inviterBonusError.textContent = " field can't be empty"
+                valid = false;
+            }
+            if (isLessthan0(inviterBonusValue)) {
+                inviterBonusError.textContent = " value can't be less than 0"
+                valid = false;
+            }
+            if (valid) {
+                const url = "/admin/editrefferalOffer"
+                const data = {
+                    inviterBonus: inviterBonusValue,
+                    referredUserBonus: referredUserBonusValue
+                }
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        window.location.href = '/admin/referal';
+                    }
+                } catch (error) {
+                    console.error('Error during fetch:', error);
+                }
+
+            }
+        }
+        async function referred() {
+            try {
+                const checkboxElementrefferral = document.getElementById('referred');
+                const data = {
+                    status: checkboxElementrefferral.checked ? 'active' : 'blocked'
+                };
+
+                const url = '/admin/changerefferedstatus'
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    (function () {
+                        Toastify({
+                            text: "status changed",
+                            className: "info",
+                            style: {
+                                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                            }
+                        }).showToast();
+                    })();
+
+                }
+            } catch (error) {
+                console.error('Error during fetch:', error);
+            }
+        }
+        async function inviter() {
+
+            try {
+                const checkboxElementinviter = document.getElementById('inviter');
+                const data = {
+                    status: checkboxElementinviter.checked ? 'active' : 'blocked'
+                };
+
+                const url = '/admin/changeinviterstatus'
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    (function () {
+                        Toastify({
+                            text: "status changed",
+                            className: "info",
+                            style: {
+                                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                            }
+                        }).showToast();
+                    })();
+                }
+            } catch (error) {
+                console.error('Error during fetch:', error);
+            }
+        }
+    </script>
+
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

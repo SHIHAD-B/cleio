@@ -11,6 +11,10 @@ const UsersSchema = new Schema({
   Role: { type: String, required: true, enum: ['user'] },
   Mobile: { type: Number },
   isdeleted: { type: Boolean, required: true },
+  referral_code: { type: String },
+  referrals: [{
+    User: { type: Schema.Types.ObjectId },
+  }],
   Profile: { type: String },
   Cart: { type: Schema.Types.ObjectId }
 

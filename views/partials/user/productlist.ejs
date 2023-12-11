@@ -17,22 +17,43 @@
                             <div class="part-1">
                                 <a href="/productdetail/<%=value.id%>"> <img src="<%= value.Image[0].Main %>" alt="sss"
                                         style="width: 100%; height: 100%;"></a>
-                                <span class="new">new</span>
-                                <ul>
+                                <% if (value.product_offer) { %>
+                                    <span class="new bg-success ">
+                                        <%=value.product_offer.Offer%> % offer
+                                    </span>
+                                    <% } else if (value.category_offer) { %>
+                                        <span class="new bg-success">
+                                            <%=value.category_offer.Offer%> % offer
+                                        </span>
+                                        <% } %>
+                                            <ul>
 
-                                    <li style="cursor: pointer;" onclick="favorite('<%=value.id%>')"><a><i
-                                                class="fas fa-heart"></i></a></li>
-                                    <li><a href="/productdetail/<%=value.id%>"><i class="fas fa-expand"></i></a></li>
-                                </ul>
+                                                <li style="cursor: pointer;" onclick="favorite('<%=value.id%>')"><a><i
+                                                            class="fas fa-heart"></i></a></li>
+                                                <li><a href="/productdetail/<%=value.id%>"><i
+                                                            class="fas fa-expand"></i></a></li>
+                                            </ul>
                             </div>
                             <div class="part-2">
                                 <h3 class="product-title">
                                     <%= value.Name %>
                                 </h3>
-                                <h4 class="product-old-price">₹<%= value.Price +2000%>
-                                </h4>
-                                <h4 class="product-price">₹<%= value.Price %>
-                                </h4>
+                                <% if (value.product_offer||value.category_offer) { %>
+                                    <h4 class="product-old-price">₹<%= value.Price%>
+                                            <% } %>
+                                    </h4>
+                                    <% if (value.product_offer) { %>
+                                        <h4 class="product-price">₹<%=Math.floor(
+                                                value.Price-(value.Price*(value.product_offer.Offer/100)))%>
+                                        </h4>
+                                        <% } else if (value.category_offer) { %>
+                                            <h4 class="product-price">₹<%=Math.floor(
+                                                    value.Price-(value.Price*(value.category_offer.Offer/100)))%>
+                                            </h4>
+                                            <% }else{%>
+                                                <h4 class="product-price">₹<%=value.Price%>
+                                                </h4>
+                                                <% } %>
                             </div>
                         </div>
                     </div>

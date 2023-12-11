@@ -31,11 +31,25 @@
                                         Quantity: 1
                                     </div>
                                 </div>
+                                <% if(product.product_offer){%>
 
-                                <div class="prd-price-del">
-                                    <span>₹<%=product.Price %></span>
+                                    <div class="prd-price-del">
+                                        <span>₹<%=product.Price-(product.Price*product.product_offer.Offer
+                                                /100)%></span>
 
-                                </div>
+                                    </div>
+                                    <%}else if(product.category_offer){%>
+                                        <div class="prd-price-del">
+                                            <span>₹<%=product.Price-(product.Price*product.category_offer.Offer /100)
+                                                    %></span>
+
+                                        </div>
+                                        <% }else{%>
+                                            <div class="prd-price-del">
+                                                <span>₹<%=product.Price %></span>
+
+                                            </div>
+                                            <%}%>
 
                             </div>
 
@@ -50,10 +64,28 @@
                         </div>
 
                         <div class="price-right">
-                            <span class="font2">₹<%=product.Price%></span>
-                            <span class="font2">FREE</span>
-                            <span class="font2">₹0</span>
-                            <span class="font2">₹<%=product.Price%></span>
+                            <% if(product.product_offer){%>
+                                <span class="font2">₹<%=product.Price-(product.Price*product.product_offer.Offer
+                                        /100)%></span>
+                                <%}else if(product.category_offer){%>
+                                    <span class="font2">₹<%=product.Price-(product.Price*product.category_offer.Offer
+                                            /100)%></span>
+                                    <% }else{%>
+                                        <span class="font2">₹<%=product.Price%></span>
+                                        <%}%>
+                                            <span class="font2">FREE</span>
+                                            <span class="font2">₹0</span>
+                                            <% if(product.product_offer){%>
+                                                <span
+                                                    class="font2">₹<%=product.Price-(product.Price*product.product_offer.Offer
+                                                        /100)%></span>
+                                                <%}else if(product.category_offer){%>
+                                                    <span
+                                                        class="font2">₹<%=product.Price-(product.Price*product.category_offer.Offer
+                                                            /100)%></span>
+                                                    <% }else{%>
+                                                        <span class="font2">₹<%=product.Price%></span>
+                                                        <%}%>
                         </div>
                     </div>
                 </div>

@@ -371,3 +371,23 @@ section .section-title {
 #footer ul.quick-links li:hover a i {
     font-weight: 700;
 }
+
+/* pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 10px;
+    text-decoration: none !important;
+    color: #007b5e;
+    margin: 0 5px;
+
+}
+
+.pagination a.active {
+    background-color: rgba(128, 128, 128, 0.399);
+    color: white;
+}

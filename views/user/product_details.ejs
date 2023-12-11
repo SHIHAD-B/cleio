@@ -93,69 +93,87 @@
                                 </select>
 
                             </div>
-                            <span class="price">₹<%= value.Price%></span>
-                            <span class="previousprice"><strike>₹7000</strike></span>
-                            <span class="productdetails">Product details:</span>
-                            <div class="productspec">
-                                <div class="field">
-                                    <li type="none" class="brand">Material Type</li>
-                                    <li type="none" class="brand">Closure Type</li>
-                                    <li type="none" class="brand">Heel Type</li>
-                                    <li type="none" class="brand">Water Resistance</li>
-                                    <li type="none" class="brand">Sole Material</li>
-                                    <li type="none" class="brand">Style</li>
-                                    <li type="none" class="brand">Country of Origin</li>
+                            <%if(value.product_offer){%>
+                                <span class="price">₹<%=Math.floor(value.Price-(value.Price*value.product_offer.Offer
+                                        /100))%>
+                                </span>
 
-                                </div>
-                                <div class="desc">
-                                    <li type="none" class="brand">
-                                        <%= value.Product_details.Material_type%>
-                                    </li>
-                                    <li type="none" class="brand">
-                                        <%=value.Product_details.Closure_type %>
-                                    </li>
-                                    <li type="none" class="brand">
-                                        <%=value.Product_details.Heel_type%>
-                                    </li>
-                                    <li type="none" class="brand">
-                                        <%=value.Product_details.Water_resistance %>
-                                    </li>
-                                    <li type="none" class="brand">
-                                        <%=value.Product_details.Sole_material%>
-                                    </li>
-                                    <li type="none" class="brand">
-                                        <%=value.Product_details.Style %>
-                                    </li>
-                                    <li type="none" class="brand">
-                                        <%=value.Product_details.Country_of_origin %>
-                                    </li>
-                                </div>
-                            </div>
-                            <span class="productdetails">Product description:</span>
-                            <div class="productdesc">
-                                <p class="pdesc">
-                                    <%= value.Description %>
-                                </p>
-                            </div>
+                                <%}else if(value.category_offer ){%>
+                                    <span
+                                        class="price">₹<%=Math.floor(value.Price-(value.Price*value.category_offer.Offer
+                                            /100))%>
+                                    </span>
+                                    <%}else{%>
+                                        <span class="price">₹<%= value.Price%></span>
+                                        <% }%>
+                                            <%if(value.product_offer||value.category_offer){%>
+                                                <span class="previousprice"><strike>₹<%=value.Price%></strike></span>
+                                                <% }%>
+                                                    <span class="productdetails">Product details:</span>
+                                                    <div class="productspec">
+                                                        <div class="field">
+                                                            <li type="none" class="brand">Material Type</li>
+                                                            <li type="none" class="brand">Closure Type</li>
+                                                            <li type="none" class="brand">Heel Type</li>
+                                                            <li type="none" class="brand">Water Resistance</li>
+                                                            <li type="none" class="brand">Sole Material</li>
+                                                            <li type="none" class="brand">Style</li>
+                                                            <li type="none" class="brand">Country of Origin</li>
 
-                            <div class="addtocartandbuynow">
-                                <% if (value.variant.some(variant=> variant.quantity > 0)) { %>
-                                    <button onclick="addToCart('<%= value._id %>')" class="addtocart">
-                                        <img id="animation" src="/user/images/Animation - 1699442209402.gif" alt=""
-                                            style="width: 40px; height: 40px; display: none;">
-                                        <span class="brand" id="addtocart">Add to
-                                            cart</span></button>
-                                    <div class="buynow">
-                                        <button onclick="buynow('<%= value._id %>')" class="buynow"><span
-                                                class="brand">Buy
-                                                now</span></button>
-                                    </div>
-                                    <% } else { %>
-                                        <p class="out-of-stock-message"
-                                            style="color: red;border: 1px solid red; text-align: center;">Currently
-                                            out of stock</p>
-                                        <% } %>
-                            </div>
+                                                        </div>
+                                                        <div class="desc">
+                                                            <li type="none" class="brand">
+                                                                <%= value.Product_details.Material_type%>
+                                                            </li>
+                                                            <li type="none" class="brand">
+                                                                <%=value.Product_details.Closure_type %>
+                                                            </li>
+                                                            <li type="none" class="brand">
+                                                                <%=value.Product_details.Heel_type%>
+                                                            </li>
+                                                            <li type="none" class="brand">
+                                                                <%=value.Product_details.Water_resistance %>
+                                                            </li>
+                                                            <li type="none" class="brand">
+                                                                <%=value.Product_details.Sole_material%>
+                                                            </li>
+                                                            <li type="none" class="brand">
+                                                                <%=value.Product_details.Style %>
+                                                            </li>
+                                                            <li type="none" class="brand">
+                                                                <%=value.Product_details.Country_of_origin %>
+                                                            </li>
+                                                        </div>
+                                                    </div>
+                                                    <span class="productdetails">Product description:</span>
+                                                    <div class="productdesc">
+                                                        <p class="pdesc">
+                                                            <%= value.Description %>
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="addtocartandbuynow">
+                                                        <% if (value.variant.some(variant=> variant.quantity > 0)) { %>
+                                                            <button onclick="addToCart('<%= value._id %>')"
+                                                                class="addtocart">
+                                                                <img id="animation"
+                                                                    src="/user/images/Animation - 1699442209402.gif"
+                                                                    alt=""
+                                                                    style="width: 40px; height: 40px; display: none;">
+                                                                <span class="brand" id="addtocart">Add to
+                                                                    cart</span></button>
+                                                            <div class="buynow">
+                                                                <button onclick="buynow('<%= value._id %>')"
+                                                                    class="buynow"><span class="brand">Buy
+                                                                        now</span></button>
+                                                            </div>
+                                                            <% } else { %>
+                                                                <p class="out-of-stock-message"
+                                                                    style="color: red;border: 1px solid red; text-align: center;">
+                                                                    Currently
+                                                                    out of stock</p>
+                                                                <% } %>
+                                                    </div>
                         </div>
                     </div>
                 </div>
@@ -175,14 +193,36 @@
                 new ImageZoom(document.getElementById("img-container"), options);
             </script>
             <script>
-                function buynow(itemid) {
-                    const sizeElement = document.getElementById('size');
-                    const colorElement = document.getElementById('color');
-                    const selectedSize = sizeElement.value;
-                    const selectedColor = colorElement.value;
-                    const url = '/cart/buynowCheckout?pdid=' + itemid + '&size=' + selectedSize + '&color=' + selectedColor;
+                async function buynow(itemid) {
+                    try {
+                        const response = await fetch('/cart/reset-order-confirmed', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        });
 
-                    window.location.href = url;
+                        const data = await response.json();
+
+                        if (data.success) {
+
+                            const sizeElement = document.getElementById('size');
+                            const colorElement = document.getElementById('color');
+                            const selectedSize = sizeElement.value;
+                            const selectedColor = colorElement.value;
+                            const url = '/cart/buynowCheckout?pdid=' + itemid + '&size=' + selectedSize + '&color=' + selectedColor;
+
+                            window.location.href = url;
+                        } else {
+
+                            console.error('reset failed');
+
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+
+                    }
+
                 }
                 function addToCart(itemId) {
                     const sizeElement = document.getElementById('size');

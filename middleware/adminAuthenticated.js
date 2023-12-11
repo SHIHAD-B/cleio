@@ -6,7 +6,7 @@ const adminAuthenticated = (req, res, next) => {
         next();
     } else {
 
-        res.redirect('/');
+        res.redirect('/admin');
     }
 };
 
