@@ -52,8 +52,7 @@
                     <span id="profile">PROFILE</span>
                 </div>
 
-                <form id="profileForm" enctype="multipart/form-data" method="POST" action="/editDetails"
-                    onsubmit="validateForm(event)">
+                <form id="profileForm" enctype="multipart/form-data" onsubmit="validateForm(event)">
                     <div class="first">
                         <div class="left">
                             <div class="profile-picture" onclick="triggerFileInput()">
@@ -63,8 +62,8 @@
                                     <img src="<%=user.Profile%>" alt="Profile Picture" id="previewImage"
                                         style="width:100%; height: 100%;">
                                 </label>
-                                <button id="deleteButton" style="display: none;"
-                                    onclick="deleteSelectedImage()">Delete</button>
+                                <button id="deleteButton" style="display: none;" onclick="deleteSelectedImage(event)"
+                                    formnovalidate>Delete</button>
                             </div>
                         </div>
                         <div class="right">
@@ -95,7 +94,7 @@
 
                             <div class="saveandcancel">
                                 <button onclick="save(event)" type="submit">Save</button>
-                                <button>Cancel</button>
+                                <button onclick="cancel(event)">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -125,6 +124,8 @@
         </div>
 
         <script>
+            let cropper;
+
             function crop() {
                 const image = document.getElementById('edit_image')
 
@@ -151,7 +152,7 @@
             });
 
             const profile = '<%=profile%>'
-            console.log(profile);
+
             if (profile == 'true') {
                 myFunctions();
 
@@ -190,15 +191,39 @@
             }
 
 
-            function deleteSelectedImage() {
+            function deleteSelectedImage(event) {
                 const previewImage = document.getElementById('previewImage');
                 const deleteButton = document.getElementById('deleteButton');
                 const fileInput = document.getElementById('profilePicture');
 
-                previewImage.src = "/user/images/add-photo.png";
+                previewImage.src = "<%=user.Profile%>";
                 deleteButton.style.display = 'none';
                 fileInput.value = '';
+                event.preventDefault();
             }
+            let phone_val = "<%=user.Mobile%>";
+            let firstname_val = "<%=user.Firstname%>";
+            let secondname_val = "<%=user.Firstname%>"
+            let profile_val = "<%=user.Profile%>";
+            function cancel(event) {
+                event.preventDefault(); // Add this line to prevent form submission
+
+                const previewImage = document.getElementById('previewImage');
+                const deleteButton = document.getElementById('deleteButton');
+                const fileInput = document.getElementById('profilePicture');
+                const firstname = document.getElementById('firstname');
+                const secondname = document.getElementById('secondname');
+                const phone = document.getElementById('phone');
+
+                phone.value = phone_val
+                secondname.value = secondname_val
+                firstname.value = firstname_val
+                previewImage.src = profile_val
+                deleteButton.style.display = 'none';
+                fileInput.value = '';
+                cropper.destroy();
+            }
+
 
             function isEmpty(value) {
                 const trimmedValue = value.trim();
@@ -214,45 +239,82 @@
                 const phoneRegex = /^\d{10}$/;
                 return phoneRegex.test(phonenumber);
             }
-            function validateForm(event) {
-                event.preventDefault();
+            async function save(event) {
+                event.preventDefault()
 
-                const firstname = document.getElementById('firstname');
-                const firstnameValue = firstname.value;
+
+                const firstname = document.getElementById('firstname').value;
+                const secondname = document.getElementById('secondname').value;
+                const phone = document.getElementById('phone').value;
+                const profilePictureInput = document.getElementById('profilePicture');
+
                 const firstnameError = document.getElementById('firstNameError');
-
-                const secondname = document.getElementById('secondname');
-                const secondnameValue = secondname.value;
                 const secondnameError = document.getElementById('secondNameError');
-
-                const phone = document.getElementById('phone');
-                const phoneValue = phone.value;
                 const phoneError = document.getElementById('phonenumberError');
 
                 firstnameError.textContent = "";
                 secondnameError.textContent = "";
                 phoneError.textContent = "";
 
-                if (isEmpty(firstnameValue)) {
+                if (isEmpty(firstname)) {
                     firstnameError.textContent = "First name can't be empty";
                     return;
                 }
-                if (isEmpty(secondnameValue)) {
+                if (isEmpty(secondname)) {
                     secondnameError.textContent = "Second name can't be empty";
                     return;
                 }
-                if (isEmpty(phoneValue)) {
+                if (isEmpty(phone)) {
                     phoneError.textContent = "Number can't be empty";
                     return;
                 }
-                if (!validatePhone(phoneValue)) {
+                if (!validatePhone(phone)) {
                     phoneError.textContent = "Enter a 10-digit phone number";
                     return;
                 }
 
 
-                event.target.submit();
+                const cropper = document.getElementById('edit_image').cropper;
+                let croppedImageBlob;
+                if (cropper) {
+
+                    croppedImageBlob = await new Promise(resolve => {
+                        cropper.getCroppedCanvas().toBlob(blob => resolve(blob), 'image/');
+                    });
+                }
+
+
+                const formData = new FormData();
+                formData.append('firstname', firstname);
+                formData.append('secondname', secondname);
+                formData.append('phone', phone);
+                if (croppedImageBlob) {
+
+                    formData.append('profile', croppedImageBlob, 'cropped_image.png');
+
+                }
+
+                const deleteButton = document.getElementById('deleteButton');
+
+                fetch('/editDetails', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        deleteButton.style.display = 'none';
+                        myFunctions();
+                        profile_val = data.img
+                        secondname_val = secondname
+                        firstname_val = firstname
+                        phone_val = phone
+                        cropper.destroy();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             }
+
 
             function changepassword() {
                 const currentpassword = document.getElementById("currentpassword");

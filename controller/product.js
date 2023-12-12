@@ -178,7 +178,7 @@ const posteditproduct = async (req, res, next) => {
                     Water_resistance: req.body.waterresistance,
                 },
             },
-            $addToSet: { variant: variants },
+            $addToSet: { variant: { $each: variants } },
         };
 
 

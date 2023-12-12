@@ -1,7 +1,8 @@
 const express = require('express');
 const Razorpay = require('razorpay');
 require("dotenv").config()
-
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean')
 const session = require('express-session');
 const nocache = require('nocache');
 const adminrouter = require('./routes/admin/router')
@@ -37,6 +38,11 @@ app.use(
 
 app.use('/', userrouter);
 app.use('/admin', adminrouter);
+
+//input validators
+app.use(mongoSanitize())
+app.use(xss())
+
 app.use((req, res) => {
 
     res.status(404).render('./user/404');

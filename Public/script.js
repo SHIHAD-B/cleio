@@ -1,8 +1,8 @@
 const image = document.getElementById('edit_image')
 alert(image.src)
 const cropper = new Cropper(image, {
-    aspectRatio: NaN,
-    viewMode: 0
+    aspectRatio: 1 / 1,
+    viewMode: 1
 });
 
 document.querySelector('#btn-crop').addEventListener('click', function () {

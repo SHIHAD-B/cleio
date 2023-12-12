@@ -1,5 +1,6 @@
 
 const banner = require('../model/banner')
+const validator = require('validator');
 const coupon = require('../model/coupon')
 const products = require('../model/product')
 const nodemailer = require('nodemailer');
@@ -55,31 +56,33 @@ function getlogin(req, res, next) {
 //post login
 const postlogin = async (req, res, next) => {
     try {
+        const { email, password } = req.body;
 
-        const email = req.body.email;
-        const password = req.body.password;
+
+        if (!validator.isEmail(email)) {
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
+
         const user = await Users.findOne({ Email: email });
 
         if (user) {
-            if (user.Status === "active" && user.Role === "user" && bcrypt.compareSync(password, user.Password)) {
+            if (user.Status === 'active' && user.Role === 'user' && bcrypt.compareSync(password, user.Password)) {
                 req.session.user = email;
                 req.session.isauth = true;
-                res.json({ success: true, isAdmin: false });
-            } else if (user.Status === "blocked") {
-                res.status(401).json({ message: "User is blocked" });
+                return res.json({ success: true, isAdmin: false });
+            } else if (user.Status === 'blocked') {
+                return res.status(401).json({ message: 'User is blocked' });
             } else {
-                res.status(401).json({ message: "Incorrect password" });
+                return res.status(401).json({ message: 'Incorrect password' });
             }
-        }
-        else {
-            res.status(401).json({ message: "User not found" });
+        } else {
+            return res.status(401).json({ message: 'User not found' });
         }
     } catch (error) {
-        console.log(error);
-        return next(error)
+        console.error('Error handling login:', error);
+        return next(error);
     }
 };
-
 
 
 //signup page
@@ -97,28 +100,46 @@ function getsignup(req, res, next) {
 //post signup
 const postsignup = async (req, res, next) => {
     try {
-        const data = await Users.findOne({ Email: req.body.email });
-        const dataphone = await Users.findOne({ Mobile: req.body.phonenumber });
+        const { email, phonenumber, referral, Firstname, Secondname } = req.body;
+
+        if (email && !validator.isEmail(email)) {
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
+
+        if (phonenumber && !validator.isMobilePhone(phonenumber, 'any', { strictMode: false })) {
+            return res.status(400).json({ message: 'Invalid phone number format' });
+        }
+
+        if (Firstname && !validator.isAlpha(Firstname)) {
+            return res.status(400).json({ message: 'Invalid characters in Firstname' });
+        }
+
+        if (Secondname && !validator.isAlpha(Secondname)) {
+            return res.status(400).json({ message: 'Invalid characters in Secondname' });
+        }
+
+        const data = await Users.findOne({ Email: email });
+        const dataphone = await Users.findOne({ Mobile: phonenumber });
 
         if (data) {
-            return res.status(401).json({ message: "Email already exists" });
+            return res.status(401).json({ message: 'Email already exists' });
         } else if (dataphone) {
-            return res.status(401).json({ message: "Phone number already exists" });
-        } else if (req.body.referral) {
-            const ref = await Users.findOne({ referral_code: req.body.referral });
+            return res.status(401).json({ message: 'Phone number already exists' });
+        } else if (referral) {
+            const ref = await Users.findOne({ referral_code: referral });
 
             if (!ref) {
-                return res.status(401).json({ message: "Invalid referral code" });
+                return res.status(401).json({ message: 'Invalid referral code' });
             }
 
             req.session.inviter = ref._id;
             req.session.userdetails = req.body;
-            req.session.otpemail = req.body.email;
+            req.session.otpemail = email;
 
             return res.json({ success: true });
         } else {
             req.session.userdetails = req.body;
-            req.session.otpemail = req.body.email;
+            req.session.otpemail = email;
 
             return res.json({ success: true });
         }
@@ -521,7 +542,9 @@ const changePassword = async (req, res, next) => {
 
 // edit profile
 const posteditProfile = async (req, res, next) => {
+
     try {
+
 
         const { firstname, secondname, phone } = req.body;
         const user = await Users.findOne({ Email: req.session.user });
@@ -549,7 +572,7 @@ const posteditProfile = async (req, res, next) => {
             });
         }
 
-        res.redirect('/user/editprofile-success');
+        res.json({ success: true, img: "/productimage/" + req.files[0].filename });
     } catch (error) {
         console.log(error);
         return next(error)
