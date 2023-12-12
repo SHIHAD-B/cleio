@@ -16,6 +16,17 @@
 
 <body>
     <%- include('../partials/user/defaultnav') %>
+        <div class="ham_items" id="ham_items" style="display: none;">
+            <div class="close_ham"><img src="/user/images/remove.png" alt="" style="width: 25px; height: 25px;"
+                    onclick="ham_close()"></div>
+            <div class="ham_list">
+                <span class="ham-font">HOME</span>
+                <span class="ham-font">CONTACT</span>
+                <span class="ham-font">ABOUT</span>
+                <span class="ham-font"><a href="/signup"> SIGNUP</a></span>
+                <span class="ham-font"><a href="/login">LOGIN</a></span>
+            </div>
+        </div>
         </nav>
         <img src="/user/images/Group 3710.png" class="img-fluid " alt="image">
         <div class="container">
@@ -38,6 +49,17 @@
         <div class="shoe" style="background-image: url('/user/images/banner_shoe.png');"></div>
         <div class="cirle"></div>
         <div class="big"></div>
+        <script>
+            function navitem() {
+
+                const ham_items = document.getElementById('ham_items');
+                ham_items.style.display = "block"
+            }
+            function ham_close() {
+                const ham_items = document.getElementById('ham_items');
+                ham_items.style.display = "none"
+            }
+        </script>
 
 </body>
 

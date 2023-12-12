@@ -96,54 +96,7 @@
                                         </option>
                                         <%})%>
                                 </select>
-                                <div class="variants">
-                                    <span class="head">Variants</span>
-                                    <div id="variant-container">
-                                        <% data[0].variant.forEach(vari=> { %>
-                                            Size: <%= vari.size %>,
-                                                Quantity: <%= vari.quantity %><br>
-                                                    <% }); %>
 
-                                    </div>
-                                    <div class="variant-selector">
-                                        <label for="size">Size:</label>
-                                        <select class="producttext size">
-                                            <option value="7">7</option>
-                                            <option value="7.5">7.5</option>
-                                            <option value="8">8</option>
-                                            <option value="8.5">8.5</option>
-                                            <option value="9">9</option>
-                                            <option value="9.5">9.5</option>
-                                            <option value="10">10</option>
-                                            <option value="10.5">10.5</option>
-                                            <option value="11">11</option>
-                                            <option value="11.5">11.5</option>
-                                            <option value="12">12</option>
-                                            <option value="12.5">12.5</option>
-                                            <option value="13">13</option>
-                                            <option value="13.5">13.5</option>
-                                            <option value="14">14</option>
-                                            <option value="14.5">14.5</option>
-                                            <option value="15">15</option>
-                                            <option value="15.5">15.5</option>
-                                        </select>
-                                        <div id="sizeError" class="error"></div>
-                                    </div>
-                                    <!-- Quantity input -->
-                                    <div class="variant-selector">
-                                        <label for="quantity">Quantity</label>
-                                        <input type="text" class="producttext quantity">
-                                        <div id="quantityError" class="error"></div>
-                                        <input type="hidden" name="variants" id="variantsInput" value="[]">
-
-
-                                    </div>
-
-                                    <!-- Button to add the variant -->
-                                    <button id="addVariantButton" type="button">Add Variant</button>
-
-
-                                </div>
 
 
 
@@ -173,7 +126,55 @@
 
                         </div>
 
+                        <div class="variants">
+                            <span class="head"
+                                style="width: 100%; display:flex; justify-content:center ">Variants</span>
+                            <div id="variant-container">
+                                <% data[0].variant.forEach(vari=> { %>
+                                    Size: <%= vari.size %>,
+                                        Quantity: <%= vari.quantity %><br>
+                                            <% }); %>
 
+                            </div>
+                            <div class="variant-selector">
+                                <label for="size">Size:</label>
+                                <select class="producttext size">
+                                    <option value="7">7</option>
+                                    <option value="7.5">7.5</option>
+                                    <option value="8">8</option>
+                                    <option value="8.5">8.5</option>
+                                    <option value="9">9</option>
+                                    <option value="9.5">9.5</option>
+                                    <option value="10">10</option>
+                                    <option value="10.5">10.5</option>
+                                    <option value="11">11</option>
+                                    <option value="11.5">11.5</option>
+                                    <option value="12">12</option>
+                                    <option value="12.5">12.5</option>
+                                    <option value="13">13</option>
+                                    <option value="13.5">13.5</option>
+                                    <option value="14">14</option>
+                                    <option value="14.5">14.5</option>
+                                    <option value="15">15</option>
+                                    <option value="15.5">15.5</option>
+                                </select>
+                                <div id="sizeError" class="error"></div>
+                            </div>
+                            <!-- Quantity input -->
+                            <div class="variant-selector">
+                                <label for="quantity">Quantity</label>
+                                <input type="text" class="producttext quantity">
+                                <div id="quantityError" class="error"></div>
+                                <input type="hidden" name="variants" id="variantsInput" value="[]">
+
+
+                            </div>
+
+                            <!-- Button to add the variant -->
+                            <button id="addVariantButton" type="button">Add Variant</button>
+
+
+                        </div>
 
                         <button class="submit btn btn-success" type="button" onclick="validateForm()">Submit</button>
 

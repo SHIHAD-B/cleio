@@ -357,3 +357,11 @@ tr {
     align-items: end;
     padding-right: 10px;
 }
+
+@media (max-width: 576px) {
+    .whole {
+        display: flex;
+        flex-direction: column;
+    }
+
+}
