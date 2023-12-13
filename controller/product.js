@@ -154,6 +154,29 @@ const posteditproduct = async (req, res, next) => {
             return res.status(404).json({ message: 'Product not found' });
         }
 
+        for (let i = 0; i < variants.length; i++) {
+            const variantSize = variants[i].size;
+            const existingVariant = await products.findOne({ _id: id, "variant.size": variantSize });
+
+            if (existingVariant) {
+                const updateResult = await products.updateOne(
+                    { _id: id, "variant.size": variantSize },
+                    { $set: { "variant.$.quantity": variants[i].quantity } }
+                );
+
+                if (updateResult.modifiedCount !== 1) {
+                    console.error('Failed to update variant quantity:', variantSize);
+                }
+            } else {
+                await products.updateOne({ _id: id }, {
+                    $push: {
+                        variant: variants[i]
+                    }
+                })
+            }
+        }
+
+
         const updateData = {
             $set: {
                 Name: req.body.productname,
@@ -178,7 +201,7 @@ const posteditproduct = async (req, res, next) => {
                     Water_resistance: req.body.waterresistance,
                 },
             },
-            $addToSet: { variant: { $each: variants } },
+
         };
 
 

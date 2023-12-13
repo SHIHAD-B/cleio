@@ -131,11 +131,14 @@
                                 style="width: 100%; display:flex; justify-content:center ">Variants</span>
                             <div id="variant-container">
                                 <% data[0].variant.forEach(vari=> { %>
-                                    Size: <%= vari.size %>,
-                                        Quantity: <%= vari.quantity %><br>
-                                            <% }); %>
-
+                                    <div class="variant-item" id="<%= vari.size %>" data-size="<%= vari.size %>"
+                                        data-quantity="<%= vari.quantity %>">
+                                        Size: <%= vari.size %>, Quantity: <%= vari.quantity %>
+                                    </div>
+                                    <% }); %>
                             </div>
+
+
                             <div class="variant-selector">
                                 <label for="size">Size:</label>
                                 <select class="producttext size">
@@ -348,56 +351,93 @@
 
                 }
             </script>
-
             <script>
-                const variants = [];
+                // Initialize allVariants as a global variable
+                window.allVariants = [];
+
+                const variants = [];  // Array for display purposes only
+                const editedVariants = [];  // Array to track edited variants
 
                 function addVariantEventListener() {
                     const addVariantButton = document.querySelector("#addVariantButton");
-                    addVariantButton.addEventListener("click", addVariant);
+                    addVariantButton.addEventListener("click", addOrUpdateVariant);
                 }
 
-                function addVariant() {
+                function addOrUpdateVariant() {
                     const selectedSize = document.querySelector(".producttext.size").value;
                     const selectedQuantity = document.querySelector(".producttext.quantity").value;
 
                     if (selectedSize && selectedQuantity) {
-                        const existingVariant = variants.find((variant) => variant.size === selectedSize);
+                        const existingVariant = document.querySelector(`.variant-item[data-size="${selectedSize}"]`);
 
                         if (existingVariant) {
-                            alert("A variant with the same size already exists.");
-                            return;
+                            // Variant already exists, update its content
+                            existingVariant.setAttribute("data-quantity", selectedQuantity);
+                            existingVariant.textContent = `Size: ${selectedSize}, Quantity: ${selectedQuantity}`;
+
+                            // Update the editedVariants array
+                            const existingVariantIndex = editedVariants.findIndex((variant) => variant.size === selectedSize);
+                            if (existingVariantIndex !== -1) {
+                                editedVariants[existingVariantIndex].quantity = selectedQuantity;
+                            } else {
+                                editedVariants.push({ size: selectedSize, quantity: selectedQuantity });
+                            }
+                        } else {
+                            // Variant doesn't exist, add a new one
+                            const variant = { size: selectedSize, quantity: selectedQuantity };
+                            allVariants.push(variant);
+                            addVariant(variant);
                         }
 
-                        const variant = { size: selectedSize, quantity: selectedQuantity };
-                        variants.push(variant);
+                        // Update the display variants
+                        updateDisplayVariants();
 
                         const variantsInput = document.getElementById('variantsInput');
-                        // Convert the array to JSON format without additional brackets
-                        variantsInput.value = JSON.stringify(variants);
+                        variantsInput.value = JSON.stringify(allVariants.concat(editedVariants));
 
-                        const variantContainer = document.getElementById("variant-container");
-                        const variantDiv = document.createElement("div");
-                        variantDiv.textContent = `Size: ${selectedSize}, Quantity: ${selectedQuantity}`;
-                        variantContainer.appendChild(variantDiv);
-
-                        const sizeInputs = document.querySelectorAll(".producttext.size");
-                        const quantityInput = document.querySelector(".producttext.quantity");
-
-                        sizeInputs.forEach((input) => {
-                            input.value = "small";
-                        });
-
-                        quantityInput.value = "";
+                        resetVariantInputs();
                     } else {
                         alert("Please enter both size and quantity.");
                     }
 
-                    console.log("Variants Array:", variants);
+                    console.log("All Variants Array:", allVariants);
+                    console.log("Variants Array for Display:", variants);
+                    console.log("Edited Variants Array:", editedVariants);
+                }
+
+                function addVariant(variant) {
+                    const variantContainer = document.getElementById("variant-container");
+                    const variantDiv = document.createElement("div");
+                    variantDiv.className = "variant-item";
+                    variantDiv.setAttribute("data-size", variant.size);
+                    variantDiv.setAttribute("data-quantity", variant.quantity);
+                    variantDiv.textContent = `Size: ${variant.size}, Quantity: ${variant.quantity}`;
+                    variantContainer.appendChild(variantDiv);
+                }
+
+                function updateDisplayVariants() {
+                    // Copy allVariants to variants for display
+                    variants.length = 0;
+                    Array.prototype.push.apply(variants, allVariants);
+                }
+
+                function resetVariantInputs() {
+                    const sizeInputs = document.querySelectorAll(".producttext.size");
+                    const quantityInput = document.querySelector(".producttext.quantity");
+
+                    sizeInputs.forEach((input) => {
+                        input.value = "small";
+                    });
+
+                    quantityInput.value = "";
                 }
 
                 addVariantEventListener();
             </script>
+
+
+
+
             <script>
                 const imageInputMultiple = document.getElementById('imageInputMultiple');
                 const imageContainer = document.getElementById('imageContainer');
