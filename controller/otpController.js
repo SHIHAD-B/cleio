@@ -168,17 +168,20 @@ const postotp = async (req, res, next) => {
                     await newuserWallet.save();
                 }
             }
-            const refdetails = await Users.findOne({ _id: req.session.inviter })
+            if (req.session.inviter) {
 
-            await referral.updateOne({}, {
-                $push: {
-                    Activities: {
-                        Date: new Date(),
-                        Inviter: refdetails.Email,
-                        Referred_user: req.session.userdetails.email,
+                const refdetails = await Users.findOne({ _id: req.session.inviter })
+
+                await referral.updateOne({}, {
+                    $push: {
+                        Activities: {
+                            Date: new Date(),
+                            Inviter: refdetails.Email,
+                            Referred_user: req.session.userdetails.email,
+                        }
                     }
-                }
-            });
+                });
+            }
 
             req.session.isauth = true;
             req.session.user = req.session.userdetails.email;
