@@ -38,7 +38,7 @@ const editBanner = async (req, res, next) => {
     try {
         const bannerId = req.params.id;
         const edBanner = await banner.findOne({ _id: bannerId })
-        fs.unlink('public/' + edBanner.Image_url, (err) => {
+        fs.unlink('Public/' + edBanner.Image_url, (err) => {
         });
         const image = "/banner/" + req.files["editBannerImage"][0].filename;
         await banner.updateOne({ _id: bannerId }, { Image_url: image, Last_edited: new Date() })
@@ -53,7 +53,7 @@ const deleteBanner = async (req, res, next) => {
     try {
         const bannerId = req.params.id;
         const edBanner = await banner.findOne({ _id: bannerId })
-        fs.unlink('public/' + edBanner.Image_url, (err) => {
+        fs.unlink('Public/' + edBanner.Image_url, (err) => {
         });
         await banner.deleteOne({ _id: bannerId })
         res.redirect('/admin/bannerManagement')
