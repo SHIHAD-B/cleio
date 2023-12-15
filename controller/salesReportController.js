@@ -99,7 +99,7 @@ const dailyReport = async (data) => {
 
         return htmlContent;
     } catch (error) {
-        console.error('Error rendering overall report:', error);
+        console.log('Error rendering overall report:', error);
         throw error;
     }
 };
@@ -244,7 +244,7 @@ const weeklyReport = async (data) => {
 
         return htmlContent;
     } catch (error) {
-        console.error('Error rendering overall report:', error);
+        console.log('Error rendering overall report:', error);
         throw error;
     }
 };
@@ -424,7 +424,7 @@ const MonthlyReport = async (data) => {
 
         return htmlContent;
     } catch (error) {
-        console.error('Error rendering overall report:', error);
+        console.log('Error rendering overall report:', error);
         throw error;
     }
 };
@@ -535,7 +535,7 @@ const dateReport = async (dataByDay) => {
             return '<h1>NO DATA AVAILABLE</h1>'; // or you can return an error message
         }
     } catch (error) {
-        console.error('Error rendering daily report:', error);
+        console.log('Error rendering daily report:', error);
         throw error;
     }
 };
@@ -900,13 +900,13 @@ const generateOverallReport = async (req, res, next) => {
 
         pdf.create(htmlContent, options).toFile((err, file) => {
             if (err) {
-                console.error(err);
+                console.log(err);
                 return next(err)
             }
 
             res.download(file.filename, 'overall_report.pdf', (err) => {
                 if (err) {
-                    console.error(err);
+                    console.log(err);
                     return next(err)
                 }
 
@@ -914,7 +914,7 @@ const generateOverallReport = async (req, res, next) => {
             });
         });
     } catch (error) {
-        console.error(error);
+        console.log(error);
         return next(error)
     }
 };
