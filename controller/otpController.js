@@ -171,7 +171,7 @@ const postotp = async (req, res, next) => {
                 }
             }
             if (req.session.inviter) {
-
+                console.log('haiii');
                 const refdetails = await Users.findOne({ _id: req.session.inviter })
 
                 await referral.updateOne({}, {
@@ -184,6 +184,17 @@ const postotp = async (req, res, next) => {
                     }
                 });
             }
+            if (req.session.inviter) {
+                await Users.updateOne(
+                    { _id: req.session.inviter },
+                    {
+                        $push: {
+                            referrals: { User: newUser._id }
+                        }
+                    }
+                );
+            }
+
 
             req.session.isauth = true;
             req.session.user = req.session.userdetails.email;

@@ -13,7 +13,6 @@ const app = express();
 const port = 4000;
 require('./config/config')
 
-
 var instance = new Razorpay({
     key_id: process.env.rzp_key_id,
     key_secret: process.env.rzp_key_secret,
