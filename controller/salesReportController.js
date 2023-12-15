@@ -907,7 +907,8 @@ const generateOverallReport = async (req, res, next) => {
             res.download(file.filename, 'overall_report.pdf', (err) => {
                 if (err) {
                     console.error(err);
-                    return next(error)
+
+                    throw error;
                 }
 
                 fs.unlinkSync(file.filename);
