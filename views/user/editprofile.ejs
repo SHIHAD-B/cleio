@@ -33,7 +33,7 @@
                     </button>
                 </div>
                 <div class="modal-body" style="display: flex; justify-content:center;align-items:center;">
-                    <img src="" alt="" id="edit_image" style="height: 80%; width: 80%;">
+                    <img src="" alt="" id="edit_image" style="height: 100% !important; width: 100% !important;">
 
                 </div>
                 <div class="modal-footer">
@@ -182,6 +182,7 @@
                     const reader = new FileReader();
                     reader.onload = function (e) {
                         edit_image.src = e.target.result; localStorage.setItem("image", e.target.result);
+                        // edit_image.style.height = '600px'
                         deleteButton.style.display = 'inline-block';
 
                         crop()
