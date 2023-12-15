@@ -21,20 +21,24 @@ const category = async (req, res, next) => {
 // add category
 const addcategory = async (req, res, next) => {
     try {
-        const categoryName = req.body.categoryname.toLowerCase();
+        const superadmin = req.session.superadmin;
+        const authority = req.session.readonly;
+        let categoryName = req.body.categoryname.trim();
 
-        const existingCategory = await categories.findOne({ Category: categoryName });
+
+        categoryName = categoryName.replace(/^\s+|\s+$/g, '');
+
+        const existingCategory = await categories.findOne({ Category: { $regex: new RegExp(`^${categoryName}$`, 'i') } });
 
         if (existingCategory) {
-
             const categoryData = await categories.find({ isdeleted: { $ne: true } });
             res.render('./admin/categorymanagement', { data: categoryData, error: "Category already exists", superadmin: superadmin, authority: authority });
-        } else if (categoryName.trim() == "") {
+        } else if (categoryName === "") {
             const categoryData = await categories.find({ isdeleted: { $ne: true } });
             res.render('./admin/categorymanagement', { data: categoryData, error: "Category can't be empty", superadmin: superadmin, authority: authority });
         } else {
             const newCategory = new categories({
-                Category: req.body.categoryname,
+                Category: categoryName,
                 date: new Date(),
                 isdeleted: false
             });
@@ -46,7 +50,6 @@ const addcategory = async (req, res, next) => {
         console.log(error);
         return next(error)
     }
-
 }
 
 
@@ -57,23 +60,27 @@ const posteditcategory = async (req, res, next) => {
     try {
         const superadmin = req.session.superadmin;
         const authority = req.session.readonly;
-        const editData = req.body.edit.toLowerCase()
-        let data = await categories.find({ Category: editData })
-        const categorydata = await categories.find()
-        if (data.length) {
-            res.render('./admin/categorymanagement', { data: categorydata, error: "category already exists", superadmin: superadmin, authority: authority })
-        } else {
-            const id = req.params.id;
-            await categories.updateOne({ _id: id }, { $set: { Category: req.body.edit } })
-            res.redirect('/admin/category')
+        const editData = req.body.edit.toLowerCase();
+        const id = req.params.id;
 
+
+        const data = await categories.findOne({ Category: { $regex: new RegExp(`^${editData}$`, 'i') }, _id: { $ne: id } });
+
+        const categorydata = await categories.find();
+
+        if (data) {
+            res.render('./admin/categorymanagement', { data: categorydata, error: "Category already exists", superadmin: superadmin, authority: authority });
+        } else {
+            // Update the category if it doesn't exist
+            await categories.updateOne({ _id: id }, { $set: { Category: req.body.edit } });
+            res.redirect('/admin/category');
         }
     } catch (error) {
         console.log(error);
-        return next(error)
+        return next(error);
     }
+};
 
-}
 
 
 

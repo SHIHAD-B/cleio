@@ -558,11 +558,13 @@ const posteditProfile = async (req, res, next) => {
         });
 
         if (req.files.length) {
+            if (user.Profile) {
+                try {
+                    fs.unlinkSync("Public" + user.Profile);
+                } catch (err) {
+                    console.error("Error deleting file:", err);
+                }
 
-            try {
-                fs.unlinkSync("Public" + user.Profile);
-            } catch (err) {
-                console.error("Error deleting file:", err);
             }
 
             await Users.updateOne({ Email: req.session.user }, {

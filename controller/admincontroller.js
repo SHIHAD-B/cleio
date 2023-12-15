@@ -154,7 +154,7 @@ const deleteuser = async (req, res) => {
 
         await users.updateOne({ _id: id }, { isdeleted: true })
             .then(() => {
-                res.redirect('/admin');
+                res.redirect('/admin/user');
             })
             .catch((err) => {
                 console.log(err);

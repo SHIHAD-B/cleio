@@ -33,7 +33,7 @@ const editreferral = async (req, res, next) => {
             Referred_user: req.body.referredUserBonus,
             Referred_user_status: 'active',
             Referred_user_lastedit: new Date()
-        })
+        }, { upsert: true })
 
         res.json({ success: true });
     } catch (error) {

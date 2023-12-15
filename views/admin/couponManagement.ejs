@@ -379,7 +379,9 @@
                     <% }) %>
                         </table>
             </div>
-
+            <div id="snackbar">
+                <%=error%>
+            </div>
     </div>
 
 
@@ -395,6 +397,16 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <script>
+        if ('<%=error%>' !== 'false') {
+            function myFunction() {
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
+            }
+            myFunction()
+        }
         document.querySelectorAll("#edit").forEach(function (form) {
             form.addEventListener("submit", function (event) {
                 const modalIndex = form.getAttribute("data-form-index");
@@ -487,7 +499,8 @@
                     maxError.textContent = "Max purchase amount field can't be empty";
                     event.preventDefault();
                 }
-                if (isMaxLessThanMin(minPurchaseAmountValue, maxPurchaseAmountValue)) {
+                if (isMaxLessThanMin(Number(minPurchaseAmountValue), Number(maxPurchaseAmountValue))) {
+
                     maxError.textContent = "Max purchase amount can't be less than Min amount";
                     event.preventDefault();
                 }
@@ -548,9 +561,7 @@
 
                 return inputDate < currentDate;
             }
-            function maxcheck(min, max) {
-                return min > max;
-            }
+
 
             function isDateBefore(date1, date2) {
                 const firstDate = new Date(date1);
@@ -621,7 +632,8 @@
                 maxError.textContent = "max purchase amount field can't be empty";
                 event.preventDefault();
             }
-            if (maxcheck(Min_purchase_amountValue, Max_purchase_amountValue)) {
+            if (Number(Min_purchase_amountValue) > Number(Max_purchase_amountValue)) {
+
                 maxError.textContent = "max purchase amount  can't be less than min amount";
                 event.preventDefault();
             }

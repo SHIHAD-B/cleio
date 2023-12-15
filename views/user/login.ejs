@@ -48,7 +48,11 @@
         <!-- ... your HTML code ... -->
 
         <script>
+            const toast = document.getElementById('toast');
+            toast.style.display = "none"
             function showToast(message) {
+                const toasts = document.getElementById('toast');
+                toasts.style.display = "block"
                 const toast = document.querySelector(".toast");
                 const progress = document.querySelector(".progress");
 

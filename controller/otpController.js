@@ -84,6 +84,8 @@ async function getotp(req, res, next) {
 
 //post otp
 const postotp = async (req, res, next) => {
+
+
     try {
         const first = req.body.digitone;
         const second = req.body.digittwo;

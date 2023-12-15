@@ -59,11 +59,13 @@
                                 <input type="file" name="profile" id="profilePicture" accept="image/*"
                                     style="display: none;" onchange="displaySelectedImage()">
                                 <label for="profilePicture">
-                                    <img src="<%=user.Profile%>" alt="Profile Picture" id="previewImage"
-                                        style="width:100%; height: 100%;">
+                                    <img src="<%=user.Profile%>"
+                                        style="background-image:url(/user/images/default_profile.jpg) ;background-position: center; background-size: contain;"
+                                        id="previewImage" style="width:100%; height: 100%;">
                                 </label>
                                 <button id="deleteButton" style="display: none;" onclick="deleteSelectedImage(event)"
                                     formnovalidate>Delete</button>
+
                             </div>
                         </div>
                         <div class="right">
@@ -189,7 +191,6 @@
 
                 }
             }
-
 
             function deleteSelectedImage(event) {
                 const previewImage = document.getElementById('previewImage');

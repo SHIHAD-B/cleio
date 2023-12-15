@@ -1,5 +1,6 @@
 const products = require('../model/product')
 const categories = require('../model/category')
+const fs = require('fs')
 //product management page
 const productmanagement = async (req, res, next) => {
     try {
@@ -204,10 +205,16 @@ const posteditproduct = async (req, res, next) => {
 
         };
 
-
+        const prd = await products.findOne({ _id: id })
         await products.updateOne({ _id: id }, updateData);
         if (req.files) {
             if (req.files["mainimage"]) {
+                try {
+                    fs.unlinkSync("Public" + prd.Image[0].Main);
+
+                } catch (err) {
+                    console.error("Error deleting file:", err);
+                }
                 await products.updateOne(
                     { _id: id },
                     {
@@ -218,6 +225,12 @@ const posteditproduct = async (req, res, next) => {
                 );
             }
             if (req.files["multipleimage"]) {
+                try {
+                    fs.unlinkSync("Public" + prd.Image[0].Child_one);
+
+                } catch (err) {
+                    console.error("Error deleting file:", err);
+                }
                 await products.updateOne(
                     { _id: id },
                     {
@@ -228,6 +241,12 @@ const posteditproduct = async (req, res, next) => {
                 );
             }
             if (req.files["multipleimage"]) {
+                try {
+                    fs.unlinkSync("Public" + prd.Image[0].Child_two);
+
+                } catch (err) {
+                    console.error("Error deleting file:", err);
+                }
                 await products.updateOne(
                     { _id: id },
                     {
@@ -238,6 +257,12 @@ const posteditproduct = async (req, res, next) => {
                 );
             }
             if (req.files["multipleimage"]) {
+                try {
+                    fs.unlinkSync("Public" + prd.Image[0].Child_three);
+
+                } catch (err) {
+                    console.error("Error deleting file:", err);
+                }
                 await products.updateOne(
                     { _id: id },
                     {

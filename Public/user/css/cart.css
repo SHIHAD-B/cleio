@@ -134,7 +134,7 @@ body {
 
 .main {
     width: 100%;
-    height: 80vh;
+    min-height: 80vh;
     background-color: rgb(245, 245, 247);
     display: flex;
 }
@@ -392,6 +392,8 @@ body {
     align-items: center;
 }
 
+
+
 /* snackbar */
 #snackbar {
     visibility: hidden;
@@ -413,6 +415,10 @@ body {
     visibility: visible;
     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+.mobile-down {
+    display: none;
 }
 
 @-webkit-keyframes fadein {
@@ -460,5 +466,141 @@ body {
     to {
         bottom: 0;
         opacity: 0;
+    }
+}
+
+@media (max-width: 1024px) {}
+
+@media (max-width: 992px) {}
+
+
+/* ... Existing CSS ... */
+
+@media (max-width: 576px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .left {
+        width: 100%;
+        height: 55vh;
+
+    }
+
+    .right {
+        display: none;
+    }
+
+    .mobile-down {
+        display: block;
+        width: 100%;
+        min-height: 400px;
+
+    }
+
+    .one-product {
+        width: 100%;
+        height: 300px;
+
+    }
+
+    .top {
+        display: flex;
+        width: 100%;
+        height: 200px;
+
+    }
+
+    .mob-image {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .img-prd {
+        width: 80%;
+        height: 80%;
+
+    }
+
+    .nameandrest {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .name_mobile {
+        width: 100%;
+        height: 66px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .price_mobile {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 66px;
+
+    }
+
+    .color_mobile {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 66px;
+
+    }
+
+    .bottom {
+        width: 100%;
+        height: 100px;
+        display: flex;
+
+    }
+
+    .size_mobile {
+        width: 110px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .size_quantity_mobile {
+        width: 110px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .subtotal_mobile {
+        width: 110px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .remove_mobile {
+        width: 85px;
+        height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }

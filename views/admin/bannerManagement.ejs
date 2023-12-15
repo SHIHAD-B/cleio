@@ -80,6 +80,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Banner</th>
+                                    <th scope="col">URL</th>
                                     <th scope="col">Added</th>
                                     <th scope="col">Last Edit</th>
                                     <%if(!authority){%>
@@ -93,6 +94,11 @@
                                         <tr>
                                             <td><img id="tableImage" src="<%=value.Image_url%>" alt="Banner 1"
                                                     class="img-thumbnail"></td>
+                                            <td>
+
+                                                <%=value.Image_url%>
+
+                                            </td>
                                             <td>
 
                                                 <%- new Date(value.Added_date).toLocaleDateString('en-GB', {

@@ -59,13 +59,13 @@
                                     data-available-quantity="<%= value.Product_id.variant[0].quantity %>">
                                     <button class="remove"
                                         style="cursor: pointer; outline: none; background-color: inherit; border:none;"
-                                        onclick="removeFromCart('<%=value._id%>','product<%=index%>')">
+                                        onclick="removeFromCart('<%=value._id%>','<%=index%>')">
                                         <img src="/user/images/remove.png" alt="" style="width: 20px; height: 20px;">
                                     </button>
 
                                     <a href="/productdetail/<%=value.id%>">
                                         <div class="prd-image">
-                                            <img src=<%=value.Product_id.Image[0].Main %> alt=""
+                                            <img class="prdimg" src=<%=value.Product_id.Image[0].Main %> alt=""
                                             style="width: 70px;height: 70px;">
                                         </div>
                                     </a>
@@ -175,6 +175,106 @@
                         </div>
                     </div>
                 </div>
+                <div class="mobile-down">
+                    <% products.forEach(function(value, index) { %>
+                        <div class="one-product" id="products<%=index%>">
+                            <div class="top">
+                                <div class="mob-image">
+                                    <div class="img-prd">
+                                        <img class="prdimg" src=<%=value.Product_id.Image[0].Main %> alt=""
+                                        style="width: 100%;height: 100%;">
+                                    </div>
+                                </div>
+                                <div class="nameandrest">
+                                    <div class="name_mobile">
+                                        <span class="font2">
+                                            <%=value.Product_id.Name%>
+                                        </span>
+                                    </div>
+                                    <div class="price_mobile">
+                                        <%if(value.Product_id.product_offer){%>
+                                            <span class="font2" id="prd-price">
+
+                                                <%=value.Product_id.Price-(value.Product_id.Price*value.Product_id.product_offer.Offer
+                                                    /100)%>
+                                            </span>
+
+                                            <% }else if(value.Product_id.category_offer){%>
+                                                <span class="font2" id="prd-price">
+
+                                                    <%=value.Product_id.Price-(value.Product_id.Price*value.Product_id.category_offer.Offer
+                                                        /100)%>
+                                                </span>
+
+                                                <%}else{%>
+                                                    <span class="font2" id="prd-price">
+
+                                                        <%=value.Product_id.Price%>
+                                                    </span>
+                                                    <%}%>
+                                    </div>
+                                    <div class="color_mobile">
+                                        <span class="font2" id="prd-color">
+                                            <%= value.color %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bottom">
+                                <div class="size_mobile">
+                                    <select class="font2 prd-size" id="prd-size<%= index %>"
+                                        data-product-id="<%= value._id %>">
+                                        <% let initialSelected=false; %>
+                                            <% for (const variant of value.Product_id.variant) { %>
+                                                <% if (variant.quantity> 0) { %>
+                                                    <option value="<%= variant.size %>" <%=!initialSelected &&
+                                                        value.size===variant.size ? 'selected' : '' %>>
+                                                        <%= variant.size %>
+                                                    </option>
+                                                    <% if (!initialSelected && value.size===variant.size) {
+                                                        initialSelected=true; } %>
+                                                        <% } %>
+                                                            <% } %>
+                                                                <% if (!initialSelected) { %>
+                                                                    <option value="<%= value.size %>" selected>
+                                                                        <%= value.size %>
+                                                                    </option>
+                                                                    <% } %>
+                                    </select>
+                                </div>
+                                <div class="size_quantity_mobile">
+                                    <div class="qty_show">
+                                        <div class="value_show" id="shoqtys<%=index%>">
+                                            <%= value.Quantity %>
+                                        </div>
+                                        <div class="inc_dec">
+                                            <div class="inc" id="increments<%=index %>"
+                                                data-product-id="<%=value._id%>">
+                                                <img src="/user/images/up-arrow.png" alt=""
+                                                    style="width: 40%; height: 80%;">
+                                            </div>
+                                            <div class="dec" id="decrements<%=index %>"
+                                                data-product-id="<%=value._id%>">
+                                                <img src="/user/images/down-arrow (1).png" alt=""
+                                                    style="width: 40%; height: 80%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="subtotal_mobile">
+                                    <span class="font2" id="subtotal">
+                                        <%=value.Product_id.Price %>
+                                    </span>
+                                </div>
+                                <div class="remove_mobile">
+                                    <button
+                                        style="cursor: pointer; outline: none; background-color: rgba(255, 55, 0, 0.852); border:none; color: white;"
+                                        onclick="removeFromCart('<%=value._id%>','<%=index%>')">remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <%})%>
+                </div>
                 <div id="snackbar">Cart is empty..</div>
 
                 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -182,6 +282,7 @@
 
                     function incrementQuantity(index, productid) {
                         const qty_value = document.querySelector(`#shoqty${index}`);
+                        const qty_values = document.querySelector(`#shoqtys${index}`);
                         const currentQuantity = parseInt(qty_value.textContent, 10);
 
 
@@ -190,6 +291,7 @@
 
                         if (currentQuantity < availableQuantity) {
                             qty_value.textContent = currentQuantity + 1;
+                            qty_values.textContent = currentQuantity + 1;
                             updateSubtotal(qty_value);
                             let product = productid
                             let qty = currentQuantity + 1;
@@ -209,9 +311,11 @@
 
                     function decrementQuantity(index, productid) {
                         const qty_value = document.querySelector(`#shoqty${index}`);
+                        const qty_values = document.querySelector(`#shoqtys${index}`);
                         const currentQuantity = parseInt(qty_value.textContent, 10);
                         if (currentQuantity > 1) {
                             qty_value.textContent = currentQuantity - 1;
+                            qty_values.textContent = currentQuantity - 1;
                             updateSubtotal(qty_value);
                             let product = productid
                             let qty = currentQuantity - 1;
@@ -258,6 +362,8 @@
 
                         const incrementButton = document.getElementById(`increment${index}`);
                         const decrementButton = document.getElementById(`decrement${index}`);
+                        const mob_incrementButton = document.getElementById(`increments${index}`);
+                        const mob_decrementButton = document.getElementById(`decrements${index}`);
 
                         incrementButton.addEventListener('click', function () {
                             const productId = incrementButton.getAttribute("data-product-id");
@@ -268,16 +374,28 @@
                             const productId = decrementButton.getAttribute("data-product-id");
                             decrementQuantity(index, productId);
                         });
+
+                        mob_incrementButton.addEventListener('click', function () {
+                            const productId = incrementButton.getAttribute("data-product-id");
+                            incrementQuantity(index, productId);
+                        });
+
+                        mob_decrementButton.addEventListener('click', function () {
+                            const productId = decrementButton.getAttribute("data-product-id");
+                            decrementQuantity(index, productId);
+                        });
                     });
 
 
                     function removeFromCart(productId, removeItem) {
-                        const product = document.getElementById(removeItem);
+                        const product = document.getElementById("product" + removeItem);
+                        const products = document.getElementById("products" + removeItem);
 
                         fetch(`/cart/delete/${productId}`)
                             .then(response => response.json())
                             .then(data => {
                                 product.style.display = 'none';
+                                products.style.display = 'none';
 
                             })
                             .catch(error => {

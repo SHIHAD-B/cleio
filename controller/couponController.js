@@ -2,6 +2,8 @@ const coupon = require('../model/coupon')
 const orders = require('../model/orders')
 
 const mongoose = require('mongoose');
+
+
 //clean up 
 const cron = require('node-cron');
 
@@ -56,7 +58,7 @@ const couponPage = async (req, res, next) => {
         const authority = req.session.readonly;
         const coupons = await coupon.find()
 
-        res.render('./admin/couponManagement', { coupons: coupons, superadmin: superadmin, authority: authority })
+        res.render('./admin/couponManagement', { coupons: coupons, superadmin: superadmin, authority: authority, error: false })
 
     } catch (error) {
         console.log(error);
@@ -67,19 +69,31 @@ const couponPage = async (req, res, next) => {
 //add coupon
 const addcoupon = async (req, res, next) => {
     try {
-        const coupons = new coupon({
-            Code: req.body.Code,
-            Min_purchase_amount: req.body.Min_purchase_amount,
-            Max_discount_value: req.body.Max_purchase_amount,
-            Expiration_date: req.body.Expiration_date,
-            Start_date: req.body.Start_date,
-            Is_active: true,
-            created: new Date(),
-            Max_usage_count: req.body.Max_usage_count,
-            Discount_value: req.body.Discount_value,
-        });
-        await coupons.save()
-        res.redirect('/admin/couponManagement')
+        const superadmin = req.session.superadmin;
+        const authority = req.session.readonly;
+        const coupons = await coupon.find()
+        let couponCode = req.body.Code.trim();
+        couponCode = couponCode.replace(/^\s+|\s+$/g, '');
+        const existingCouponCode = await coupon.findOne({ Code: { $regex: new RegExp(`^${couponCode}$`, 'i') } });
+
+        if (existingCouponCode) {
+            res.render('./admin/couponManagement', { coupons: coupons, superadmin: superadmin, authority: authority, error: "coupon already exists" })
+
+        } else {
+            const coupons = new coupon({
+                Code: req.body.Code,
+                Min_purchase_amount: req.body.Min_purchase_amount,
+                Max_discount_value: req.body.Max_purchase_amount,
+                Expiration_date: req.body.Expiration_date,
+                Start_date: req.body.Start_date,
+                Is_active: true,
+                created: new Date(),
+                Max_usage_count: req.body.Max_usage_count,
+                Discount_value: req.body.Discount_value,
+            });
+            await coupons.save()
+            res.redirect('/admin/couponManagement')
+        }
     } catch (error) {
         console.log(error);
         return next(error)
@@ -148,20 +162,33 @@ const deletecoupon = async (req, res, next) => {
 //edit coupon
 const editcoupon = async (req, res, next) => {
     try {
+        const superadmin = req.session.superadmin;
+        const authority = req.session.readonly;
+        const editData = req.body.Code.trim("").toLowerCase();
+        const id = req.params.id;
+        const data = await coupon.findOne({ Code: { $regex: new RegExp(`^${editData}$`, 'i') }, _id: { $ne: id } });
 
-        await coupon.updateOne({ _id: req.params.id }, {
-            $set: {
-                Code: req.body.Code.trim(""),
-                Min_purchase_amount: req.body.Min_purchase_amount,
-                Max_discount_value: req.body.Max_purchase_amount,
-                Expiration_date: req.body.Expiration_date,
-                Start_date: req.body.Start_date,
-                Is_active: true,
-                Max_usage_count: req.body.Max_usage_count,
-                Discount_value: req.body.Discount_value
-            }
-        })
-        res.redirect('/admin/couponManagement')
+        const coupons = await coupon.find()
+
+        if (data) {
+            res.render('./admin/couponManagement', { coupons: coupons, superadmin: superadmin, authority: authority, error: "category already exist" })
+
+        } else {
+
+            await coupon.updateOne({ _id: id }, {
+                $set: {
+                    Code: req.body.Code.trim(""),
+                    Min_purchase_amount: req.body.Min_purchase_amount,
+                    Max_discount_value: req.body.Max_purchase_amount,
+                    Expiration_date: req.body.Expiration_date,
+                    Start_date: req.body.Start_date,
+                    Is_active: true,
+                    Max_usage_count: req.body.Max_usage_count,
+                    Discount_value: req.body.Discount_value
+                }
+            })
+            res.redirect('/admin/couponManagement')
+        }
 
     } catch (error) {
         console.log(error);
