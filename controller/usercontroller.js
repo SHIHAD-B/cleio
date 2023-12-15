@@ -573,8 +573,9 @@ const posteditProfile = async (req, res, next) => {
                 }
             });
         }
-
-        res.json({ success: true, img: "/productimage/" + req.files[0].filename });
+        if (req.files.length) {
+            res.json({ success: true, img: "/productimage/" + req.files[0].filename });
+        }
     } catch (error) {
         console.log(error);
         return next(error)

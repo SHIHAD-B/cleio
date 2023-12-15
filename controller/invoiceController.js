@@ -1,5 +1,5 @@
 const orders = require('../model/orders')
-const pdf = require('html-pdf');
+const puppeteer = require('puppeteer');
 function generateInvoiceHtml(order) {
     let totalAmt = 0;
     const shippingAddress = order.Shipping_address;
@@ -106,24 +106,28 @@ const orderInvoice = async (req, res, next) => {
 
         const invoiceHtml = generateInvoiceHtml(orderdetail);
 
-
-        const options = { format: 'Letter' };
-
-
-        pdf.create(invoiceHtml, options).toStream((err, stream) => {
-            if (err) {
-                return res.status(500).send('Error generating PDF');
-            }
-
-
-            res.setHeader('Content-Type', 'application/pdf');
-
-
-            res.setHeader('Content-Disposition', `attachment; filename="invoice_${orderId}.pdf"`);
-
-
-            stream.pipe(res);
+        const browser = await puppeteer.launch({
+            headless: 'new', // Explicitly set to the new Headless mode
         });
+
+        const page = await browser.newPage();
+
+        // Set the page content with your HTML content
+        await page.setContent(invoiceHtml);
+
+        const pdfBuffer = await page.pdf({
+            format: 'Letter',
+            landscape: false,
+            margin: { top: '0.5in', right: '0.5in', bottom: '0.5in', left: '0.5in' },
+        });
+
+        // Close the browser
+        await browser.close();
+
+        // Send the generated PDF as a response
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=overall_report.pdf');
+        res.send(pdfBuffer);
     } catch (error) {
         console.log(error);
         return next(error)

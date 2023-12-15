@@ -115,27 +115,37 @@
       <div class="banner2">
 
         <div class="left">
-          <img src="/user/images/shoeleg.jpg" style="width: 100%; height: 100%;" alt="">
+          <a href="/product"><img src="/user/images/shoeleg.jpg" style="width: 100%; height: 100%;" alt=""></a>
         </div>
-        <div class="right"><img src="/user/images/shoeright.jpg" style="width: 100%; height: 100%;" alt="">
-        </div>
+        <a href="/product">
+          <div class="right"><img src="/user/images/shoeright.jpg" style="width: 100%; height: 100%;" alt="">
+        </a>
       </div>
-      <div class="highlights">
-        <span class="hightext">HIGHLIGHTS</span>
-        <%if(data.length>=4){%>
+    </div>
+    <div class="highlights">
+      <span class="hightext">HIGHLIGHTS</span>
+      <%if(data.length>=4){%>
 
-          <div class="productlist">
+        <div class="productlist">
+          <a href="/productdetail/<%=data[0].id%>">
             <div class="highlyrated zoom-image"><img class="imghigh" src="<%=data[0].Image[0].Main%>" alt=""
                 style="width: 100%; height: 100%;"></div>
+          </a>
+          <a href="/productdetail/<%=data[1].id%>">
             <div class="highlyrated zoom-image"><img class="imghigh" src="<%=data[1].Image[0].Main%>" alt=""
                 style="width: 100%; height: 100%;"></div>
+          </a>
+          <a href="/productdetail/<%=data[2].id%>">
             <div class="highlyrated zoom-image"><img class="imghigh" src="<%=data[2].Image[0].Main%>" alt=""
                 style="width: 100%; height: 100%;"></div>
+          </a>
+          <a href="/productdetail/<%=data[3].id%>">
             <div class="highlyrated zoom-image"><img class="imghigh" src="<%=data[3].Image[0].Main%>" alt=""
                 style="width: 100%; height: 100%;"></div>
-          </div>
-          <% }%>
-      </div>
+          </a>
+        </div>
+        <% }%>
+    </div>
     </div>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
