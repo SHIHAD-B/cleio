@@ -901,14 +901,13 @@ const generateOverallReport = async (req, res, next) => {
         pdf.create(htmlContent, options).toFile((err, file) => {
             if (err) {
                 console.error(err);
-                return next(error)
+                return next(err)
             }
 
             res.download(file.filename, 'overall_report.pdf', (err) => {
                 if (err) {
                     console.error(err);
-
-                    throw error;
+                    return next(err)
                 }
 
                 fs.unlinkSync(file.filename);
