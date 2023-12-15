@@ -38,7 +38,7 @@ const postlogin = async (req, res, next) => {
         const email = req.body.email;
         const password = req.body.password;
         const adminUser = await admin.findOne({ email: email });
-        if (adminUser.status == "blocked") {
+        if (adminUser && adminUser.status == "blocked") {
             res.status(401).json({ message: "Admin blocked" })
         } else
             if (bcrypt.compareSync(password, adminUser.password)) {
@@ -63,7 +63,7 @@ const postlogin = async (req, res, next) => {
             }
             else {
 
-                res.status(401).json({ message: "User not found" });
+                res.status(401).json({ message: "admin not found" });
             }
     } catch (error) {
         console.log(error);
@@ -111,7 +111,7 @@ const edituser = async (req, res) => {
                 Mobile: req.body.phonenumber,
             })
                 .then(() => {
-                    res.redirect('/admin');
+                    res.redirect('/admin/user');
                 })
                 .catch((err) => {
                     console.log(err);
@@ -127,7 +127,7 @@ const edituser = async (req, res) => {
                 Mobile: req.body.phonenumber,
             })
                 .then(() => {
-                    res.redirect('/admin');
+                    res.redirect('/admin/user');
                 })
                 .catch((err) => {
                     console.log(err);
@@ -171,7 +171,7 @@ const blockuser = async (req, res) => {
         const id = req.params.id;
         await users.updateOne({ _id: id }, { $set: { Status: "blocked" } })
             .then(() => {
-                res.redirect('/admin')
+                res.redirect('/admin/user')
             })
             .catch((err) => {
                 console.log(err);
@@ -188,7 +188,7 @@ const activeuser = async (req, res) => {
         const id = req.params.id;
         await users.updateOne({ _id: id }, { $set: { Status: "active" } })
             .then(() => {
-                res.redirect('/admin')
+                res.redirect('/admin/user')
             })
             .catch((err) => {
                 console.log(err);
