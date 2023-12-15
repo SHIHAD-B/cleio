@@ -6,9 +6,7 @@ const cropper = new Cropper(image, {
 });
 
 document.querySelector('#btn-crop').addEventListener('click', function () {
-    var croppedImage = cropper.getCroppedCanvas().toDataURL('image/png');
+    const croppedImage = cropper.getCroppedCanvas({ width: 500, height: 500 }).toDataURL('image/png');
     document.getElementById('previewImage').src = croppedImage;
-
-})
-
+});
 
