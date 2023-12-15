@@ -30,6 +30,7 @@
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.6",
     "nodemon": "^3.0.1",
+    "puppeteer": "^21.6.1",
     "razorpay": "^2.9.2",
     "uuidv4": "^6.2.13",
     "validator": "^13.11.0",

@@ -1,5 +1,5 @@
 const Orders = require('../model/orders');
-const pdf = require('html-pdf');
+const puppeteer = require('puppeteer');
 const Products = require('../model/product');
 const users = require('../model/userdata');
 const fs = require('fs');
@@ -878,41 +878,28 @@ const generateOverallReport = async (req, res, next) => {
 
 
         }
-
-
-
-
-
-
-
-
-
-        const options = {
-            format: 'Letter',
-            orientation: 'portrait',
-            border: {
-                top: '0.5in',
-                right: '0.5in',
-                bottom: '0.5in',
-                left: '0.5in'
-            }
-        };
-
-        pdf.create(htmlContent, options).toFile((err, file) => {
-            if (err) {
-                console.log(err);
-
-            }
-
-            res.download(file.filename, 'overall_report.pdf', (err) => {
-                if (err) {
-                    console.log(err);
-
-                }
-
-                fs.unlinkSync(file.filename);
-            });
+        const browser = await puppeteer.launch({
+            headless: 'new', // Explicitly set to the new Headless mode
         });
+
+        const page = await browser.newPage();
+
+        // Set the page content with your HTML content
+        await page.setContent(htmlContent);
+
+        const pdfBuffer = await page.pdf({
+            format: 'Letter',
+            landscape: false,
+            margin: { top: '0.5in', right: '0.5in', bottom: '0.5in', left: '0.5in' },
+        });
+
+        // Close the browser
+        await browser.close();
+
+        // Send the generated PDF as a response
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=overall_report.pdf');
+        res.send(pdfBuffer);
     } catch (error) {
         console.log(error);
         return next(error)
