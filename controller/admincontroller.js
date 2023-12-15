@@ -202,6 +202,7 @@ const activeuser = async (req, res) => {
 const usersearch = async (req, res) => {
     try {
         const superadmin = req.session.superadmin;
+        const authority = req.session.readonly;
         const page = 1;
         const searchQuery = req.query.query;
         const data = await users.find({
@@ -210,7 +211,7 @@ const usersearch = async (req, res) => {
             }
         })
 
-        res.render('./admin/usermangement', { userdata: data, data: data, currentPage: page, superadmin: superadmin })
+        res.render('./admin/usermangement', { userdata: data, data: data, currentPage: page, superadmin: superadmin, authority: authority })
 
     } catch (error) {
         console.log(error);
