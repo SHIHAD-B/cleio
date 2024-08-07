@@ -17,7 +17,7 @@ const wishlistPage = async (req, res, next) => {
         }
 
         const userWishlist = await wishlist.findOne({ User_id: from_user._id }).populate('Product.Product_id');
-        for (const item of userWishlist.Product) {
+        for (const item of userWishlist?.Product) {
             const productDetails = await productsdata.findById(item.Product_id._id)
                 .populate({
                     path: 'product_offer',

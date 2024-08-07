@@ -22,7 +22,7 @@ const cart = async (req, res, next) => {
                 path: 'Items.Product_id',
                 select: 'Name Image.Main Price variant product_offer',
             })
-        for (const item of userCart.Items) {
+        for (const item of userCart?.Items) {
             const productDetails = await product.findById(item.Product_id._id)
                 .populate({
                     path: 'product_offer',
